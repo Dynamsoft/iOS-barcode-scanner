@@ -1,0 +1,30 @@
+/* 
+  Localizable.strings
+  DynamsoftBarcodeReaderDemo
+
+  Created by dynamsoft on 2016-06-18.
+  Copyright © 2016 dynamsoft. All rights reserved.
+*/
+
+"flash-on" = " Flash on";
+"flash-off" = " Flash off";
+
+"about-alert-title" = "About";
+"about-alert-content" = "\nDynamsoft Barcode Reader Mobile App Demo(Dynamsoft Barcode Reader SDK v4.2.0)\n\n© 2016 Dynamsoft. All rights reserved. \n\nIntegrate Barcode Reader Functionality into Your own Mobile App? \n\nClick 'Overview' button for further info.\n\n";
+"about-alert-overivew-button" = "Overview";
+"about-alert-overivew-link" = "http://www.dynamsoft.com/Products/barcode-scanner-sdk-iOS.aspx";
+"about-alert-ok-button" = "OK";
+
+"reslut-alert-title" = "Result";
+"reslut-alert-ok-button" = "OK";
+"reslut-alert-type-string" = "Type";
+"reslut-alert-value-string" = "Value";
+"reslut-alert-region-string" = "Region";
+"reslut-alert-left-string" = "Left";
+"reslut-alert-top-string" = "Top";
+"reslut-alert-width-string" = "Width";
+"reslut-alert-height-string" = "Height";
+"reslut-alert-interval-string" = "Interval";
+"reslut-alert-seconds-string" = "seconds";
+
+
