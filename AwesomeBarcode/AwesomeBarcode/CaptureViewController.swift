@@ -33,7 +33,6 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     var maskView = BarcodeMaskView(frame: .zero)
     var canDecodeBarcode = true
     var localBarcode = [BarcodeData]()
-    
     let ciContext = CIContext()
     
     override func viewDidLoad() {
@@ -156,7 +155,7 @@ extension CaptureViewController {
         CVPixelBufferUnlockBaseAddress(imageBuffer, .readOnly)
         
         let buffer = Data(bytes: baseAddress!, count: bufferSize)
-        guard let results = try? barcodeReader.decodeBuffer(buffer, withWidth: width, height: height, stride: bpr, format: .ARGB_8888, templateName: "") else { return }
+        guard let results = try? BarcodeData.barcodeReader.decodeBuffer(buffer, withWidth: width, height: height, stride: bpr, format: .ARGB_8888, templateName: "") else { return }
         if results.count > 0 {
             self.tempResults = Array.init(Set.init(results))
             let quadrilaterals = results.map { self.pointsFromResult($0.localizationResult!.resultPoints!) }

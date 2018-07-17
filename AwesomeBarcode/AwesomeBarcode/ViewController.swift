@@ -45,7 +45,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             imagePicker.dismiss(animated: true, completion: nil)
             let img:UIImage = info[UIImagePickerControllerEditedImage]as! UIImage
             startRecognitionDate = NSDate()
-            let results = try barcodeReader.decode(img, withTemplate: "")
+            let results = try BarcodeData.barcodeReader.decode(img, withTemplate: "")
             self.onReadImageComplete(readResults: results);
         }
         catch{

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1EAA809020FDC4E1003472C7 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA808F20FDC4E0003472C7 /* Common.swift */; };
 		685BDFA320BD2701004BECB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685BDFA220BD2701004BECB7 /* AppDelegate.swift */; };
 		685BDFA520BD2701004BECB7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685BDFA420BD2701004BECB7 /* ViewController.swift */; };
 		685BDFA820BD2701004BECB7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 685BDFA620BD2701004BECB7 /* Main.storyboard */; };
@@ -27,7 +26,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1EAA808F20FDC4E0003472C7 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		685BDF9F20BD2701004BECB7 /* AwesomeBarcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwesomeBarcode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		685BDFA220BD2701004BECB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		685BDFA420BD2701004BECB7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -82,7 +80,6 @@
 		685BDFA120BD2701004BECB7 /* AwesomeBarcode */ = {
 			isa = PBXGroup;
 			children = (
-				1EAA808F20FDC4E0003472C7 /* Common.swift */,
 				685BDFA220BD2701004BECB7 /* AppDelegate.swift */,
 				685BDFA420BD2701004BECB7 /* ViewController.swift */,
 				685BDFB420BD38AF004BECB7 /* CaptureViewController.swift */,
@@ -189,7 +186,6 @@
 				68BA8BAE20E5DC1A00A2737D /* MyCollectionViewCell.swift in Sources */,
 				68BA8BB020EB4A9700A2737D /* HistoryTableViewController.swift in Sources */,
 				68BA8BB220EB66D500A2737D /* QuickLookViewController.swift in Sources */,
-				1EAA809020FDC4E1003472C7 /* Common.swift in Sources */,
 				68F6D65D20F329D200E7FD4B /* BarcodeMaskView.swift in Sources */,
 				68F6D66220F4880800E7FD4B /* BarcodeType+Description.swift in Sources */,
 				685BDFB520BD38AF004BECB7 /* CaptureViewController.swift in Sources */,

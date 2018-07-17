@@ -24,6 +24,8 @@ class BarcodeData: NSObject, NSCoding {
     static let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = documentDir.appendingPathComponent("barcode.data")
     
+    static let barcodeReader = DynamsoftBarcodeReader(license: "t0068MgAAABhYnpGyll51x5q4jrPNUojC1czRgf4dREMHtyMSIyuHSpJA6SAL7NWTXsTyCtcgLKnYEOiGG+v0hTnZQkgUT7E=" as String);
+    
     init(path: URL, type: [String], text: [String], locations: [[CGPoint]]) {
         self.imagePath = path
         self.barcodeTypes = type
