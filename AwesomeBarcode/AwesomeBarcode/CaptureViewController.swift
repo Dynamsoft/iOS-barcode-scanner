@@ -29,7 +29,6 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     @IBOutlet weak var cameraStream: UIView!
     let session: AVCaptureSession = AVCaptureSession()
     let sessionQueue: DispatchQueue = DispatchQueue(label: "com.dynamsoft.captureQueue")
-    let barcodeReader = DynamsoftBarcodeReader(license: "t0068MgAAABhYnpGyll51x5q4jrPNUojC1czRgf4dREMHtyMSIyuHSpJA6SAL7NWTXsTyCtcgLKnYEOiGG+v0hTnZQkgUT7E=")
     var tempResults: [TextResult]?
     var maskView = BarcodeMaskView(frame: .zero)
     var canDecodeBarcode = true

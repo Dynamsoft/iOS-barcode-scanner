@@ -54,13 +54,27 @@
                                     <segue destination="ylf-Gb-RAD" kind="show" id="36Q-Io-sKh"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WXC-ru-4Lx">
+                                <rect key="frame" x="0.0" y="558" width="375" height="36"/>
+                                <color key="backgroundColor" red="0.070334918799999993" green="0.17006784680000001" blue="0.26202154160000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                                <state key="normal" title="Album">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="ClickAlbum:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xSQ-dH-CM7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="8Eo-jZ-w7Q" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="1Qa-k6-C3D"/>
+                            <constraint firstItem="WXC-ru-4Lx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="23h-t8-lNc"/>
                             <constraint firstItem="Xsl-zc-wLe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="8z3-LI-6cK"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WXC-ru-4Lx" secondAttribute="trailing" id="Jae-2b-Ujl"/>
                             <constraint firstItem="Xsl-zc-wLe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Om0-4G-R8U"/>
                             <constraint firstItem="8Eo-jZ-w7Q" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-20" id="U8f-fY-uZT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WXC-ru-4Lx" secondAttribute="bottom" constant="73" id="WL2-qU-6H0"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Xsl-zc-wLe" secondAttribute="trailing" id="g5P-QP-2LI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Xsl-zc-wLe" secondAttribute="bottom" constant="248" id="kzz-dG-msB"/>
                             <constraint firstItem="Xsl-zc-wLe" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sir-Iz-dlh"/>
@@ -70,6 +84,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="AwesomeBarcode" id="eDA-Nu-XyK"/>
                     <connections>
+                        <outlet property="album" destination="WXC-ru-4Lx" id="OTt-V4-WVF"/>
                         <outlet property="scenesCollection" destination="Xsl-zc-wLe" id="CMw-aX-Rsg"/>
                     </connections>
                 </viewController>
