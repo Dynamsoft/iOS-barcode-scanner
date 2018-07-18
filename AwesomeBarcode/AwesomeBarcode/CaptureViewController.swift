@@ -135,6 +135,15 @@ extension CaptureViewController {
         
 //        guard let device = AVCaptureDevice.default(for: .video) else { return }
 //        if(device.isAdjustingFocus == true)
+//        {
+////            itrFocusFinish = itrFocusFinish + 1;
+////            if(itrFocusFinish == 1)
+////            {
+////                return;
+////            }
+//            return;
+//        }
+        
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         CVPixelBufferLockBaseAddress(imageBuffer, .readOnly)
         let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)
