@@ -34,11 +34,14 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     var canDecodeBarcode = true
     var localBarcode = [BarcodeData]()
     let ciContext = CIContext()
+    var startRecognitionDate:NSDate?
+//    static var itrFocusFinish:Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         resultsTableView.dataSource = self
         resultsTableView.delegate = self
+//        CaptureViewController.itrFocusFinish = 0
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,9 +60,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         super.viewDidAppear(animated)
         checkAndStartCamera()
     }
-    
 
-    
     func checkAndStartCamera() {
         let authorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
         switch authorizationStatus {
@@ -126,22 +127,14 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         present(alert, animated: true, completion: nil)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-    
 }
 
 extension CaptureViewController {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard canDecodeBarcode else { return }
+        
+//        guard let device = AVCaptureDevice.default(for: .video) else { return }
+//        if(device.isAdjustingFocus == true)
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         CVPixelBufferLockBaseAddress(imageBuffer, .readOnly)
         let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)
@@ -155,7 +148,40 @@ extension CaptureViewController {
         CVPixelBufferUnlockBaseAddress(imageBuffer, .readOnly)
         
         let buffer = Data(bytes: baseAddress!, count: bufferSize)
+        
+//        do
+//        {
+//            let settings = try BarcodeData.barcodeReader.templateSettings(withName: "");
+//            settings.barcodeTypeID = BarcodeType.QRCODE.rawValue;
+//            BarcodeData.barcodeReader.setTemplateSettings(settings, error: nil);
+//        }
+//        catch{
+//            print(error);
+//        }
+        
+        
+        
+//        startRecognitionDate = NSDate();
         guard let results = try? BarcodeData.barcodeReader.decodeBuffer(buffer, withWidth: width, height: height, stride: bpr, format: .ARGB_8888, templateName: "") else { return }
+//        let timeInterval = (self.startRecognitionDate?.timeIntervalSinceNow)! * -1
+//        if(timeInterval > 1)
+//        {
+//            var ciImage:CIImage?
+//            if #available(iOS 9.0, *) {
+//                ciImage = CIImage(cvImageBuffer: imageBuffer)
+//            } else {
+//                // Fallback on earlier versions
+//            };
+//            if(ciImage == nil)
+//            {
+//                return;
+//            }
+//            let cgImage = ciContext.createCGImage(ciImage!, from: ciImage!.extent);
+//            let uiImage = UIImage(cgImage: cgImage!);
+//            print(timeInterval)
+//        }
+        
+        
         if results.count > 0 {
             self.tempResults = Array.init(Set.init(results))
             let quadrilaterals = results.map { self.pointsFromResult($0.localizationResult!.resultPoints!) }
