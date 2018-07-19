@@ -48,4 +48,24 @@ class BarcodeMaskView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("No implementation")
     }
+    
+    static func mixImage(_ image: UIImage, with quadrilaterals: [[CGPoint]]) -> UIImage {
+        UIGraphicsBeginImageContext(image.size)
+        image.draw(in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
+        #colorLiteral(red: 0.9957528327, green: 1, blue: 0.2315606233, alpha: 0.5).setFill()
+        let path = UIBezierPath()
+        path.lineWidth = 0
+        for mask in quadrilaterals {
+            path.move(to: mask[0])
+            path.addLine(to: mask[1])
+            path.addLine(to: mask[2])
+            path.addLine(to: mask[3])
+            path.close()
+            path.fill()
+        }
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return img!
+    }
+    
 }

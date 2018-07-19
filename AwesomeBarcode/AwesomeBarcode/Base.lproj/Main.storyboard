@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -101,7 +100,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XSs-AB-XMa">
-                                <rect key="frame" x="0.0" y="64" width="375" height="500.5"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kUX-If-9W6">
                                         <rect key="frame" x="166" y="8" width="42" height="21"/>
@@ -118,6 +117,9 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jgj-p5-ozj">
                                 <rect key="frame" x="0.0" y="565.5" width="375" height="101.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="101.5" id="SXQ-qM-zIH"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="identifiedResult" textLabel="wRD-OG-P5P" detailTextLabel="rho-ld-QBG" style="IBUITableViewCellStyleSubtitle" id="Qex-7W-yLN">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
@@ -149,13 +151,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="kXV-cO-5tk" firstAttribute="bottom" secondItem="XSs-AB-XMa" secondAttribute="bottom" id="89f-dt-OEc" userLabel="Safe Area.bottom = Camera Stream.bottom"/>
                             <constraint firstItem="XSs-AB-XMa" firstAttribute="leading" secondItem="kXV-cO-5tk" secondAttribute="leading" id="JIQ-4a-QqK"/>
                             <constraint firstItem="Jgj-p5-ozj" firstAttribute="bottom" secondItem="kXV-cO-5tk" secondAttribute="bottom" id="Lxb-BA-qer"/>
                             <constraint firstItem="kUX-If-9W6" firstAttribute="top" secondItem="kXV-cO-5tk" secondAttribute="top" constant="8" id="VuQ-wL-pte"/>
                             <constraint firstItem="kXV-cO-5tk" firstAttribute="trailing" secondItem="XSs-AB-XMa" secondAttribute="trailing" id="ZRd-HM-lPz"/>
-                            <constraint firstItem="Jgj-p5-ozj" firstAttribute="top" secondItem="XSs-AB-XMa" secondAttribute="bottom" constant="1" id="bwg-lS-B5n"/>
                             <constraint firstItem="kXV-cO-5tk" firstAttribute="trailing" secondItem="Jgj-p5-ozj" secondAttribute="trailing" id="ftQ-tl-9lq"/>
-                            <constraint firstItem="XSs-AB-XMa" firstAttribute="height" secondItem="FHf-KP-pjx" secondAttribute="height" multiplier="3:4" id="j44-mZ-GHj"/>
                             <constraint firstItem="XSs-AB-XMa" firstAttribute="top" secondItem="kXV-cO-5tk" secondAttribute="top" id="ucc-6a-7Nv"/>
                             <constraint firstItem="Jgj-p5-ozj" firstAttribute="leading" secondItem="kXV-cO-5tk" secondAttribute="leading" id="yOe-Pm-JdS"/>
                         </constraints>
@@ -169,7 +170,22 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rZg-El-LaV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1443.75" y="-242.95774647887325"/>
+            <point key="canvasLocation" x="1442.4000000000001" y="-243.32833583208398"/>
+        </scene>
+        <!--Photo Result Edit View Controller-->
+        <scene sceneID="11a-s5-VAy">
+            <objects>
+                <viewController id="3L6-lt-UCF" customClass="PhotoResultEditViewController" customModule="AwesomeBarcode" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qhg-PR-8cO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="N0H-5J-ax6"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lHz-m9-UYH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-218" y="634"/>
         </scene>
         <!--History-->
         <scene sceneID="TeJ-3c-gGk">

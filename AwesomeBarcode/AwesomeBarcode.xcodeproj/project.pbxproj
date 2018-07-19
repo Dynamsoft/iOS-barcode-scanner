@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1EB3F49F20FF3C4B0054DE43 /* PhotoResultEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB3F49E20FF3C4B0054DE43 /* PhotoResultEditViewController.swift */; };
 		685BDFA320BD2701004BECB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685BDFA220BD2701004BECB7 /* AppDelegate.swift */; };
 		685BDFA520BD2701004BECB7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685BDFA420BD2701004BECB7 /* ViewController.swift */; };
 		685BDFA820BD2701004BECB7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 685BDFA620BD2701004BECB7 /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1EB3F49E20FF3C4B0054DE43 /* PhotoResultEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResultEditViewController.swift; sourceTree = "<group>"; };
 		685BDF9F20BD2701004BECB7 /* AwesomeBarcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwesomeBarcode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		685BDFA220BD2701004BECB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		685BDFA420BD2701004BECB7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				68F6D65C20F329D200E7FD4B /* BarcodeMaskView.swift */,
 				68F6D66320F5DF2500E7FD4B /* Swift.Array+FilterDuplicate.swift */,
 				68BA8BAD20E5DC1A00A2737D /* MyCollectionViewCell.swift */,
+				1EB3F49E20FF3C4B0054DE43 /* PhotoResultEditViewController.swift */,
 				685BDFA620BD2701004BECB7 /* Main.storyboard */,
 				685BDFA920BD2701004BECB7 /* Assets.xcassets */,
 				685BDFAB20BD2701004BECB7 /* LaunchScreen.storyboard */,
@@ -190,6 +193,7 @@
 				68F6D66220F4880800E7FD4B /* BarcodeType+Description.swift in Sources */,
 				685BDFB520BD38AF004BECB7 /* CaptureViewController.swift in Sources */,
 				68BA8B5C20D9EFB100A2737D /* FrameExtractor.swift in Sources */,
+				1EB3F49F20FF3C4B0054DE43 /* PhotoResultEditViewController.swift in Sources */,
 				68F6D64B20EE067C00E7FD4B /* BarcodeData.swift in Sources */,
 				68F6D66420F5DF2500E7FD4B /* Swift.Array+FilterDuplicate.swift in Sources */,
 				685BDFA320BD2701004BECB7 /* AppDelegate.swift in Sources */,
@@ -342,6 +346,7 @@
 					"$(PROJECT_DIR)/AwesomeBarcode",
 				);
 				INFOPLIST_FILE = AwesomeBarcode/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dynamsoft.AwesomeBarcode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -365,6 +370,7 @@
 					"$(PROJECT_DIR)/AwesomeBarcode",
 				);
 				INFOPLIST_FILE = AwesomeBarcode/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dynamsoft.AwesomeBarcode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
