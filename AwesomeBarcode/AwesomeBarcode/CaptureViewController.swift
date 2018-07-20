@@ -38,11 +38,12 @@ struct kScreenWH {
     static let height = UIScreen.main.bounds.size.height
 }
 
-class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, UITableViewDataSource, UITableViewDelegate {
+class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
     @IBOutlet weak var resultsTableView: UITableView!
     @IBOutlet weak var ScannedCount: UILabel!
     @IBOutlet weak var cameraStream: UIView!
+    var imagePicker:UIImagePickerController!
     
     var session: AVCaptureSession!
     var sessionQueue: DispatchQueue!
@@ -58,6 +59,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     var imageView: UIImageView?
     var isGettingVideo:Bool!
     var photoButton: UIButton?
+    var photoAlbumBtn:UIButton?
     //    static var itrFocusFinish:Int!
     var viewAppearCount:Int!
     var verOffset:CGFloat!
@@ -204,6 +206,19 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
             {
                 self.photoButton?.isHidden = false
             }
+            if(photoAlbumBtn == nil)
+            {
+                photoAlbumBtn  = UIButton.init()
+                photoAlbumBtn!.frame = CGRect.init(x: kScreenWH.width - 70, y: kScreenWH.height - 100, width: 60, height: 60)
+                photoAlbumBtn!.setImage(UIImage.init(named: "Album"), for: .normal)
+                photoAlbumBtn!.addTarget(self, action: #selector(self.photoAlbumAction), for: .touchUpInside)
+                view.addSubview(photoAlbumBtn!)
+            }
+            else
+            {
+                photoAlbumBtn?.isHidden = false
+            }
+
             maskView.isHidden = true;
             session.removeOutput(videoOutput)
             session.addOutput(photoOutput)
@@ -266,6 +281,89 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
                 }
             }
         })
+    }
+    
+    @objc  func photoAlbumAction() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = .photoLibrary
+            self.present(self.imagePicker, animated: true, completion: nil)
+        }else{
+            print("open Ablum failed!")
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        do
+        {
+            imagePicker.dismiss(animated: true, completion: nil)
+            let img:UIImage = info[UIImagePickerControllerEditedImage]as! UIImage
+            startRecognitionDate = NSDate()
+            let results = try BarcodeData.barcodeReader.decode(img, withTemplate: "")
+            self.onReadImageComplete(readResults: results);
+        }
+        catch{
+            print(error);
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    func GetResultText(id:Int, textResult:TextResult) -> String {
+        var left:CGFloat = CGFloat(Float.greatestFiniteMagnitude)
+        var top:CGFloat = CGFloat(Float.greatestFiniteMagnitude)
+        var right:CGFloat = 0;
+        var bottom:CGFloat = 0;
+        for element in (textResult.localizationResult?.resultPoints!)! {
+            let resultPoint =  element as! CGPoint;
+            left = left < resultPoint.x ? left : resultPoint.x;
+            top = top < resultPoint.y ? top : resultPoint.y;
+            right = right > resultPoint.x ? right : resultPoint.x;
+            bottom = bottom > resultPoint.y ? bottom : resultPoint.y
+        }
+        return String(format:"\nresult%d:\n\nType: %@\n\nValue: %@\n\nRegion: {Left: %.f, Top: %.f, Right: %.f, Bottom: %.f}\n\n", id + 1, textResult.barcodeFormat.description, textResult.barcodeText != nil ? textResult.barcodeText! : "null", left, top, right, bottom)
+    }
+    
+    func onReadImageComplete(readResults:[TextResult])
+    {
+        let timeInterval = (startRecognitionDate?.timeIntervalSinceNow)! * -1;
+        var msgText = "";
+        if(readResults.count == 0)
+        {
+            msgText = "\nno barcode found\n\n";
+        }
+        else
+        {
+            for i in  0...(readResults.count-1)
+            {
+                let barcode = readResults[i]
+                msgText = msgText + GetResultText(id:i,textResult: barcode);
+            }
+        }
+        msgText = msgText + String(format: "Interval: %.03f seconds\n\n", timeInterval)
+        let ac = UIAlertController(title: "Result", message: msgText, preferredStyle: .alert)
+        self.customizeAC(ac:ac);
+        let okButton = UIAlertAction(title: "OK", style: .default, handler: {
+            action in
+        })
+        ac.addAction(okButton)
+        self.present(ac, animated: true, completion: nil)
+    }
+    
+    func customizeAC(ac: UIAlertController){
+        let subView1 = ac.view.subviews[0] as UIView;
+        let subView2 = subView1.subviews[0] as UIView;
+        let subView3 = subView2.subviews[0] as UIView;
+        let subView4 = subView3.subviews[0] as UIView;
+        let subView5 = subView4.subviews[0] as UIView;
+        let titleLab = subView5.subviews[0] as! UILabel;
+        let messageLab = subView5.subviews[1] as! UILabel;
+        titleLab.textAlignment = NSTextAlignment.left;
+        messageLab.textAlignment = NSTextAlignment.left;
     }
 }
 
@@ -341,14 +439,10 @@ extension CaptureViewController {
                 self.maskView.setNeedsDisplay()
                 self.resultsTableView.reloadData()
             }
-            
-            //            if tempResults!.count > 2 {
+
             let barcodeData = BarcodeData(path: imagePath, type: self.tempResults!.map({$0.barcodeFormat.description}), text: self.tempResults!.map({$0.barcodeText!}), locations: self.tempResults!.map({$0.localizationResult?.resultPoints}) as! [[CGPoint]])
             let originImage = uiImageFromSamplebuffer(sampleBuffer)!
-//            let image = BarcodeMaskView.mixImage(originImage, with: results.map{ self.pixelPointsFromResult($0.localizationResult!.resultPoints!, in: originImage.size) })
-            //                self.archiveResults(UIImageJPEGRepresentation(image, 1.0)!, barcodeData: barcodeData)
             self.archiveResults(UIImageJPEGRepresentation(originImage, 1.0)!, barcodeData: barcodeData)
-            //            }
         } else {
             self.maskView.maskPoints.removeAll()
             DispatchQueue.main.async {
