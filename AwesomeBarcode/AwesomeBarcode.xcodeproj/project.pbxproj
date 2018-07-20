@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1EB3F49F20FF3C4B0054DE43 /* PhotoResultEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB3F49E20FF3C4B0054DE43 /* PhotoResultEditViewController.swift */; };
+		1EB3F4C42101AB090054DE43 /* ImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB3F4C22101AB080054DE43 /* ImagePreviewCell.swift */; };
 		685BDFA320BD2701004BECB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685BDFA220BD2701004BECB7 /* AppDelegate.swift */; };
 		685BDFA520BD2701004BECB7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685BDFA420BD2701004BECB7 /* ViewController.swift */; };
 		685BDFA820BD2701004BECB7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 685BDFA620BD2701004BECB7 /* Main.storyboard */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		1EB3F49E20FF3C4B0054DE43 /* PhotoResultEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResultEditViewController.swift; sourceTree = "<group>"; };
+		1EB3F4C22101AB080054DE43 /* ImagePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePreviewCell.swift; sourceTree = "<group>"; };
 		685BDF9F20BD2701004BECB7 /* AwesomeBarcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwesomeBarcode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		685BDFA220BD2701004BECB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		685BDFA420BD2701004BECB7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				68F6D66120F4880800E7FD4B /* BarcodeType+Description.swift */,
 				68BA8BAF20EB4A9700A2737D /* HistoryTableViewController.swift */,
 				68BA8BB120EB66D500A2737D /* QuickLookViewController.swift */,
+				1EB3F4C22101AB080054DE43 /* ImagePreviewCell.swift */,
 				68F6D64A20EE067C00E7FD4B /* BarcodeData.swift */,
 				68F6D65C20F329D200E7FD4B /* BarcodeMaskView.swift */,
 				68F6D66320F5DF2500E7FD4B /* Swift.Array+FilterDuplicate.swift */,
@@ -197,6 +200,7 @@
 				68F6D64B20EE067C00E7FD4B /* BarcodeData.swift in Sources */,
 				68F6D66420F5DF2500E7FD4B /* Swift.Array+FilterDuplicate.swift in Sources */,
 				685BDFA320BD2701004BECB7 /* AppDelegate.swift in Sources */,
+				1EB3F4C42101AB090054DE43 /* ImagePreviewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

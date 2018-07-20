@@ -241,23 +241,9 @@
                     <view key="view" contentMode="scaleToFill" id="fCn-vP-cfB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wtv-YH-rXS">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                            </scrollView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="g5g-sT-Q9O" firstAttribute="trailing" secondItem="wtv-YH-rXS" secondAttribute="trailing" id="531-VO-QDo"/>
-                            <constraint firstItem="g5g-sT-Q9O" firstAttribute="bottom" secondItem="wtv-YH-rXS" secondAttribute="bottom" id="JoW-Bp-5wR"/>
-                            <constraint firstItem="wtv-YH-rXS" firstAttribute="top" secondItem="g5g-sT-Q9O" secondAttribute="top" id="QJi-Wo-Rpx"/>
-                            <constraint firstItem="wtv-YH-rXS" firstAttribute="leading" secondItem="g5g-sT-Q9O" secondAttribute="leading" id="Vs1-ge-BS4"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="g5g-sT-Q9O"/>
                     </view>
-                    <connections>
-                        <outlet property="imageBrowser" destination="wtv-YH-rXS" id="QtJ-dy-lcW"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="McE-W7-EuC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

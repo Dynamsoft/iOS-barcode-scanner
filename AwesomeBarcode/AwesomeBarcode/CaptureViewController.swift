@@ -248,7 +248,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
                     let results = try BarcodeData.barcodeReader.decode(originImage!, withTemplate: "")
                     var image:UIImage!
                     if results.count > 0 {
-                        image = BarcodeMaskView.mixImage(originImage!, with: results.map{ self.pixelPointsFromResult($0.localizationResult!.resultPoints!, in: originImage!.size) })
+                        image = BarcodeMaskView.mixImage(originImage!, with: results.map{ CaptureViewController.pixelPointsFromResult($0.localizationResult!.resultPoints!, in: originImage!.size) })
                     }
                     else
                     {
@@ -336,21 +336,19 @@ extension CaptureViewController {
             let quadrilaterals = results.map { self.pointsFromResult($0.localizationResult!.resultPoints!) }
             self.maskView.maskPoints = quadrilaterals
             
-            //            if tempResults!.count > 2 {
-
-            let barcodeData = BarcodeData(path: imagePath, type: self.tempResults!.map({$0.barcodeFormat.description}), text: self.tempResults!.map({$0.barcodeText!}), locations: self.tempResults!.map({$0.localizationResult?.resultPoints}) as! [[CGPoint]])
-            let originImage = uiImageFromSamplebuffer(sampleBuffer)!
-            
-//            let image = BarcodeMaskView.mixImage(originImage, with: results.map{ self.pixelPointsFromResult($0.localizationResult!.resultPoints!, in: originImage.size) })
-            //                self.archiveResults(UIImageJPEGRepresentation(image, 1.0)!, barcodeData: barcodeData)
-            self.archiveResults(UIImageJPEGRepresentation(originImage, 1.0)!, barcodeData: barcodeData)
-            //            }
-            
             DispatchQueue.main.async {
                 self.ScannedCount.text = self.tempResults!.count.description + " Barcode"
                 self.maskView.setNeedsDisplay()
                 self.resultsTableView.reloadData()
             }
+            
+            //            if tempResults!.count > 2 {
+            let barcodeData = BarcodeData(path: imagePath, type: self.tempResults!.map({$0.barcodeFormat.description}), text: self.tempResults!.map({$0.barcodeText!}), locations: self.tempResults!.map({$0.localizationResult?.resultPoints}) as! [[CGPoint]])
+            let originImage = uiImageFromSamplebuffer(sampleBuffer)!
+//            let image = BarcodeMaskView.mixImage(originImage, with: results.map{ self.pixelPointsFromResult($0.localizationResult!.resultPoints!, in: originImage.size) })
+            //                self.archiveResults(UIImageJPEGRepresentation(image, 1.0)!, barcodeData: barcodeData)
+            self.archiveResults(UIImageJPEGRepresentation(originImage, 1.0)!, barcodeData: barcodeData)
+            //            }
         } else {
             self.maskView.maskPoints.removeAll()
             DispatchQueue.main.async {
@@ -384,7 +382,7 @@ extension CaptureViewController {
         return [point0, point1, point2, point3]
     }
     
-    func pixelPointsFromResult(_ result: [Any], in imageRect: CGSize) -> [CGPoint] {
+    static func pixelPointsFromResult(_ result: [Any], in imageRect: CGSize) -> [CGPoint] {
         let p0 = result[0] as! CGPoint
         let p1 = result[1] as! CGPoint
         let p2 = result[2] as! CGPoint
