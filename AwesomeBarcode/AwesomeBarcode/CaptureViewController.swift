@@ -11,11 +11,22 @@ import AVFoundation
 import Accelerate
 
 let FullScreenSize = UIScreen.main.bounds
-fileprivate let convertProportion: CGFloat = FullScreenSize.width/720.0
+
+fileprivate struct SessionQuality {
+    var quality:AVCaptureSession.Preset
+    var h:CGFloat
+    var w:CGFloat
+}
 
 fileprivate struct SessionConfiguration {
-    static let quality = AVCaptureSession.Preset.hd1280x720
+    static private let qualityConf_hd1280x720 = SessionQuality(quality: AVCaptureSession.Preset.hd1280x720, h: 1280, w: 720)
+    static private let qualityConf_hd1920x1080 = SessionQuality(quality: AVCaptureSession.Preset.hd1920x1080, h: 1920, w: 1080)
+    static private let qualityConf_hd4K3840x2160 = SessionQuality(quality: AVCaptureSession.Preset.hd4K3840x2160, h: 3840, w: 2160)
+    static let curQualityConf = qualityConf_hd1280x720
 }
+
+fileprivate let convertProportion: CGFloat = FullScreenSize.width / SessionConfiguration.curQualityConf.w
+
 
 fileprivate struct DeviceConfiguration {
     static let position = AVCaptureDevice.Position.back
@@ -35,6 +46,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     
     var session: AVCaptureSession!
     var sessionQueue: DispatchQueue!
+    
     var tempResults: [TextResult]?
     var maskView = BarcodeMaskView(frame: .zero)
     var canDecodeBarcode = true
@@ -47,38 +59,50 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     var isGettingVideo:Bool!
     var photoButton: UIButton?
     //    static var itrFocusFinish:Int!
+    var viewAppearCount:Int!
+    var verOffset:CGFloat!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         resultsTableView.dataSource = self
         resultsTableView.delegate = self
         //        CaptureViewController.itrFocusFinish = 0
+        session = AVCaptureSession()
+        sessionQueue = DispatchQueue(label: "com.dynamsoft.captureQueue")
+        let item = UIBarButtonItem(title: "tack a photo", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.changeMedieMode))
+        self.navigationItem.rightBarButtonItem = item
+        isGettingVideo = true
+        viewAppearCount = 0
 
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        session = AVCaptureSession()
-        sessionQueue = DispatchQueue(label: "com.dynamsoft.captureQueue")
-        
-        let item = UIBarButtonItem(title: "tack a photo", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.changeMedieMode))
-        self.navigationItem.rightBarButtonItem = item
-        isGettingVideo = true;
         if let _localBarcode = NSKeyedUnarchiver.unarchiveObject(withFile: BarcodeData.ArchiveURL.path) as? [BarcodeData] {
             localBarcode = _localBarcode
         }
-        
+        viewAppearCount = viewAppearCount + 1
+        if(viewAppearCount > 1)
+        {
+            if(self.session.isRunning == false)
+            {
+                self.session.startRunning()
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkAndStartCamera()
+        if(viewAppearCount == 1)
+        {
+            checkAndStartCamera()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -123,7 +147,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         
         guard session.canAddOutput(videoOutput) else { return }
         session.addOutput(videoOutput)
-        session.sessionPreset = SessionConfiguration.quality
+        session.sessionPreset = SessionConfiguration.curQualityConf.quality
         //        guard let connection = output.connection(with: .video) else { return }
         //        guard connection.isVideoMirroringSupported else { return }
         //        connection.isVideoMirrored = (device.position == .front)
@@ -140,6 +164,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         cameraStream.bringSubview(toFront: ScannedCount)
         maskView.frame = cameraStream.bounds
         cameraStream.addSubview(maskView)
+        verOffset = (cameraStream.bounds.height - SessionConfiguration.curQualityConf.h * convertProportion) / 2
     }
     
     func alertPromptForCameraAuthority() {
@@ -183,7 +208,6 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
             session.removeOutput(videoOutput)
             session.addOutput(photoOutput)
             self.navigationItem.rightBarButtonItem?.title = "take a video"
-            
         }
         else
         {
@@ -217,26 +241,29 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
             let imageData: Data? = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer!)
             let originImage = UIImage(data: imageData!)
             
-            do
-            {
-                let results = try BarcodeData.barcodeReader.decode(originImage!, withTemplate: "")
-                var image:UIImage!
-                if results.count > 0 {
-                    image = BarcodeMaskView.mixImage(originImage!, with: results.map{ self.pixelPointsFromResult($0.localizationResult!.resultPoints!, in: originImage!.size) })
-                }
-                else
+            let serialQueue = DispatchQueue(label: "com.dynamsoft.decodeQueue")
+            serialQueue.async() { () -> Void in
+                do
                 {
-                    image = originImage
+                    let results = try BarcodeData.barcodeReader.decode(originImage!, withTemplate: "")
+                    var image:UIImage!
+                    if results.count > 0 {
+                        image = BarcodeMaskView.mixImage(originImage!, with: results.map{ self.pixelPointsFromResult($0.localizationResult!.resultPoints!, in: originImage!.size) })
+                    }
+                    else
+                    {
+                        image = originImage
+                    }
+                    
+                    DispatchQueue.main.async {
+                        let photoResultVC = PhotoResultEditViewController()
+                        photoResultVC.previewImg = image
+                        self.navigationController?.pushViewController(photoResultVC, animated: true)
+                    }
                 }
-
-                DispatchQueue.main.async {
-                    let photoResultVC = PhotoResultEditViewController()
-                    photoResultVC.previewImg = image
-                    self.navigationController?.pushViewController(photoResultVC, animated: true)
+                catch{
+                    print(error);
                 }
-            }
-            catch{
-                print(error);
             }
         })
     }
@@ -309,12 +336,15 @@ extension CaptureViewController {
             let quadrilaterals = results.map { self.pointsFromResult($0.localizationResult!.resultPoints!) }
             self.maskView.maskPoints = quadrilaterals
             
-            if tempResults!.count > 2 {
-                let barcodeData = BarcodeData(path: imagePath, type: self.tempResults!.map({$0.barcodeFormat.description}), text: self.tempResults!.map({$0.barcodeText!}), locations: quadrilaterals)
-                let originImage = uiImageFromSamplebuffer(sampleBuffer)!
-                let image = BarcodeMaskView.mixImage(originImage, with: results.map{ self.pixelPointsFromResult($0.localizationResult!.resultPoints!, in: originImage.size) })
-                self.archiveResults(UIImageJPEGRepresentation(image, 1.0)!, barcodeData: barcodeData)
-            }
+            //            if tempResults!.count > 2 {
+
+            let barcodeData = BarcodeData(path: imagePath, type: self.tempResults!.map({$0.barcodeFormat.description}), text: self.tempResults!.map({$0.barcodeText!}), locations: self.tempResults!.map({$0.localizationResult?.resultPoints}) as! [[CGPoint]])
+            let originImage = uiImageFromSamplebuffer(sampleBuffer)!
+            
+//            let image = BarcodeMaskView.mixImage(originImage, with: results.map{ self.pixelPointsFromResult($0.localizationResult!.resultPoints!, in: originImage.size) })
+            //                self.archiveResults(UIImageJPEGRepresentation(image, 1.0)!, barcodeData: barcodeData)
+            self.archiveResults(UIImageJPEGRepresentation(originImage, 1.0)!, barcodeData: barcodeData)
+            //            }
             
             DispatchQueue.main.async {
                 self.ScannedCount.text = self.tempResults!.count.description + " Barcode"
@@ -346,10 +376,10 @@ extension CaptureViewController {
         let p2 = result[2] as! CGPoint
         let p3 = result[3] as! CGPoint
         
-        let point0 = CGPoint(x: FullScreenSize.width-p0.y*convertProportion, y: p0.x*convertProportion-84)
-        let point1 = CGPoint(x: FullScreenSize.width-p1.y*convertProportion, y: p1.x*convertProportion-84)
-        let point2 = CGPoint(x: FullScreenSize.width-p2.y*convertProportion, y: p2.x*convertProportion-84)
-        let point3 = CGPoint(x: FullScreenSize.width-p3.y*convertProportion, y: p3.x*convertProportion-84)
+        let point0 = CGPoint(x: FullScreenSize.width - p0.y * convertProportion, y: p0.x * convertProportion + verOffset)
+        let point1 = CGPoint(x: FullScreenSize.width - p1.y * convertProportion, y: p1.x * convertProportion + verOffset)
+        let point2 = CGPoint(x: FullScreenSize.width - p2.y * convertProportion, y: p2.x * convertProportion + verOffset)
+        let point3 = CGPoint(x: FullScreenSize.width - p3.y * convertProportion, y: p3.x * convertProportion + verOffset)
         
         return [point0, point1, point2, point3]
     }
@@ -372,8 +402,6 @@ extension CaptureViewController {
         let cgImage = ciContext.createCGImage(ciImage, from: ciImage.extent)
         return UIImage(cgImage: cgImage!, scale: 1.0, orientation: .right)
     }
-    
-    
     
     func archiveResults(_ buffer: Data, barcodeData: BarcodeData) {
         if localBarcode.count < 16 {

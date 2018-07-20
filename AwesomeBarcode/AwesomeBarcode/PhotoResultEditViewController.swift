@@ -16,7 +16,11 @@ class PhotoResultEditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.imageBrowser = UIImageView()
+        self.imageBrowser.contentMode = .scaleAspectFit
+        self.imageBrowser.frame = self.view.bounds
+        self.imageBrowser.image = previewImg
+        self.view.addSubview(self.imageBrowser)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -24,15 +28,10 @@ class PhotoResultEditViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.imageBrowser = UIImageView()
-        self.imageBrowser.frame = self.view.bounds
-        self.imageBrowser.image = previewImg
-        self.view.addSubview(self.imageBrowser)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 }

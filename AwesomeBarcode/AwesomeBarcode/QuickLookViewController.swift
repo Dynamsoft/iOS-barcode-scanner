@@ -25,9 +25,12 @@ class QuickLookViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         for (i, barcode) in localBarcode!.enumerated() {
-            let image = UIImage(contentsOfFile: barcode.imagePath.path)
+            var originImage = UIImage(contentsOfFile: barcode.imagePath.path)
+//            results.map{ self.pixelPointsFromResult($0.localizationResult!.resultPoints!, in: originImage!.size) }
+            let image = BarcodeMaskView.mixImage(originImage!, with: barcode.barcodeLocations)
+            originImage = nil
             let imageView = UIImageView(image: image)
-            imageView.frame = CGRect(x: CGFloat(i) * FullScreenSize.width, y: 0, width: FullScreenSize.width, height: FullScreenSize.height-64)
+            imageView.frame = CGRect(x: CGFloat(i) * FullScreenSize.width, y: 0, width: FullScreenSize.width, height: FullScreenSize.height - 64)
             imageView.contentMode = .scaleAspectFit
             imageViews.append(imageView)
 //            setMaskView(at: i)
@@ -71,8 +74,7 @@ class QuickLookViewController: UIViewController {
         
         return CGRect(x: leftOffset, y: topOffset, width: newWidth, height: newHeight)
     }
-    
-    
+
     func pointsFromResult(_ result: [CGPoint]) -> [CGPoint] {
         
         let point0 = CGPoint(x: result[0].x-10, y: result[0].y+54)
@@ -82,15 +84,4 @@ class QuickLookViewController: UIViewController {
         
         return [point0, point1, point2, point3]
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
