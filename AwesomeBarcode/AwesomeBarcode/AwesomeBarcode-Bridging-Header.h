@@ -10,5 +10,7 @@
 #define AwesomeBarcode_Bridging_Header_h
 
 #import <DynamsoftBarcodeSDK/DynamsoftBarcodeSDK.h>
+//#import <ImageFilter/ImageFilter.h>
+
 
 #endif /* AwesomeBarcode_Bridging_Header_h */

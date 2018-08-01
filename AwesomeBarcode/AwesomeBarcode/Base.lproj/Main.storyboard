@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--AwesomeBarcode-->
+        <!--Barcode Scanner X-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="AwesomeBarcode" customModuleProvider="target" sceneMemberID="viewController">
@@ -67,7 +67,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="AwesomeBarcode" id="eDA-Nu-XyK"/>
+                    <navigationItem key="navigationItem" title="Barcode Scanner X" id="eDA-Nu-XyK"/>
                     <connections>
                         <outlet property="scenesCollection" destination="Xsl-zc-wLe" id="CMw-aX-Rsg"/>
                     </connections>
@@ -93,6 +93,14 @@
                                         <color key="textColor" red="0.91334784030914307" green="0.53730225563049316" blue="0.52298957109451294" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m5t-8j-ypY">
+                                        <rect key="frame" x="246" y="8" width="93" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="startJigsaw"/>
+                                        <connections>
+                                            <action selector="clickJiasaw:" destination="CSq-uU-rmi" eventType="touchUpInside" id="K2v-Qd-nMg"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -147,15 +155,38 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kXV-cO-5tk"/>
                     </view>
+                    <navigationItem key="navigationItem" title="CaptureVC" id="5jR-Yz-Baa">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="secondLevel" id="IOw-jh-K6g">
+                            <connections>
+                                <segue destination="t5p-jm-KRh" kind="push" id="H6V-Gg-GA7"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="ScannedCount" destination="kUX-If-9W6" id="ZDk-dd-pvY"/>
                         <outlet property="cameraStream" destination="XSs-AB-XMa" id="mpS-L7-A9G"/>
                         <outlet property="resultsTableView" destination="Jgj-p5-ozj" id="AoK-tN-TG9"/>
+                        <outlet property="startJigsaw" destination="m5t-8j-ypY" id="nre-G2-kZR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rZg-El-LaV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1441" y="-170"/>
+            <point key="canvasLocation" x="1440.8" y="-170.46476761619192"/>
+        </scene>
+        <!--Run-Time Settings-->
+        <scene sceneID="uZx-N1-llL">
+            <objects>
+                <viewController id="t5p-jm-KRh" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="vr4-6p-zcJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Run-Time Settings" id="WHV-tO-CYL"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="juQ-dI-GpB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2391" y="-170"/>
         </scene>
         <!--Photo Result Edit View Controller-->
         <scene sceneID="11a-s5-VAy">
@@ -251,4 +282,7 @@
             <point key="canvasLocation" x="-218" y="-168"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="secondLevel" width="16" height="16"/>
+    </resources>
 </document>

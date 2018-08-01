@@ -10,9 +10,9 @@ import UIKit
 
 class BarcodeData: NSObject, NSCoding {
     let imagePath: URL
-    let barcodeTypes: [String]
-    let barcodeTexts: [String]
-    let barcodeLocations: [[CGPoint]]
+    var barcodeTypes: [String]
+    var barcodeTexts: [String]
+    var barcodeLocations: [[CGPoint]]
     
     struct PropertyKey {
         static let imagePath = "ImagePath"
