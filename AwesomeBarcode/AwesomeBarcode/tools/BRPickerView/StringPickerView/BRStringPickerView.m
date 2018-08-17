@@ -123,7 +123,6 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
             self.selectValue = [self.dataSourceArr firstObject];
         }
         NSInteger row = [self.dataSourceArr indexOfObject:self.selectValue];
-        // 默认滚动的行
         [self.pickerView selectRow:row inComponent:0 animated:NO];
     } else if (self.type == BRStringPickerComponentMore) {
         NSMutableArray *tempArr = [NSMutableArray array];
@@ -137,18 +136,15 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
                 selValue = [self.dataSourceArr[i] firstObject];
             }
             NSInteger row = [self.dataSourceArr[i] indexOfObject:selValue];
-            // 默认滚动的行
             [self.pickerView selectRow:row inComponent:i animated:NO];
         }
         self.selectValueArr = [tempArr copy];
     }
 }
 
-#pragma mark - 初始化子视图
 - (void)initUI {
     [super initUI];
     self.titleLabel.text = self.title;
-    // 添加字符串选择器
     [self.alertView addSubview:self.pickerView];
     if (self.themeColor && [self.themeColor isKindOfClass:[UIColor class]]) {
         [self setupThemeColor:self.themeColor];
@@ -205,7 +201,6 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
         case BRStringPickerComponentSingle:
         {
             self.selectValue = self.dataSourceArr[row];
-            // 设置是否自动回调
             if (self.isAutoSelect) {
                 if(self.resultBlock) {
                     self.resultBlock(self.selectValue);
@@ -224,8 +219,7 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
                 }
             }
             self.selectValueArr = tempArr;
-            
-            // 设置是否自动回调
+
             if (self.isAutoSelect) {
                 if(self.resultBlock) {
                     self.resultBlock([self.selectValueArr copy]);
@@ -239,21 +233,16 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
     }
 }
 
-// 自定义 pickerView 的 label
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(nullable UIView *)view {
     
-    //设置分割线的颜色
     ((UIView *)[pickerView.subviews objectAtIndex:1]).backgroundColor = [UIColor colorWithRed:195/255.0 green:195/255.0 blue:195/255.0 alpha:1.0];
     ((UIView *)[pickerView.subviews objectAtIndex:2]).backgroundColor = [UIColor colorWithRed:195/255.0 green:195/255.0 blue:195/255.0 alpha:1.0];
     
     UILabel *label = [[UILabel alloc]init];
     label.backgroundColor = [UIColor clearColor];
     label.textAlignment = NSTextAlignmentCenter;
-    //label.textColor = [UIColor redColor];
     label.font = [UIFont systemFontOfSize:18.0f * kScaleFit];
-    // 字体自适应属性
     label.adjustsFontSizeToFitWidth = YES;
-    // 自适应最小字体缩放比例
     label.minimumScaleFactor = 0.5f;
     if (self.type == BRStringPickerComponentSingle) {
         label.frame = CGRectMake(0, 0, self.alertView.frame.size.width, 35.0f * kScaleFit);
@@ -266,12 +255,10 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
     return label;
 }
 
-// 设置行高
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
     return 35.0f * kScaleFit;
 }
 
-#pragma mark - 背景视图的点击事件
 - (void)didTapBackgroundView:(UITapGestureRecognizer *)sender {
     [self dismissWithAnimation:NO];
     if (self.cancelBlock) {
@@ -279,7 +266,6 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
     }
 }
 
-#pragma mark - 取消按钮的点击事件
 - (void)clickLeftBtn {
     [self dismissWithAnimation:YES];
     if (self.cancelBlock) {
@@ -287,10 +273,8 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
     }
 }
 
-#pragma mark - 确定按钮的点击事件
 - (void)clickRightBtn {
     [self dismissWithAnimation:YES];
-    // 点击确定按钮后，执行block回调
     if(_resultBlock) {
         if (self.type == BRStringPickerComponentSingle) {
             _resultBlock(self.selectValue);
@@ -300,17 +284,13 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
     }
 }
 
-#pragma mark - 弹出视图方法
 - (void)showWithAnimation:(BOOL)animation {
-    //1. 获取当前应用的主窗口
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
     [keyWindow addSubview:self];
     if (animation) {
-        // 动画前初始位置
         CGRect rect = self.alertView.frame;
         rect.origin.y = SCREEN_HEIGHT;
         self.alertView.frame = rect;
-        // 浮现动画
         [UIView animateWithDuration:0.3 animations:^{
             CGRect rect = self.alertView.frame;
             rect.origin.y -= kPickerHeight + kTopViewHeight + BR_BOTTOM_MARGIN;
@@ -319,9 +299,7 @@ typedef NS_ENUM(NSInteger, BRStringPickerMode) {
     }
 }
 
-#pragma mark - 关闭视图方法
 - (void)dismissWithAnimation:(BOOL)animation {
-    // 关闭动画
     [UIView animateWithDuration:0.2 animations:^{
         CGRect rect = self.alertView.frame;
         rect.origin.y += kPickerHeight + kTopViewHeight + BR_BOTTOM_MARGIN;

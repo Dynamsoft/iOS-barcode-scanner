@@ -22,7 +22,6 @@ class LoclzAlgorthmPrortyTableViewController: UITableViewController {
         if(mainView.runtimeSettings.localizationAlgorithmPriority != "")
         {
             self.curDataArr = mainView.runtimeSettings.localizationAlgorithmPriority.split(separator: ",").map(String.init)
-//                LoclzAlgorthmPrortyStruct.GetArrayFromJSONString(jsonString: mainView.runtimeSettings.localizationAlgorithmPriority) as! [String]
         }
         self.tableDataArr = GetDataArr(curDataArr: self.curDataArr, wholeStringArr: self.wholeStringArr)
         
@@ -157,7 +156,6 @@ class LoclzAlgorthmPrortyStruct: NSObject {
     }
     
     static func GetStringFromArray(array:[String]) -> String {
-        
         var result = ""
         for i in 0...array.count - 1
         {
@@ -172,27 +170,4 @@ class LoclzAlgorthmPrortyStruct: NSObject {
         }
         return result
     }
-    
-//    static func GetJSONStringFromArray(array:NSArray) -> String {
-//
-//        if (!JSONSerialization.isValidJSONObject(array)) {
-//            print("cannot resolve JSONString")
-//            return ""
-//        }
-//
-//        let data : NSData! = try! JSONSerialization.data(withJSONObject: array, options: []) as NSData?
-//        let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue)
-//        return JSONString! as String
-//
-//    }
-//
-//    static func GetArrayFromJSONString(jsonString:String) ->NSArray?{
-//        let jsonData:Data = jsonString.data(using: .utf8)!
-//        let array = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
-//        if array != nil {
-//            return array as! NSArray
-//        }
-//        return nil
-//    }
-    
 }

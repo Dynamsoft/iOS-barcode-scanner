@@ -91,7 +91,6 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         self.resultsTableView.frame = CGRect(x: 0, y: FullScreenSize.height - 70, width: FullScreenSize.width, height: 70)
         self.title = "Scan Barcode"
         self.tableViewIsPop = false
-        print("viewDidLoad_Capture")
     }
     
     override func didReceiveMemoryWarning() {
@@ -113,7 +112,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
                 self.session.startRunning()
             }
         }
-        print("viewWillAppear_Capture")
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -122,7 +121,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         {
             checkAndStartCamera()
         }
-        print("viewDidAppear_Capture")
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -131,13 +130,13 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
             _hidePopMenu(animate: true)
         }
         self.canDecodeBarcode = false
-        print("viewWillDisappear_Capture")
+        
         super.viewWillDisappear(animated)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         
-        print("viewDidDisappear_Capture")
+        
         
         DispatchQueue.global(qos: .userInitiated).async {
             self.session.stopRunning()
@@ -147,7 +146,6 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
-        print("prepare")
         self.canDecodeBarcode = false
     }
     
@@ -413,10 +411,6 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
                     secondView.singleImgMode = true
                     secondView.singleImg = image
                     self.navigationController?.pushViewController(secondView , animated: true)
-//                    let photoResultVC = PhotoResultEditViewController()
-//                    photoResultVC.previewImg = image
-//                    photoResultVC
-//                    self.navigationController?.pushViewController(photoResultVC, animated: true)
                 }
                 if results.count > 0 {
                     self.archiveResults(UIImageJPEGRepresentation(originImage, 1.0)!, barcodeData: barcodeBata!)
@@ -430,33 +424,6 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     
     
     @objc func takePictures() {
-        
-        do
-        {
-        let names =  BarcodeData.barcodeReader.allParameterTemplateNames()
-        let settings = try BarcodeData.barcodeReader.getRuntimeSettings()
-        print(settings.antiDamageLevel)
-        print(settings.barcodeTypeID)
-        print(settings.barcodeInvert)
-        print(settings.binarizationBlockSize)
-        print(settings.colourImageConvert)
-        print(settings.deblurLevel)
-        print(settings.enableFillBinaryVacancy)
-        print(settings.expectedBarcodeCount)
-        print(settings.grayEqualizationSensitivity)
-        print(settings.localizationAlgorithmPriority)
-        print(settings.maxBarcodeCount)
-        print(settings.maxDimOfFullImageAsBarcodeZone)
-        print(settings.regionPredetection)
-        print(settings.scaleDownThreshold)
-        print(settings.textFilter)
-        print(settings.textureDetectionSensitivity)
-        print(settings.timeout)
-        
-        }
-        catch{
-            print(error);
-        }
         
         let videoConnection: AVCaptureConnection? = photoOutput.connection(with: AVMediaType.video)
         if videoConnection == nil {
@@ -619,20 +586,7 @@ extension CaptureViewController {
         guard canDecodeBarcode else { return }
         if(!self.isGettingVideo){ return }
         
-//        BarcodeData.barcodeReader = BarcodeData.GetBarcodeReaderInstance()
-//        BarcodeData.SetRuntimeSettings()
         
-        
-        //        guard let device = AVCaptureDevice.default(for: .video) else { return }
-        //        if(device.isAdjustingFocus == true)
-        //        {
-        ////            itrFocusFinish = itrFocusFinish + 1;
-        ////            if(itrFocusFinish == 1)
-        ////            {
-        ////                return;
-        ////            }
-        //            return;
-        //        }
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         CVPixelBufferLockBaseAddress(imageBuffer, .readOnly)
         let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)
@@ -797,7 +751,6 @@ extension CaptureViewController {
             } else {
                 self.maskView.maskPoints.removeAll()
                 DispatchQueue.main.async {
-//                    self.ScannedCount.text = "0 Barcode"
                     self.maskView.setNeedsDisplay()
                     self.resultsTableView.reloadData()
                 }
@@ -903,11 +856,6 @@ extension CaptureViewController {
         
         let date = Date()
         let dataName =  String(date.timeIntervalSince1970)
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSSS"
-//        dateFormatter.timeZone = TimeZone.current
-//        let dataTimeStamp = dateFormatter.string(from: Date())
-//        let dataName = dataTimeStamp.replacingOccurrences(of: ":", with: "")
         return BarcodeData.documentDir.appendingPathComponent(dataName + ".jpg")
     }
     
@@ -1025,12 +973,5 @@ extension CaptureViewController {
             self.tableViewIsPop = false
             self.canDecodeBarcode = true
         }
-
-//        let verStart = self.resultsTableView.frame.origin.y - offsetY
-//        if(verStart >= FullScreenSize.height / 2 && verStart < FullScreenSize.height - 70)
-//        {
-//            self.resultsTableView.frame.origin.y = verStart
-//            self.resultsTableView.frame.size.height = FullScreenSize.height - self.resultsTableView.frame.origin.y
-//        }
     }
 }

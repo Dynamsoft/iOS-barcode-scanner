@@ -75,24 +75,24 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
         NotificationCenter.default
             .addObserver(self,selector: #selector(keyboardWillHide(_:)),
                          name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        print("viewDidLoad_RuntimeSettingvc")
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.topItem?.title = ""
         curDataArr = deblerLeverArr
-        print("viewWillAppear_RuntimeSettingvc")
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("viewDidAppear_RuntimeSettingvc")
+        
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-        print("deinit_RuntimeSettingvc")
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -412,35 +412,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
         self.previewTextTield?.resignFirstResponder()
         BarcodeData.barcodeReader = BarcodeData.GetBarcodeReaderInstance()
         BarcodeData.SetRuntimeSettings()
-        
-        do
-        {
-            let names =  BarcodeData.barcodeReader.allParameterTemplateNames()
-            let settings = try BarcodeData.barcodeReader.getRuntimeSettings()
-            print(settings.antiDamageLevel)
-            print(settings.barcodeTypeID)
-            print(settings.barcodeInvert)
-            print(settings.binarizationBlockSize)
-            print(settings.colourImageConvert)
-            print(settings.deblurLevel)
-            print(settings.enableFillBinaryVacancy)
-            print(settings.expectedBarcodeCount)
-            print(settings.grayEqualizationSensitivity)
-            print(settings.localizationAlgorithmPriority)
-            print(settings.maxBarcodeCount)
-            print(settings.maxDimOfFullImageAsBarcodeZone)
-            print(settings.regionPredetection)
-            print(settings.scaleDownThreshold)
-            print(settings.textFilter)
-            print(settings.textureDetectionSensitivity)
-            print(settings.timeout)
-            
-        }
-        catch{
-            print(error);
-        }
 
-        print("viewWillDisappear_RuntimeSettingvc")
         super.viewWillAppear(animated)
     }
     
@@ -703,9 +675,6 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
             make.centerY.equalTo(cell.contentView)
             make.right.equalTo(rightMargin)
         }
-//        imageview.isUserInteractionEnabled = true
-//        let mytap = UITapGestureRecognizer(target: self, action: #selector(didTapSelectDownImageView))
-//        imageview.addGestureRecognizer(mytap)
     }
     
     func getSwitch(cell:UITableViewCell, rightMargin:CGFloat) -> UISwitch
@@ -784,20 +753,6 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
             }
         }
     }
-    
-//    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if (scrollView == self.tableView) {
-//            let sectionHeaderHeight:CGFloat = 36;
-//            if (scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y >= 0)
-//            {
-//                scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-//            }
-//            else if (scrollView.contentOffset.y >= sectionHeaderHeight)
-//            {
-//                scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
-//            }
-//        }
-//    }
     
 }
 

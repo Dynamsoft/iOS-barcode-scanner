@@ -18,12 +18,8 @@ enum SettingScene{
 
 class RuntimeSettingsModel: NSObject, NSCoding {
     
-    //    var barcodeTypes: PublicSettings!
     static var runtimeSettings:PublicSettings!
     static var settingScene:SettingScene!//1:General 2:MulBrcdsBestCoverage 3:MulBrcdsBalanceMode
-//    var rntmSettings:PublicSettings
-//    static var settingName = "Custom_134010_125"
-//    var balabala:String
     var name: String
     var antiDamageLevel:String
     var barcodeFormat:String

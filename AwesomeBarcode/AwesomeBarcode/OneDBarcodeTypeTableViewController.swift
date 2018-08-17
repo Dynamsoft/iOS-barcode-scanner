@@ -1,5 +1,5 @@
 //
-//  OneDBarcodeTypeTableViewController.swift/Users/cooper/Documents/james/Github/iOS-barcode-scanner/AwesomeBarcode/AwesomeBarcode/Base.lproj/Main.storyboard
+//  OneDBarcodeTypeTableViewController.swift
 //  AwesomeBarcode
 //
 //  Created by Dynamsoft on 08/08/2018.

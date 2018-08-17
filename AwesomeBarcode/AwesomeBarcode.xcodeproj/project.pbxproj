@@ -64,7 +64,6 @@
 		685BDFAA20BD2701004BECB7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 685BDFA920BD2701004BECB7 /* Assets.xcassets */; };
 		685BDFAD20BD2701004BECB7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 685BDFAB20BD2701004BECB7 /* LaunchScreen.storyboard */; };
 		685BDFB520BD38AF004BECB7 /* CaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685BDFB420BD38AF004BECB7 /* CaptureViewController.swift */; };
-		68BA8B5C20D9EFB100A2737D /* FrameExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA8B5B20D9EFB100A2737D /* FrameExtractor.swift */; };
 		68BA8BAC20E4BB0300A2737D /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BA8BAB20E4BB0300A2737D /* libc++.1.tbd */; };
 		68BA8BB020EB4A9700A2737D /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA8BAF20EB4A9700A2737D /* HistoryTableViewController.swift */; };
 		68BA8BB220EB66D500A2737D /* QuickLookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BA8BB120EB66D500A2737D /* QuickLookViewController.swift */; };
@@ -155,7 +154,6 @@
 		685BDFAC20BD2701004BECB7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		685BDFAE20BD2701004BECB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		685BDFB420BD38AF004BECB7 /* CaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewController.swift; sourceTree = "<group>"; };
-		68BA8B5B20D9EFB100A2737D /* FrameExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameExtractor.swift; sourceTree = "<group>"; };
 		68BA8BA720E47BAE00A2737D /* AwesomeBarcode-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AwesomeBarcode-Bridging-Header.h"; sourceTree = "<group>"; };
 		68BA8BAB20E4BB0300A2737D /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
 		68BA8BAF20EB4A9700A2737D /* HistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
@@ -326,7 +324,6 @@
 				685BDFA920BD2701004BECB7 /* Assets.xcassets */,
 				685BDFAB20BD2701004BECB7 /* LaunchScreen.storyboard */,
 				685BDFAE20BD2701004BECB7 /* Info.plist */,
-				68BA8B5B20D9EFB100A2737D /* FrameExtractor.swift */,
 				68BA8BA720E47BAE00A2737D /* AwesomeBarcode-Bridging-Header.h */,
 				1E45BC672108251600121BA8 /* RuntimeSettingsTableViewController.swift */,
 				1E3AEFC8211A5E9D004ED6AA /* OneDBarcodeTypeTableViewController.swift */,
@@ -510,7 +507,6 @@
 				1E3AEFB6211963DE004ED6AA /* ConstraintMaker.swift in Sources */,
 				1E3BD29C211D3C5A00E5C044 /* BRBaseView.m in Sources */,
 				1E3AEFAE211963DE004ED6AA /* ConstraintConfig.swift in Sources */,
-				68BA8B5C20D9EFB100A2737D /* FrameExtractor.swift in Sources */,
 				1E3BD299211D3C5A00E5C044 /* BRStringPickerView.m in Sources */,
 				1E3AEFA2211963DE004ED6AA /* LayoutConstraintItem.swift in Sources */,
 				68F6D64B20EE067C00E7FD4B /* BarcodeData.swift in Sources */,

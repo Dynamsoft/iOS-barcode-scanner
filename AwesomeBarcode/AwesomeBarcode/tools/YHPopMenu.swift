@@ -2,15 +2,13 @@
 //  YHPopMenu.swift
 //  AwesomeBarcode
 //
-//  Created by Dynamsoft on 2018/5/29.
-//  Copyright © 2018 Dynamsoft. All rights reserved.
-//
+
 
 import Foundation
 import UIKit
 typealias DismissBlock = ((_ isCanceled:Bool,_ row:Int)->Void )?
 
-//颜色
+
 let kGreenColor = UIColor(red: 43.9993/255.0, green: 45.9993/255.0, blue: 49.9992/255.0, alpha: 1)
 let kGrayColor_Swift = kGreenColor
 let KeyWindow = UIApplication.shared.keyWindow
@@ -19,7 +17,7 @@ class CellForMenuItem: UITableViewCell {
     let  imgvIcon    = UIImageView()
     let  lbName      = UILabel()
     let  viewBotLine = UIView()
-    //cell的配置参数
+    
     var  dictConfig: Dictionary<String,Any>?  = nil {
         willSet (newValue){
             if let newV = newValue {
@@ -45,11 +43,11 @@ class CellForMenuItem: UITableViewCell {
     }
     
     
-    private let kIconW:CGFloat    = 16       //图标宽(默认宽高相等)
-    private let kFontSize:CGFloat = 14.0     //字体大小
+    private let kIconW:CGFloat    = 16
+    private let kFontSize:CGFloat = 14.0
     
-    private let kItemNameLeftSpace:CGFloat = 15//itemName左边距
-    private let kIconLeftSpace:CGFloat = 15    //icon左边距离
+    private let kItemNameLeftSpace:CGFloat = 15
+    private let kIconLeftSpace:CGFloat = 15
     
     // MARK: - Setter
     
@@ -143,7 +141,7 @@ class YHArrow : UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        //箭头
+        
         let bezierPath = UIBezierPath()
         bezierPath.move(to: CGPoint(x: 0, y: 5))
         bezierPath.addLine(to: CGPoint(x: 5, y: 0))
@@ -160,18 +158,18 @@ class YHArrow : UIView {
 
 class YHPopMenu : UIView,UITableViewDelegate,UITableViewDataSource{
 
-    open var iconW:CGFloat             //图标宽(默认宽高相等)
-    open var fontSize:CGFloat          //字体大小
-    open var fontColor:UIColor         //字体颜色
-    open var itemBgColor:UIColor       //item背景颜色
-    open var itemNameLeftSpace:CGFloat //itemName左边距
-    open var iconLeftSpace:CGFloat     //icon左边距离
-    open var itemH:CGFloat             //item高度
-    open var iconNameArray:[String]    //图标名字Array
-    open var itemNameArray:[String]    //item名字Array
-    open var canTouchTabbar:Bool       //可以点击Tabbar;(默认是遮挡Tabbar)
+    open var iconW:CGFloat
+    open var fontSize:CGFloat
+    open var fontColor:UIColor
+    open var itemBgColor:UIColor
+    open var itemNameLeftSpace:CGFloat
+    open var iconLeftSpace:CGFloat
+    open var itemH:CGFloat
+    open var iconNameArray:[String]
+    open var itemNameArray:[String]
+    open var canTouchTabbar:Bool
     
-    private let kItemH = CGFloat(44)   //item高度
+    private let kItemH = CGFloat(44)
     private let _viewArrow = YHArrow()
     private let _tableView = UITableView(frame: .zero, style: .plain)
     private let _viewBG    = UIView()
@@ -230,7 +228,7 @@ class YHPopMenu : UIView,UITableViewDelegate,UITableViewDataSource{
         _viewBG.addGestureRecognizer(panViewBG)
         self.addSubview(_viewBG)
         
-        //箭头
+        
         _viewArrow.backgroundColor = UIColor.clear
         self.addSubview(_viewArrow)
         
@@ -296,7 +294,7 @@ class YHPopMenu : UIView,UITableViewDelegate,UITableViewDataSource{
         self.frame = CGRect(x: 0, y: 64, width: FullScreenSize.width, height: viewBGH)
         KeyWindow?.addSubview(self)
         
-        //显示PopView动画
+        
         _tableView.alpha = 0
         _tableView.contentOffset = .zero
         
