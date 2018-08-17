@@ -409,7 +409,7 @@ typedef NS_ENUM(NSInteger, ColourImageConvert) {
 
 /**@brief The name used for identifying the struct. */
 @property (nonatomic, nonnull) NSString * name;
-/**< It stores the name of the struct, which is mainly help users to distinguish different version rather than practical use in the library.
+/**< It stores the name of the struct, which is mainly help users to distinguish different version rather than practical use in the library.BinarizationBlockSize
  * @deprecated name
  */
 

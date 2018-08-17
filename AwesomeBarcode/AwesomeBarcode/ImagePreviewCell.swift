@@ -3,7 +3,7 @@
 //  AwesomeBarcode
 //
 //  Created by Dynamsoft on 2018/7/3.
-//  Copyright © 2018年 Dynamsoft. All rights reserved.
+//  Copyright © 2018 Dynamsoft. All rights reserved.
 //
 
 import UIKit
@@ -12,6 +12,8 @@ class ImagePreviewCell: UICollectionViewCell {
     
     var scrollView:UIScrollView!
     var imageView:UIImageView!
+    var imageHeight = UIScreen.main.bounds.width
+    var imageWidth = UIScreen.main.bounds.height
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,8 +60,8 @@ class ImagePreviewCell: UICollectionViewCell {
     func scaleSize(size:CGSize) -> CGSize {
         let width = size.width
         let height = size.height
-        let widthRatio = width/UIScreen.main.bounds.width
-        let heightRatio = height/UIScreen.main.bounds.height
+        let widthRatio = width/imageWidth
+        let heightRatio = height/imageHeight
         let ratio = max(heightRatio, widthRatio)
         return CGSize(width: width/ratio, height: height/ratio)
     }
@@ -118,7 +120,6 @@ extension ImagePreviewCell:UIScrollViewDelegate{
             scrollView.contentSize.width/2:centerX
         centerY = scrollView.contentSize.height > scrollView.frame.size.height ?
             scrollView.contentSize.height/2:centerY
-        print(centerX,centerY)
         imageView.center = CGPoint(x: centerX, y: centerY)
     }
 }

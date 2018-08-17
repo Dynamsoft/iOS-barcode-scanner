@@ -3,7 +3,7 @@
 //  AwesomeBarcode
 //
 //  Created by Dynamsoft on 2018/6/20.
-//  Copyright © 2018年 Dynamsoft. All rights reserved.
+//  Copyright © 2018 Dynamsoft. All rights reserved.
 //
 
 import UIKit
