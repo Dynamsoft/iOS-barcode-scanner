@@ -13,14 +13,14 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
     
     static let TextFieldColor = UIColor(red: 153.003/255.0, green: 153.003/255.0, blue: 153.003/255.0, alpha: 1)
     
-    let tableDataArr = [["Template Name:"], ["ONED", "PDF417", "QR_CODE", "DATAMATRIX","AZTEC"], ["Expected Barcodes Count:", "Timeout:", "DeblurLevel:", "Anti-Damage Level:", "Text Filter Mode:", "Region Predetection Mode:", "Scale Down Threshold:", "Colour Image Convert Mode:", "Barcode Invert Mode:", "Gray Equalization Sensitivity:", "Texture Detection Sensitivity:", "Binarization Block Size:", "Localization Algorithm Priority:", "Max Dim of Full Image As Barcode\nZone:", "Max Barcode Count:", "Enable Fill Binary Vacancy:"]]
+    let tableDataArr = [["Template Name:"], ["ONED", "PDF417", "QR_CODE", "DATAMATRIX","AZTEC"], ["Expected Barcodes Count:", "Timeout:", "DeblurLevel:", "Anti-Damage Level:", "Text Filter Mode:", "Region Predetection Mode:", "Scale Down Threshold:", "Colour Image Convert Mode:", "Barcode Invert Mode:", "Gray Equalization Sensitivity:", "Texture Detection Sensitivity:", "Binarization Block Size:", "Localization Algorithm Priority:", "Max Dim of Full Image As Barcode\nZone:", "Max Barcodes Count:", "Enable Fill Binary Vacancy:"]]
     
     let deblerLeverArr = ["0","1","2","3","4","5","6","7","8","9"]
     let antiDamageLeverArr = ["0","1","2","3","4","5","6","7","8","9"]
     let colorImgCnvtModeArr = ["Auto","Grayscale"]
     let barcdIvrtModeArr = ["DarkOnLight","LightOnDark"]
     let grayEqualizationSensityArr = ["0","1","2","3","4","5","6","7","8","9"]
-    let txtureDtctionSensitivityArr = ["0","1","2","3","4","5"]
+    let txtureDtctionSensitivityArr = ["0","1","2","3","4","5","6","7","8","9"]
     var curDataArr:[String]!
     var pickView:UIPickerView?
     var colorImageConvert:ColourImageConvert!
@@ -762,10 +762,21 @@ extension RuntimeSettingsTableViewController
 
         let currentText = textField.text ?? ""
         var currentString = (currentText as NSString).replacingCharacters(in: range, with: string)
-        if(currentString == "" && textField.tag != 21)
+        
+        if(currentString == "")
         {
-            textField.text = "0"
-            currentString = "0"
+            switch textField.tag {
+            case 21:
+                break
+            case 14:
+                textField.text = "1"
+                currentString = "1"
+                break
+            default:
+                textField.text = "0"
+                currentString = "0"
+                break
+            }
         }
         switch textField.tag {
         case 21:
@@ -776,46 +787,110 @@ extension RuntimeSettingsTableViewController
             }
             break
         case 0:
-            self.runtimeSettings.expectedBarcodeCount = Int(currentString)!
-            let maxLength = 7
-            if(currentString.count > maxLength){
+            let temp = Int(currentString)!
+            if(temp > 2147483647 || temp < 0)
+            {
+                if(temp > 2147483647)
+                {
+                    textField.text = "2147483647"
+                    self.runtimeSettings.expectedBarcodeCount = 2147483647
+                }
+                alert(msg:"expectedBarcodeCount is in [0,2147483647]")
                 return false
+            }
+            else
+            {
+                self.runtimeSettings.expectedBarcodeCount = temp
             }
             break
         case 1:
-            self.runtimeSettings.timeout = Int(currentString)!
-            let maxLength = 7
-            if(currentString.count > maxLength){
+            let temp = Int(currentString)!
+            if(temp > 2147483647 || temp < 0)
+            {
+                if(temp > 2147483647)
+                {
+                    textField.text = "2147483647"
+                    self.runtimeSettings.timeout = 2147483647
+                }
+                alert(msg:"timeout is in [0,2147483647]")
                 return false
             }
+            self.runtimeSettings.timeout = temp
             break
         case 6:
-            self.runtimeSettings.scaleDownThreshold = Int(currentString)!
-            let maxLength = 7
-            if(currentString.count > maxLength){
+            let temp = Int(currentString)!
+            if(temp > 2147483647 || temp < 512)
+            {
+                if(temp < 512)
+                {
+                    textField.text = "512"
+                    self.runtimeSettings.scaleDownThreshold = 512
+                }
+                else
+                {
+                    textField.text = "2147483647"
+                    self.runtimeSettings.scaleDownThreshold = 2147483647
+                }
+
+                alert(msg:"scaleDownThreshold is in [512,2147483647]")
                 return false
             }
+            self.runtimeSettings.scaleDownThreshold = temp
             break
         case 11:
-            self.runtimeSettings.binarizationBlockSize = Int(currentString)!
-            let maxLength = 4
-            if(currentString.count > maxLength){
+            let temp = Int(currentString)!
+            if(temp > 1000 || temp < 0)
+            {
+                if(temp > 1000)
+                {
+                    textField.text = "1000"
+                    self.runtimeSettings.binarizationBlockSize = 1000
+                }
+                
+                alert(msg:"binarizationBlockSize is in [0,1000]")
                 return false
             }
+            self.runtimeSettings.binarizationBlockSize = temp
             break
         case 13:
-            self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = Int(currentString)!
-            let maxLength = 6
-            if(currentString.count > maxLength){
+            let temp = Int(currentString)!
+            if(temp > 2147483647 || temp < 262144)
+            {
+                if(temp < 262144)
+                {
+                    textField.text = "262144"
+                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 262144
+                }
+                else
+                {
+                    textField.text = "2147483647"
+                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 2147483647
+                }
+                
+                alert(msg:"maxDimOfFullImageAsBarcodeZone is in [262144,2147483647]")
                 return false
             }
+            self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = temp
             break
         case 14:
-            self.runtimeSettings.binarizationBlockSize = Int(currentString)!
-            let maxLength = 11
-            if(currentString.count > maxLength){
+            let temp = Int(currentString)!
+            if(temp > 2147483647 || temp < 1)
+            {
+                if(temp < 1)
+                {
+                    textField.text = "1"
+                    self.runtimeSettings.maxBarcodeCount = 1
+                }
+                else
+                {
+                    textField.text = "2147483647"
+                    self.runtimeSettings.maxBarcodeCount = 2147483647
+                }
+                
+                alert(msg:"maxBarcodeCount is in [1,2147483647]")
                 return false
             }
+            self.runtimeSettings.maxBarcodeCount = temp
             break
         default:
             break
@@ -854,6 +929,14 @@ extension RuntimeSettingsTableViewController
         if distanceToKeyboard < 0 {
             view.frame.origin.y = distanceToKeyboard
         }
+    }
+    
+    func alert(msg:String)
+    {
+        let alertCntrllr = UIAlertController(title: "out of range", message: msg, preferredStyle: .alert)
+        let alrtActn = UIAlertAction(title: "OK", style: .default)
+        alertCntrllr.addAction(alrtActn)
+        self.present(alertCntrllr, animated: true, completion: nil)
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {

@@ -27,6 +27,7 @@ class QuickLookViewController: UIViewController,UITableViewDataSource, UITableVi
         if(localBarcode == nil)
         {
             self.localBarcode = NSKeyedUnarchiver.unarchiveObject(withFile: BarcodeData.ArchiveURL.path) as? [BarcodeData]
+            self.localBarcode = self.localBarcode?.reversed()
         }
         self.cntntView = UIView()
         let statusRect = UIApplication.shared.statusBarFrame

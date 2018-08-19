@@ -96,10 +96,30 @@ class BarcodeData: NSObject, NSCoding {
             BarcodeData.barcodeReader.updateRuntimeSettings(settings, error: &error)
 //          BarcodeData.barcodeReader.setTemplateSettings(settings, error: nil);
             
+            
+            
+//            //log:
+//            settings = try BarcodeData.barcodeReader.getRuntimeSettings()
+//            print(settings.antiDamageLevel)
+//            print(settings.barcodeTypeID)
+//            print(settings.barcodeInvert)
+//            print(settings.binarizationBlockSize)
+//            print(settings.colourImageConvert)
+//            print(settings.deblurLevel)
+//            print(settings.enableFillBinaryVacancy)
+//            print(settings.expectedBarcodeCount)
+//            print(settings.grayEqualizationSensitivity)
+//            print(settings.localizationAlgorithmPriority)
+//            print(settings.maxBarcodeCount)
+//            print(settings.maxDimOfFullImageAsBarcodeZone)
+//            print(settings.regionPredetection)
+//            print(settings.scaleDownThreshold)
+//            print(settings.textFilter)
+//            print(settings.textureDetectionSensitivity)
+//            print(settings.timeout)
         }
         catch{
             print(error);
         }
     }
-    
 }
