@@ -38,34 +38,45 @@ class ViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let btn = sender as! UIButton
-        var settings: PublicSettings?  = nil
-        switch btn.tag {
-        case 1:
+        
+        if segue.identifier == "showHistory"{
             
-            let temp = NSKeyedUnarchiver.unarchiveObject(withFile: RuntimeSettingsModel.ArchiveURL.path)as? RuntimeSettingsModel
-            if (temp) == nil {
-                settings = RuntimeSettingsModel.GetGeneralScanSettings()
-            }
-            RuntimeSettingsModel.settingScene = SettingScene.GeneralScan
-            break
-        case 2:
-            settings = RuntimeSettingsModel.GetMulBrcdsBestCoverageSettings()
-            RuntimeSettingsModel.settingScene = SettingScene.MulBrcdsBestCoverage
-            break
-        case 3:
-            settings = RuntimeSettingsModel.GetMulBrcdsBalanceModeSettings()
-            RuntimeSettingsModel.settingScene = SettingScene.MulBrcdsBalanceMode
-            break
-        default:
-            break
         }
-        if(settings != nil)
+        else
         {
-            RuntimeSettingsModel.runtimeSettings = settings
+            let btn = sender as! UIButton
+            var settings: PublicSettings?  = nil
+            switch btn.tag {
+            case 1:
+                
+                let temp = NSKeyedUnarchiver.unarchiveObject(withFile: RuntimeSettingsModel.ArchiveURL.path)as? RuntimeSettingsModel
+                if (temp) == nil {
+                    settings = RuntimeSettingsModel.GetGeneralScanSettings()
+                }
+                RuntimeSettingsModel.settingScene = SettingScene.GeneralScan
+                break
+            case 2:
+                settings = RuntimeSettingsModel.GetMulBrcdsBestCoverageSettings()
+                RuntimeSettingsModel.settingScene = SettingScene.MulBrcdsBestCoverage
+                break
+            case 3:
+                settings = RuntimeSettingsModel.GetMulBrcdsBalanceModeSettings()
+                RuntimeSettingsModel.settingScene = SettingScene.MulBrcdsBalanceMode
+                break
+            default:
+                break
+            }
+            if(settings != nil)
+            {
+                RuntimeSettingsModel.runtimeSettings = settings
+            }
+            BarcodeData.barcodeReader = BarcodeData.GetBarcodeReaderInstance()
+            BarcodeData.SetRuntimeSettings()
         }
-        BarcodeData.barcodeReader = BarcodeData.GetBarcodeReaderInstance()
-        BarcodeData.SetRuntimeSettings()
+        
+        
+        
+        
     }
     
     func setUI(){
