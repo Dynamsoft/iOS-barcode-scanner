@@ -256,11 +256,11 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
         if (indexPath.section == 0)
         {
             self.previewTextTield  = self.templateNameTextField
-            self.previewTextTield?.resignFirstResponder()
+//            self.previewTextTield?.resignFirstResponder()
         }
         else if (indexPath.section == 1)
         {
-            self.previewTextTield?.resignFirstResponder()
+//            self.previewTextTield?.resignFirstResponder()
             switch(indexPath.row)
             {
             case 0:
@@ -361,7 +361,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
                 }
                 else
                 {
-                    self.previewTextTield?.resignFirstResponder()
+//                    self.previewTextTield?.resignFirstResponder()
                 }
                 
                 
@@ -480,6 +480,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
         expBrcdCountField.tag = 0
         expBrcdCountField.text = String(self.runtimeSettings.expectedBarcodeCount)
         expBrcdCountField.keyboardType = .numberPad
+//        expBrcdCountField.returnKeyType = .done
         self.expectedBrcdCountTextField = expBrcdCountField
     }
     
@@ -564,7 +565,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
     {//9
         let tf = self.getTextField(cell: cell, rightMargin: -48)
         tf.tag = 9
-        tf.text = String(self.runtimeSettings.textureDetectionSensitivity)
+        tf.text = String(self.runtimeSettings.grayEqualizationSensitivity)
         tf.isEnabled = false
         self.grayEqualizationSensitivityCellTextField = tf
         addSelectDownImageView(cell: cell, rightMargin: -31)
@@ -787,110 +788,110 @@ extension RuntimeSettingsTableViewController
             }
             break
         case 0:
-            let temp = Int(currentString)!
-            if(temp > 2147483647 || temp < 0)
-            {
-                if(temp > 2147483647)
-                {
-                    textField.text = "2147483647"
-                    self.runtimeSettings.expectedBarcodeCount = 2147483647
-                }
-                alert(msg:"expectedBarcodeCount is in [0,2147483647]")
-                return false
-            }
-            else
-            {
-                self.runtimeSettings.expectedBarcodeCount = temp
-            }
+//            let temp = Int(currentString)!
+//            if(temp > 2147483647 || temp < 0)
+//            {
+//                if(temp > 2147483647)
+//                {
+//                    textField.text = "2147483647"
+//                    self.runtimeSettings.expectedBarcodeCount = 2147483647
+//                }
+//                alert(msg:"expectedBarcodeCount is in [0,2147483647]")
+//                return false
+//            }
+//            else
+//            {
+//                self.runtimeSettings.expectedBarcodeCount = temp
+//            }
             break
         case 1:
-            let temp = Int(currentString)!
-            if(temp > 2147483647 || temp < 0)
-            {
-                if(temp > 2147483647)
-                {
-                    textField.text = "2147483647"
-                    self.runtimeSettings.timeout = 2147483647
-                }
-                alert(msg:"timeout is in [0,2147483647]")
-                return false
-            }
-            self.runtimeSettings.timeout = temp
+//            let temp = Int(currentString)!
+//            if(temp > 2147483647 || temp < 0)
+//            {
+//                if(temp > 2147483647)
+//                {
+//                    textField.text = "2147483647"
+//                    self.runtimeSettings.timeout = 2147483647
+//                }
+//                alert(msg:"timeout is in [0,2147483647]")
+//                return false
+//            }
+//            self.runtimeSettings.timeout = temp
             break
         case 6:
-            let temp = Int(currentString)!
-            if(temp > 2147483647 || temp < 512)
-            {
-                if(temp < 512)
-                {
-                    textField.text = "512"
-                    self.runtimeSettings.scaleDownThreshold = 512
-                }
-                else
-                {
-                    textField.text = "2147483647"
-                    self.runtimeSettings.scaleDownThreshold = 2147483647
-                }
-
-                alert(msg:"scaleDownThreshold is in [512,2147483647]")
-                return false
-            }
-            self.runtimeSettings.scaleDownThreshold = temp
+//            let temp = Int(currentString)!
+//            if(temp > 2147483647 || temp < 512)
+//            {
+//                if(temp < 512)
+//                {
+//                    textField.text = "512"
+//                    self.runtimeSettings.scaleDownThreshold = 512
+//                }
+//                else
+//                {
+//                    textField.text = "2147483647"
+//                    self.runtimeSettings.scaleDownThreshold = 2147483647
+//                }
+//
+//                alert(msg:"scaleDownThreshold is in [512,2147483647]")
+//                return false
+//            }
+//            self.runtimeSettings.scaleDownThreshold = temp
             break
         case 11:
-            let temp = Int(currentString)!
-            if(temp > 1000 || temp < 0)
-            {
-                if(temp > 1000)
-                {
-                    textField.text = "1000"
-                    self.runtimeSettings.binarizationBlockSize = 1000
-                }
-                
-                alert(msg:"binarizationBlockSize is in [0,1000]")
-                return false
-            }
-            self.runtimeSettings.binarizationBlockSize = temp
+//            let temp = Int(currentString)!
+//            if(temp > 1000 || temp < 0)
+//            {
+//                if(temp > 1000)
+//                {
+//                    textField.text = "1000"
+//                    self.runtimeSettings.binarizationBlockSize = 1000
+//                }
+//
+//                alert(msg:"binarizationBlockSize is in [0,1000]")
+//                return false
+//            }
+//            self.runtimeSettings.binarizationBlockSize = temp
             break
         case 13:
-            let temp = Int(currentString)!
-            if(temp > 2147483647 || temp < 262144)
-            {
-                if(temp < 262144)
-                {
-                    textField.text = "262144"
-                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 262144
-                }
-                else
-                {
-                    textField.text = "2147483647"
-                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 2147483647
-                }
-                
-                alert(msg:"maxDimOfFullImageAsBarcodeZone is in [262144,2147483647]")
-                return false
-            }
-            self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = temp
+//            let temp = Int(currentString)!
+//            if(temp > 2147483647 || temp < 262144)
+//            {
+//                if(temp < 262144)
+//                {
+//                    textField.text = "262144"
+//                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 262144
+//                }
+//                else
+//                {
+//                    textField.text = "2147483647"
+//                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 2147483647
+//                }
+//
+//                alert(msg:"maxDimOfFullImageAsBarcodeZone is in [262144,2147483647]")
+//                return false
+//            }
+//            self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = temp
             break
         case 14:
-            let temp = Int(currentString)!
-            if(temp > 2147483647 || temp < 1)
-            {
-                if(temp < 1)
-                {
-                    textField.text = "1"
-                    self.runtimeSettings.maxBarcodeCount = 1
-                }
-                else
-                {
-                    textField.text = "2147483647"
-                    self.runtimeSettings.maxBarcodeCount = 2147483647
-                }
-                
-                alert(msg:"maxBarcodeCount is in [1,2147483647]")
-                return false
-            }
-            self.runtimeSettings.maxBarcodeCount = temp
+//            let temp = Int(currentString)!
+//            if(temp > 2147483647 || temp < 1)
+//            {
+//                if(temp < 1)
+//                {
+//                    textField.text = "1"
+//                    self.runtimeSettings.maxBarcodeCount = 1
+//                }
+//                else
+//                {
+//                    textField.text = "2147483647"
+//                    self.runtimeSettings.maxBarcodeCount = 2147483647
+//                }
+//
+//                alert(msg:"maxBarcodeCount is in [1,2147483647]")
+//                return false
+//            }
+//            self.runtimeSettings.maxBarcodeCount = temp
             break
         default:
             break
@@ -942,6 +943,173 @@ extension RuntimeSettingsTableViewController
     @objc func keyboardWillHide(_ notification: Notification) {
         view.frame.origin.y = 0
     }
+    
+    @objc func numberFieldCancle(){
+        
+        let textField = previewTextTield!
+        let currentString = textField.text ?? ""
+        switch textField.tag {
+        case 21:
+            self.runtimeSettings.name = currentString
+            self.previewTextTield?.resignFirstResponder()
+        case 0:
+            let temp = Int(currentString)!
+            if(temp > 2147483647 || temp < 0)
+            {
+                if(temp > 2147483647)
+                {
+                    textField.text = "2147483647"
+                    self.runtimeSettings.expectedBarcodeCount = 2147483647
+                }
+                alert(msg:"expectedBarcodeCount is in [0,2147483647]")
+                
+            }
+            else
+            {
+                self.runtimeSettings.expectedBarcodeCount = temp
+                self.previewTextTield?.resignFirstResponder()
+            }
+            break
+        case 1:
+            let temp = Int(currentString)!
+            if(temp > 2147483647 || temp < 0)
+            {
+                if(temp > 2147483647)
+                {
+                    textField.text = "2147483647"
+                    self.runtimeSettings.timeout = 2147483647
+                }
+                alert(msg:"timeout is in [0,2147483647]")
+            }
+            else
+            {
+                self.runtimeSettings.timeout = temp
+                self.previewTextTield?.resignFirstResponder()
+            }
+            break
+        case 6:
+            let temp = Int(currentString)!
+            if(temp > 2147483647 || temp < 512)
+            {
+                if(temp < 512)
+                {
+                    textField.text = "512"
+                    self.runtimeSettings.scaleDownThreshold = 512
+                }
+                else
+                {
+                    textField.text = "2147483647"
+                    self.runtimeSettings.scaleDownThreshold = 2147483647
+                }
+                alert(msg:"scaleDownThreshold is in [512,2147483647]")
+            }
+            else
+            {
+                self.runtimeSettings.scaleDownThreshold = temp
+                self.previewTextTield?.resignFirstResponder()
+            }
+            break
+        case 11:
+            let temp = Int(currentString)!
+            if(temp > 1000 || temp < 0)
+            {
+                if(temp > 1000)
+                {
+                    textField.text = "1000"
+                    self.runtimeSettings.binarizationBlockSize = 1000
+                }
+                alert(msg:"binarizationBlockSize is in [0,1000]")
+            }
+            else
+            {
+                self.runtimeSettings.binarizationBlockSize = temp
+                self.previewTextTield?.resignFirstResponder()
+            }
+            break
+        case 13:
+            let temp = Int(currentString)!
+            if(temp > 2147483647 || temp < 262144)
+            {
+                if(temp < 262144)
+                {
+                    textField.text = "262144"
+                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 262144
+                }
+                else
+                {
+                    textField.text = "2147483647"
+                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 2147483647
+                }
+                
+                alert(msg:"maxDimOfFullImageAsBarcodeZone is in [262144,2147483647]")
+                
+            }
+            else
+            {
+                self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = temp
+                self.previewTextTield?.resignFirstResponder()
+            }
+            break
+        case 14:
+            let temp = Int(currentString)!
+            if(temp > 2147483647 || temp < 1)
+            {
+                if(temp < 1)
+                {
+                    textField.text = "1"
+                    self.runtimeSettings.maxBarcodeCount = 1
+                }
+                else
+                {
+                    textField.text = "2147483647"
+                    self.runtimeSettings.maxBarcodeCount = 2147483647
+                }
+                
+                alert(msg:"maxBarcodeCount is in [1,2147483647]")
+            }
+            else
+            {
+                self.runtimeSettings.maxBarcodeCount = temp
+                self.previewTextTield?.resignFirstResponder()
+            }
+            break
+        default:
+            break
+        }
+    }
+    
+    func addToolbar() -> UIToolbar {
+        let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        let bar = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(numberFieldCancle))
+        toolBar.items = [space,bar]
+        return toolBar
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField.tag {
+            
+        case 0,1,6,11,13,14:
+            textField.inputAccessoryView = addToolbar()
+            break
+        default:
+            break
+        }
+    }
+    
+//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+//        switch textField.tag {
+//
+//        case 0,1,6,11,13,14:
+//            textField.inputAccessoryView = addToolbar()
+//            break
+//        default:
+//            break
+//        }
+//        return true
+//    }
     
 }
 
