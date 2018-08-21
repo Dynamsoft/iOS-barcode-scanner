@@ -91,6 +91,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         self.resultsTableView.frame = CGRect(x: 0, y: FullScreenSize.height - 70, width: FullScreenSize.width, height: 70)
         self.title = "Scan Barcode"
         self.tableViewIsPop = false
+        self.isFlashOn = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -131,6 +132,13 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         self.canDecodeBarcode = false
         
         super.viewWillDisappear(animated)
+        
+        if(isFlashOn)
+        {
+            isFlashOn = false
+            self.turnFlashOn(on: isFlashOn);
+        }
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -242,6 +250,10 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
             {
                 self.photoButton?.isHidden = false
             }
+            if(isFlashOn)
+            {
+                self.turnFlashOn(on: isFlashOn)
+            }
             maskView.isHidden = true;
         }
     }
@@ -256,6 +268,10 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
             self.resultsTableView!.isHidden = false
             maskView.backgroundColor = .clear
             maskView.isHidden = false;
+            if(isFlashOn)
+            {
+                self.turnFlashOn(on: isFlashOn)
+            }
         }
     }
     
