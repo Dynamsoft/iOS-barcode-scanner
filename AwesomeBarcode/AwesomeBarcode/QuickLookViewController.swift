@@ -70,21 +70,26 @@ class QuickLookViewController: UIViewController,UITableViewDataSource, UITableVi
         }
         self.view.addSubview(collectionView)
 
-        pageControl = UIPageControl()
-        pageControl.center = CGPoint(x: UIScreen.main.bounds.width/2,
-                                     y: self.cntntView.bounds.height - 20)
-        pageControl.isUserInteractionEnabled = false
-        pageControl.currentPage = index
-        self.cntntView.addSubview(self.pageControl)
-        collectionView.frame.size = CGSize(width: UIScreen.main.bounds.width, height: QuickLookViewController.cntntViewHeight)
-        collectionView.collectionViewLayout.invalidateLayout()
-        pageControl.numberOfPages = 0
         if(self.localBarcode != nil)
         {
             let indexPath = IndexPath(item: index, section: 0)
             collectionView.scrollToItem(at: indexPath, at: .left, animated: false)
+            
+        }
+        pageControl = UIPageControl()
+        pageControl.center = CGPoint(x: UIScreen.main.bounds.width/2,
+                                     y: self.cntntView.bounds.height - 20)
+        pageControl.isUserInteractionEnabled = false
+        pageControl.numberOfPages = 0
+        if(self.localBarcode != nil)
+        {
             pageControl.numberOfPages = (localBarcode?.count)!
         }
+        pageControl.currentPage = index
+        self.cntntView.addSubview(self.pageControl)
+        collectionView.frame.size = CGSize(width: UIScreen.main.bounds.width, height: QuickLookViewController.cntntViewHeight)
+        collectionView.collectionViewLayout.invalidateLayout()
+        
 
         self.navigationController?.navigationBar.backgroundColor = Common.whiteColor
         self.navigationController?.navigationBar.topItem?.title = "";
