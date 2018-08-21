@@ -112,7 +112,6 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
                 self.session.startRunning()
             }
         }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -135,9 +134,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        
-        
-        
+
         DispatchQueue.global(qos: .userInitiated).async {
             self.session.stopRunning()
         }
@@ -310,9 +307,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         if (aImage.imageOrientation == .up) {
             return aImage
         }
-        
         var transform = CGAffineTransform.identity
-        
         switch (aImage.imageOrientation) {
         case .down, .downMirrored:
             transform = transform.translatedBy(x: aImage.size.width, y: aImage.size.height)
@@ -342,28 +337,18 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         }
 
         let ctx = CGContext(data: nil, width: Int(aImage.size.width), height: Int(aImage.size.height),
-                            
                             bitsPerComponent: aImage.cgImage!.bitsPerComponent, bytesPerRow: 0,
-                            
                             space: aImage.cgImage!.colorSpace!,
-                            
                             bitmapInfo: aImage.cgImage!.bitmapInfo.rawValue)
-        
         ctx!.concatenate(transform)
-        
         switch (aImage.imageOrientation) {
-            
         case .left, .leftMirrored, .right, .rightMirrored:
-            
             ctx?.draw(aImage.cgImage!, in: CGRect(x: 0, y: 0, width: aImage.size.height, height: aImage.size.width))
             break
-            
         default:
-            
             ctx?.draw(aImage.cgImage!, in: CGRect(x: 0, y: 0, width: aImage.size.width, height: aImage.size.height))
             break
         }
-        
         let cgimg = ctx!.makeImage()
         return UIImage(cgImage: cgimg!)
     }
@@ -371,7 +356,6 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     func feedPic(img:UIImage,isFromImagePicker:Bool)
     {
         var originImage = img
-        
         if(isFromImagePicker)
         {
             originImage = fixOrientation(aImage: originImage)

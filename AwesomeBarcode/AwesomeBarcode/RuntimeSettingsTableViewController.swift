@@ -13,7 +13,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
     
     static let TextFieldColor = UIColor(red: 153.003/255.0, green: 153.003/255.0, blue: 153.003/255.0, alpha: 1)
     
-    let tableDataArr = [["Template Name:"], ["ONED", "PDF417", "QR_CODE", "DATAMATRIX","AZTEC"], ["Expected Barcodes Count:", "Timeout:", "DeblurLevel:", "Anti-Damage Level:", "Text Filter Mode:", "Region Predetection Mode:", "Scale Down Threshold:", "Colour Image Convert Mode:", "Barcode Invert Mode:", "Gray Equalization Sensitivity:", "Texture Detection Sensitivity:", "Binarization Block Size:", "Localization Algorithm Priority:", "Max Dim of Full Image As Barcode\nZone:", "Max Barcodes Count:", "Enable Fill Binary Vacancy:"]]
+    let tableDataArr = [["Template Name:"], ["ONED", "PDF417", "QR_CODE", "DATAMATRIX","AZTEC"], ["Expected Barcodes Count:", "Timeout:", "DeblurLevel:", "Anti-Damage Level:", "Text Filter Mode:", "Region Predetection Mode:", "Scale Down Threshold:", "Colour Image Convert Mode:", "Barcode Invert Mode:", "Gray Equalization Sensitivity:", "Texture Detection Sensitivity:", "Binarization Block Size:", "Localization Algorithm Priority:", "Max Dim of Full Image As\nBarcode Zone:", "Max Barcodes Count:", "Enable Fill Binary Vacancy:"]]
     
     let deblerLeverArr = ["0","1","2","3","4","5","6","7","8","9"]
     let antiDamageLeverArr = ["0","1","2","3","4","5","6","7","8","9"]
@@ -25,7 +25,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
     var pickView:UIPickerView?
     var colorImageConvert:ColourImageConvert!
     var barcdInvertMode:BarcodeInvert!
-//    var loclAlgorithmPriority:
+    //    var loclAlgorithmPriority:
     var OneDType = 0
     var templateNameTextField:UITextField!
     var barcodeFormat_pdf417:UIButton!
@@ -94,15 +94,15 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
         NotificationCenter.default.removeObserver(self)
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         var rowCount = 0
         switch section
@@ -119,7 +119,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
         }
         return rowCount
     }
-
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         var height:CGFloat = 0
         switch section
@@ -252,15 +252,109 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if(indexPath.section == 2)
+        {
+            var result = numberFieldCancle(textField: self.previewTextTield)
+            if(!result)
+            {
+                return
+            }
+        }
+
         self.selectIndexPath = indexPath
-        if (indexPath.section == 0)
+
+        if(indexPath.section == 2)
+        {
+            curDataArr = nil
+            switch(self.selectIndexPath?.row)
+            {
+            case 2:
+                curDataArr = deblerLeverArr
+                break;
+            case 3:
+                curDataArr = antiDamageLeverArr
+                break;
+            case 7:
+                curDataArr = colorImgCnvtModeArr
+                break;
+            case 8:
+                curDataArr = barcdIvrtModeArr
+                break;
+            case 9:
+                curDataArr = grayEqualizationSensityArr
+                break;
+            case 10:
+                curDataArr = txtureDtctionSensitivityArr
+                break;
+            default:
+                curDataArr = nil
+                break;
+            }
+            if(curDataArr != nil)
+            {
+                self.previewTextTield?.resignFirstResponder()
+                BRStringPickerView.showStringPicker(withTitle: tableDataArr[indexPath.section][indexPath.row], dataSource: curDataArr, defaultSelValue: curDataArr[0]) {
+                    (selectValue) in
+                    self.SetTextField(indexPath: indexPath,val:selectValue as! String)
+                }
+            }
+
+            if(indexPath.row == 12)
+            {
+                self.pushLocalizationPriority()
+            }
+            else
+            {
+                var textFieldIsSelected = false
+                switch(self.selectIndexPath?.row)
+                {
+                case 0:
+                    self.previewTextTield  = self.expectedBrcdCountTextField
+                    textFieldIsSelected = true
+                    break
+                case 1:
+                    self.previewTextTield  = self.timeoutTextFieldCellTextField
+                    textFieldIsSelected = true
+                    break
+                case 6:
+                    self.previewTextTield = self.scaleDownThresholdCellTextField
+                    textFieldIsSelected = true
+                    break;
+                case 11:
+                    self.previewTextTield = self.binatizationBlockSizeCellTextField
+                    textFieldIsSelected = true
+                    break;
+                case 13:
+                    self.previewTextTield = self.maxDimofFullImageAsBarcodeZoneCellTextField
+                    textFieldIsSelected = true
+                    break;
+                case 14:
+                    self.previewTextTield = self.maxBarcodeCountCellTextField
+                    textFieldIsSelected = true
+                    break;
+                default:
+                    textFieldIsSelected = false
+                }
+                
+                if(textFieldIsSelected)
+                {
+                    self.previewTextTield?.becomeFirstResponder()
+                }
+                else
+                {
+                    //                    self.previewTextTield?.resignFirstResponder()
+                }
+            }
+        }
+        else if (indexPath.section == 0)
         {
             self.previewTextTield  = self.templateNameTextField
-//            self.previewTextTield?.resignFirstResponder()
+            //            self.previewTextTield?.resignFirstResponder()
         }
         else if (indexPath.section == 1)
         {
-//            self.previewTextTield?.resignFirstResponder()
+            //            self.previewTextTield?.resignFirstResponder()
             switch(indexPath.row)
             {
             case 0:
@@ -316,89 +410,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
                 break
             }
         }
-        else if(indexPath.section == 2)
-        {
-            if(indexPath.row == 12)
-            {
-                self.pushLocalizationPriority()
-            }
-            else
-            {
-                var textFieldIsSelected = false
-                switch(self.selectIndexPath?.row)
-                {
-                case 0:
-                    self.previewTextTield  = self.expectedBrcdCountTextField
-                    textFieldIsSelected = true
-                    break
-                case 1:
-                    self.previewTextTield  = self.timeoutTextFieldCellTextField
-                    textFieldIsSelected = true
-                    break
-                case 6:
-                    self.previewTextTield = self.scaleDownThresholdCellTextField
-                    textFieldIsSelected = true
-                    break;
-                case 11:
-                    self.previewTextTield = self.binatizationBlockSizeCellTextField
-                    textFieldIsSelected = true
-                    break;
-                case 13:
-                    self.previewTextTield = self.maxDimofFullImageAsBarcodeZoneCellTextField
-                    textFieldIsSelected = true
-                    break;
-                case 14:
-                    self.previewTextTield = self.maxBarcodeCountCellTextField
-                    textFieldIsSelected = true
-                    break;
-                default:
-                    textFieldIsSelected = false
-                }
-                
-                if(textFieldIsSelected)
-                {
-                   self.previewTextTield?.becomeFirstResponder()
-                }
-                else
-                {
-//                    self.previewTextTield?.resignFirstResponder()
-                }
-                
-                
-                curDataArr = nil
-                switch(self.selectIndexPath?.row)
-                {
-                case 2:
-                    curDataArr = deblerLeverArr
-                    break;
-                case 3:
-                    curDataArr = antiDamageLeverArr
-                    break;
-                case 7:
-                    curDataArr = colorImgCnvtModeArr
-                    break;
-                case 8:
-                    curDataArr = barcdIvrtModeArr
-                    break;
-                case 9:
-                    curDataArr = grayEqualizationSensityArr
-                    break;
-                case 10:
-                    curDataArr = txtureDtctionSensitivityArr
-                    break;
-                default:
-                    curDataArr = nil
-                    break;
-                }
-                if(curDataArr != nil)
-                {
-                    BRStringPickerView.showStringPicker(withTitle: tableDataArr[indexPath.section][indexPath.row], dataSource: curDataArr, defaultSelValue: curDataArr[0]) {
-                        (selectValue) in
-                        self.SetTextField(indexPath: indexPath,val:selectValue as! String)
-                    }
-                }
-            }
-        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -409,10 +421,13 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
             NSKeyedArchiver.archiveRootObject(settingMode, toFile: RuntimeSettingsModel.ArchiveURL.path)
         }
         RuntimeSettingsModel.runtimeSettings = self.runtimeSettings
-        self.previewTextTield?.resignFirstResponder()
+        
+        self.numberFieldCancle(textField: self.previewTextTield)
+        
+//        self.previewTextTield?.resignFirstResponder()
         BarcodeData.barcodeReader = BarcodeData.GetBarcodeReaderInstance()
         BarcodeData.SetRuntimeSettings()
-
+        
         super.viewWillAppear(animated)
     }
     
@@ -428,7 +443,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "ShowOneDTypeView"{
-        let controller = segue.destination as! OneDBarcodeTypeTableViewController
+            let controller = segue.destination as! OneDBarcodeTypeTableViewController
             controller.mainView = self
             controller.runtimeSettings = sender as! PublicSettings
         }
@@ -443,6 +458,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
         let tmpNameTextField = self.getTextField(cell: cell, rightMargin: -21)
         tmpNameTextField.tag = 21
         tmpNameTextField.text = self.runtimeSettings.name
+        
         self.templateNameTextField = tmpNameTextField
     }
     
@@ -473,14 +489,14 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
         ckBox.isSelected = (self.runtimeSettings!.barcodeTypeID | BarcodeType.ZTEC.rawValue) == self.runtimeSettings!.barcodeTypeID
         self.barcodeFormat_aztec = ckBox
     }
-
+    
     func setupExpectedBarcodeCountCell(cell:UITableViewCell)
     {//0
         let expBrcdCountField = self.getTextField(cell: cell, rightMargin: -31)
         expBrcdCountField.tag = 0
         expBrcdCountField.text = String(self.runtimeSettings.expectedBarcodeCount)
         expBrcdCountField.keyboardType = .numberPad
-//        expBrcdCountField.returnKeyType = .done
+        //        expBrcdCountField.returnKeyType = .done
         self.expectedBrcdCountTextField = expBrcdCountField
     }
     
@@ -541,7 +557,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
         tf.keyboardType = .numberPad
         self.scaleDownThresholdCellTextField = tf
     }
-
+    
     func setupColourImageConvertModeCell(cell:UITableViewCell)
     {//7
         let tf = self.getTextField(cell: cell, rightMargin: -48)
@@ -551,7 +567,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
         self.colourImageConvertModeCellTextField = tf
         addSelectDownImageView(cell: cell, rightMargin: -31)
     }
-
+    
     func setupBarcodeInvertModeCell(cell:UITableViewCell)
     {//8
         let tf = self.getTextField(cell: cell, rightMargin: -48)
@@ -590,7 +606,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
     func setupLocaliztionAlgoriyhmPriorityCell(cell:UITableViewCell)
     {//12
         cell.accessoryType = .disclosureIndicator
-       
+        
     }
     func setupMaxDimofFullImageAsBarcodeZoneCell(cell:UITableViewCell)
     {//13
@@ -624,6 +640,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
     {
         let textField = UITextField()
         textField.backgroundColor = UIColor.clear
+        
         textField.textColor = RuntimeSettingsTableViewController.TextFieldColor
         textField.font = UIFont(name: "", size: 9)
         textField.textAlignment = .right
@@ -635,6 +652,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
             make.centerY.equalTo(cell.contentView)
             make.right.equalTo(rightMargin)
             make.height.equalTo(40)
+            make.width.equalTo(120)
         }
         return textField
     }
@@ -646,7 +664,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
         bx.frame = CGRect(x: 0, y: 0, width: 16, height: 11)
         let img = UIImage(named: "check")
         bx.setImage(img, for: .selected)
-
+        
         let shade = UIView()
         shade.backgroundColor = UIColor.clear
         shade.frame = CGRect(x: 0, y: 0, width: 16, height: 16)
@@ -705,7 +723,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
     func GetBarcodeInvertModeVal(str:String) -> BarcodeInvert {
         return str == "DarkOnLight" ? .darkOnLight : .lightOnDark
     }
- 
+    
     @objc func textFilterModeSwitchChangeVal()
     {
         self.runtimeSettings.textFilter = self.textFilterModeCellSwitch.isOn ? .enable : .disable
@@ -720,7 +738,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
     {
         self.runtimeSettings?.enableFillBinaryVacancy = self.enableFillBinaryVacancySwitch.isOn ? 1 : 0
     }
-
+    
     func SetTextField(indexPath:IndexPath,val:String)
     {
         if(indexPath.section == 2)
@@ -760,7 +778,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
 extension RuntimeSettingsTableViewController
 {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-
+        
         let currentText = textField.text ?? ""
         var currentString = (currentText as NSString).replacingCharacters(in: range, with: string)
         
@@ -779,131 +797,29 @@ extension RuntimeSettingsTableViewController
                 break
             }
         }
-        switch textField.tag {
-        case 21:
+        
+        var maxLength = 20
+        if(textField.tag == 21)
+        {
             self.runtimeSettings.name = currentString
-            let maxLength = 20
-            if(currentString.count > maxLength){
-                return false
-            }
-            break
-        case 0:
-//            let temp = Int(currentString)!
-//            if(temp > 2147483647 || temp < 0)
-//            {
-//                if(temp > 2147483647)
-//                {
-//                    textField.text = "2147483647"
-//                    self.runtimeSettings.expectedBarcodeCount = 2147483647
-//                }
-//                alert(msg:"expectedBarcodeCount is in [0,2147483647]")
-//                return false
-//            }
-//            else
-//            {
-//                self.runtimeSettings.expectedBarcodeCount = temp
-//            }
-            break
-        case 1:
-//            let temp = Int(currentString)!
-//            if(temp > 2147483647 || temp < 0)
-//            {
-//                if(temp > 2147483647)
-//                {
-//                    textField.text = "2147483647"
-//                    self.runtimeSettings.timeout = 2147483647
-//                }
-//                alert(msg:"timeout is in [0,2147483647]")
-//                return false
-//            }
-//            self.runtimeSettings.timeout = temp
-            break
-        case 6:
-//            let temp = Int(currentString)!
-//            if(temp > 2147483647 || temp < 512)
-//            {
-//                if(temp < 512)
-//                {
-//                    textField.text = "512"
-//                    self.runtimeSettings.scaleDownThreshold = 512
-//                }
-//                else
-//                {
-//                    textField.text = "2147483647"
-//                    self.runtimeSettings.scaleDownThreshold = 2147483647
-//                }
-//
-//                alert(msg:"scaleDownThreshold is in [512,2147483647]")
-//                return false
-//            }
-//            self.runtimeSettings.scaleDownThreshold = temp
-            break
-        case 11:
-//            let temp = Int(currentString)!
-//            if(temp > 1000 || temp < 0)
-//            {
-//                if(temp > 1000)
-//                {
-//                    textField.text = "1000"
-//                    self.runtimeSettings.binarizationBlockSize = 1000
-//                }
-//
-//                alert(msg:"binarizationBlockSize is in [0,1000]")
-//                return false
-//            }
-//            self.runtimeSettings.binarizationBlockSize = temp
-            break
-        case 13:
-//            let temp = Int(currentString)!
-//            if(temp > 2147483647 || temp < 262144)
-//            {
-//                if(temp < 262144)
-//                {
-//                    textField.text = "262144"
-//                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 262144
-//                }
-//                else
-//                {
-//                    textField.text = "2147483647"
-//                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 2147483647
-//                }
-//
-//                alert(msg:"maxDimOfFullImageAsBarcodeZone is in [262144,2147483647]")
-//                return false
-//            }
-//            self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = temp
-            break
-        case 14:
-//            let temp = Int(currentString)!
-//            if(temp > 2147483647 || temp < 1)
-//            {
-//                if(temp < 1)
-//                {
-//                    textField.text = "1"
-//                    self.runtimeSettings.maxBarcodeCount = 1
-//                }
-//                else
-//                {
-//                    textField.text = "2147483647"
-//                    self.runtimeSettings.maxBarcodeCount = 2147483647
-//                }
-//
-//                alert(msg:"maxBarcodeCount is in [1,2147483647]")
-//                return false
-//            }
-//            self.runtimeSettings.maxBarcodeCount = temp
-            break
-        default:
-            break
+        }
+        else
+        {
+            maxLength = 12
+        }
+        
+       
+        if(currentString.count > maxLength){
+            return false
         }
         return true
     }
-
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         self.previewTextTield = textField
         return  true
     }
-
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -914,7 +830,7 @@ extension RuntimeSettingsTableViewController
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
-
+        
         let info = notification.userInfo!
         let keyboardFrame = (info[UIKeyboardFrameEndUserInfoKey]! as AnyObject).cgRectValue
         let responderTextField = self.previewTextTield!
@@ -944,11 +860,34 @@ extension RuntimeSettingsTableViewController
         view.frame.origin.y = 0
     }
     
-    @objc func numberFieldCancle(){
+    @objc func numberFldCancle(){
+        numberFieldCancle(textField:self.previewTextTield)
+    }
+    
+    @objc func numberFieldCancle(textField:UITextField?)->Bool{
         
-        let textField = previewTextTield!
-        let currentString = textField.text ?? ""
-        switch textField.tag {
+        if(textField == nil)
+        {
+            return true
+        }
+
+        var currentString = textField!.text ?? ""
+        if(currentString == "")
+        {
+            switch textField!.tag {
+            case 21:
+                break
+            case 14:
+                textField!.text = "1"
+                currentString = "1"
+                break
+            default:
+                textField!.text = "0"
+                currentString = "0"
+                break
+            }
+        }
+        switch textField!.tag {
         case 21:
             self.runtimeSettings.name = currentString
             self.previewTextTield?.resignFirstResponder()
@@ -956,13 +895,9 @@ extension RuntimeSettingsTableViewController
             let temp = Int(currentString)!
             if(temp > 2147483647 || temp < 0)
             {
-                if(temp > 2147483647)
-                {
-                    textField.text = "2147483647"
-                    self.runtimeSettings.expectedBarcodeCount = 2147483647
-                }
+                textField!.text = String(self.runtimeSettings.expectedBarcodeCount)
                 alert(msg:"expectedBarcodeCount is in [0,2147483647]")
-                
+                return false
             }
             else
             {
@@ -974,12 +909,9 @@ extension RuntimeSettingsTableViewController
             let temp = Int(currentString)!
             if(temp > 2147483647 || temp < 0)
             {
-                if(temp > 2147483647)
-                {
-                    textField.text = "2147483647"
-                    self.runtimeSettings.timeout = 2147483647
-                }
+                textField!.text = String(self.runtimeSettings.timeout)
                 alert(msg:"timeout is in [0,2147483647]")
+                return false
             }
             else
             {
@@ -991,17 +923,9 @@ extension RuntimeSettingsTableViewController
             let temp = Int(currentString)!
             if(temp > 2147483647 || temp < 512)
             {
-                if(temp < 512)
-                {
-                    textField.text = "512"
-                    self.runtimeSettings.scaleDownThreshold = 512
-                }
-                else
-                {
-                    textField.text = "2147483647"
-                    self.runtimeSettings.scaleDownThreshold = 2147483647
-                }
+                textField!.text = String(self.runtimeSettings.scaleDownThreshold)
                 alert(msg:"scaleDownThreshold is in [512,2147483647]")
+                return false
             }
             else
             {
@@ -1013,12 +937,9 @@ extension RuntimeSettingsTableViewController
             let temp = Int(currentString)!
             if(temp > 1000 || temp < 0)
             {
-                if(temp > 1000)
-                {
-                    textField.text = "1000"
-                    self.runtimeSettings.binarizationBlockSize = 1000
-                }
+                textField!.text = String(self.runtimeSettings.binarizationBlockSize)
                 alert(msg:"binarizationBlockSize is in [0,1000]")
+                return false
             }
             else
             {
@@ -1030,19 +951,9 @@ extension RuntimeSettingsTableViewController
             let temp = Int(currentString)!
             if(temp > 2147483647 || temp < 262144)
             {
-                if(temp < 262144)
-                {
-                    textField.text = "262144"
-                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 262144
-                }
-                else
-                {
-                    textField.text = "2147483647"
-                    self.runtimeSettings.maxDimOfFullImageAsBarcodeZone = 2147483647
-                }
-                
+                textField!.text = String(self.runtimeSettings.maxDimOfFullImageAsBarcodeZone)
                 alert(msg:"maxDimOfFullImageAsBarcodeZone is in [262144,2147483647]")
-                
+                return false
             }
             else
             {
@@ -1054,18 +965,9 @@ extension RuntimeSettingsTableViewController
             let temp = Int(currentString)!
             if(temp > 2147483647 || temp < 1)
             {
-                if(temp < 1)
-                {
-                    textField.text = "1"
-                    self.runtimeSettings.maxBarcodeCount = 1
-                }
-                else
-                {
-                    textField.text = "2147483647"
-                    self.runtimeSettings.maxBarcodeCount = 2147483647
-                }
-                
+                textField!.text = String(self.runtimeSettings.maxBarcodeCount)
                 alert(msg:"maxBarcodeCount is in [1,2147483647]")
+                return false
             }
             else
             {
@@ -1076,21 +978,20 @@ extension RuntimeSettingsTableViewController
         default:
             break
         }
+        return true
     }
     
     func addToolbar() -> UIToolbar {
         let toolBar = UIToolbar.init(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
-
+        toolBar.backgroundColor = UIColor.clear
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        
-        let bar = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(numberFieldCancle))
+        let bar = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(numberFldCancle))
         toolBar.items = [space,bar]
         return toolBar
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField.tag {
-            
         case 0,1,6,11,13,14:
             textField.inputAccessoryView = addToolbar()
             break
@@ -1099,17 +1000,9 @@ extension RuntimeSettingsTableViewController
         }
     }
     
-//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-//        switch textField.tag {
-//
-//        case 0,1,6,11,13,14:
-//            textField.inputAccessoryView = addToolbar()
-//            break
-//        default:
-//            break
-//        }
-//        return true
-//    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.numberFieldCancle(textField: textField)
+    }
     
 }
 
@@ -1180,3 +1073,4 @@ extension RuntimeSettingsTableViewController{
         }
     }
 }
+

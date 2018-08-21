@@ -29,6 +29,11 @@ class QuickLookViewController: UIViewController,UITableViewDataSource, UITableVi
             self.localBarcode = NSKeyedUnarchiver.unarchiveObject(withFile: BarcodeData.ArchiveURL.path) as? [BarcodeData]
             self.localBarcode = self.localBarcode?.reversed()
         }
+        if(localBarcode!.count == 1 && localBarcode![0].barcodeLocations.count == 0)
+        {
+            localBarcode = nil
+        }
+        
         self.cntntView = UIView()
         let statusRect = UIApplication.shared.statusBarFrame
         let navRect = self.navigationController!.navigationBar.frame;
@@ -65,17 +70,22 @@ class QuickLookViewController: UIViewController,UITableViewDataSource, UITableVi
         }
         self.view.addSubview(collectionView)
 
-        let indexPath = IndexPath(item: index, section: 0)
-        collectionView.scrollToItem(at: indexPath, at: .left, animated: false)
         pageControl = UIPageControl()
         pageControl.center = CGPoint(x: UIScreen.main.bounds.width/2,
                                      y: self.cntntView.bounds.height - 20)
-        pageControl.numberOfPages = (localBarcode?.count)!
         pageControl.isUserInteractionEnabled = false
         pageControl.currentPage = index
         self.cntntView.addSubview(self.pageControl)
         collectionView.frame.size = CGSize(width: UIScreen.main.bounds.width, height: QuickLookViewController.cntntViewHeight)
         collectionView.collectionViewLayout.invalidateLayout()
+        pageControl.numberOfPages = 0
+        if(self.localBarcode != nil)
+        {
+            let indexPath = IndexPath(item: index, section: 0)
+            collectionView.scrollToItem(at: indexPath, at: .left, animated: false)
+            pageControl.numberOfPages = (localBarcode?.count)!
+        }
+
         self.navigationController?.navigationBar.backgroundColor = Common.whiteColor
         self.navigationController?.navigationBar.topItem?.title = "";
         
@@ -105,8 +115,10 @@ class QuickLookViewController: UIViewController,UITableViewDataSource, UITableVi
         super.viewWillLayoutSubviews()
 
         let indexPath2 = IndexPath(item: self.pageControl.currentPage, section: 0)
-        collectionView.scrollToItem(at: indexPath2, at: .left, animated: false)
-        
+        if(self.localBarcode != nil)
+        {
+            collectionView.scrollToItem(at: indexPath2, at: .left, animated: false)
+        }
         pageControl.center = CGPoint(x: UIScreen.main.bounds.width/2,
                                      y:QuickLookViewController.cntntViewHeight + nvgHeight  - 20)
     }
@@ -174,7 +186,13 @@ extension QuickLookViewController:UICollectionViewDelegate, UICollectionViewData
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return (localBarcode?.count)!
+        var result = 0
+        if(localBarcode != nil)
+        {
+            result = localBarcode!.count
+        }
+        
+        return result
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -248,9 +266,9 @@ extension QuickLookViewController {
         var count = 0
         if(self.localBarcode != nil)
         {
-            count = self.localBarcode![index].barcodeTexts.count
+            count = self.localBarcode![index].barcodeLocations.count
         }
-        labelQty.text = "QTY:\(String(describing: count))"
+        labelQty.text = "QTY:\(String(count))"
         view.addSubview(labelQty)
         
         return view
