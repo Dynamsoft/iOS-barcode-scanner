@@ -381,7 +381,8 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
             do
             {
                 self.startRecognitionDate = NSDate()
-                let results = try BarcodeData.barcodeReader.decode(originImage, withTemplate: "")
+                let tempResults = try BarcodeData.barcodeReader.decode(originImage, withTemplate: "")
+                let results = self.filterLowConfidenceFrame(results: tempResults)
                 let timeInterval = Int(self.startRecognitionDate!.timeIntervalSinceNow * -1000)
                 var barcodeBata:BarcodeData!
                 let image:UIImage!
@@ -585,8 +586,7 @@ extension CaptureViewController {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard canDecodeBarcode else { return }
         if(!self.isGettingVideo){ return }
-        
-        
+
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         CVPixelBufferLockBaseAddress(imageBuffer, .readOnly)
         let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)
@@ -606,8 +606,8 @@ extension CaptureViewController {
         
         do
         {
-            guard let results =  try? BarcodeData.barcodeReader.decodeBuffer(buffer, withWidth: width, height: height, stride: bpr, format: .ARGB_8888, templateName:"") else { return }
-            
+            guard let tempResults =  try? BarcodeData.barcodeReader.decodeBuffer(buffer, withWidth: width, height: height, stride: bpr, format: .ARGB_8888, templateName:"") else { return }
+            let results = filterLowConfidenceFrame(results: tempResults)
             let timeInterval = Int(self.startRecognitionDate!.timeIntervalSinceNow * -1000)
             //        if(timeInterval > 1)
             //        {
@@ -758,6 +758,15 @@ extension CaptureViewController {
         }catch{
             print(error)
         }
+        
+        if(canDecodeBarcode == false)
+        {
+            self.maskView.maskPoints.removeAll()
+            DispatchQueue.main.async {
+                self.maskView.setNeedsDisplay()
+            }
+        }
+        
     }
     
     func GetBarcodeDataByMutableArr(m:NSMutableArray,time:Int) -> BarcodeData
@@ -789,7 +798,7 @@ extension CaptureViewController {
     {
         for item in tempResults
         {
-            if(item.barcodeText != nil && !self.resultArr.contains(item.barcodeText!) && item.localizationResult!.extendedResults![0].confidence > 50)
+            if(item.barcodeText != nil && !self.resultArr.contains(item.barcodeText!) && item.localizationResult!.extendedResults![0].confidence > 30)
             {
                 self.resultArr.append(item.barcodeText!)
             }
@@ -925,6 +934,19 @@ extension CaptureViewController {
         let willRemove = localBarcode.remove(at: index)
         NSKeyedArchiver.archiveRootObject(localBarcode, toFile: BarcodeData.ArchiveURL.path)
     }
+    
+    func filterLowConfidenceFrame(results:[TextResult]) -> [TextResult]{
+        var textResults = [TextResult]()
+        for item in results
+        {
+            if(item.barcodeText != nil && item.localizationResult!.extendedResults![0].confidence > 30)
+            {
+                textResults.append(item)
+            }
+        }
+        return textResults
+    }
+    
 }
 
 extension CaptureViewController {
@@ -952,17 +974,36 @@ extension CaptureViewController {
         
     }
     
+    @objc func dismiss(alert:UIAlertController) {
+        alert.dismiss(animated: true, completion: nil)
+    }
+    
+     func alertScanningIsStop()
+    {
+        let alert = UIAlertController(title: nil, message: "Scanning is stopped!", preferredStyle: .alert)
+ 
+        self.present(alert, animated: true, completion: nil)
+        self.perform(#selector(dismiss(alert:)), with: alert, afterDelay: 0.2)
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
         let offsetY = scrollView.contentOffset.y + scrollView.contentInset.top
         if(offsetY > 20 && !self.tableViewIsPop)
         {
+            self.tableViewIsPop = true
+            self.canDecodeBarcode = false
+            self.alertScanningIsStop()
+            self.maskView.maskPoints.removeAll()
+            DispatchQueue.main.async {
+                self.maskView.setNeedsDisplay()
+//                self.resultsTableView.reloadData()
+            }
+            
             UIView.animate(withDuration: 0.2) {
                 self.resultsTableView.frame.origin.y = FullScreenSize.height / 2
                 self.resultsTableView.frame.size.height = FullScreenSize.height - self.resultsTableView.frame.origin.y
             }
-            self.tableViewIsPop = true
-            self.canDecodeBarcode = false
         }
         else if(offsetY < -40 && self.tableViewIsPop)
         {
@@ -972,6 +1013,7 @@ extension CaptureViewController {
             }
             self.tableViewIsPop = false
             self.canDecodeBarcode = true
+            
         }
     }
 }
