@@ -13,7 +13,7 @@ class QuickLookViewController: UIViewController,UITableViewDataSource, UITableVi
     var collectionView:UICollectionView!
     var collectionViewLayout: UICollectionViewFlowLayout!
     var pageControl : UIPageControl!
-    static var cntntViewHeight:CGFloat = 361.0
+    static var cntntViewHeight:CGFloat = 347.0
     var nvgHeight:CGFloat!
     var cntntView: UIView!
     var resultTableView:UITableView!
@@ -238,7 +238,7 @@ extension QuickLookViewController {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 75
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
