@@ -594,16 +594,12 @@ extension CaptureViewController {
         let width = CVPixelBufferGetWidth(imageBuffer)
         let height = CVPixelBufferGetHeight(imageBuffer)
         let bpr = CVPixelBufferGetBytesPerRow(imageBuffer)
-        
 //        var src = vImage_Buffer(data: baseAddress!, height: vImagePixelCount(height), width: vImagePixelCount(width), rowBytes: bpr)
 //        let map: [UInt8] = [3, 2, 1, 0]
 //        vImagePermuteChannels_ARGB8888(&src, &src, map, vImage_Flags(kvImageNoFlags))
         CVPixelBufferUnlockBaseAddress(imageBuffer, .readOnly)
-        
         let buffer = Data(bytes: baseAddress!, count: bufferSize)
-
         self.startRecognitionDate = NSDate();
-        
         do
         {
             guard let tempResults =  try? BarcodeData.barcodeReader.decodeBuffer(buffer, withWidth: width, height: height, stride: bpr, format: .ARGB_8888, templateName:"") else { return }
@@ -645,8 +641,7 @@ extension CaptureViewController {
                         self.tempResults![i].barcodeText = ""
                     }
                 }
-                let barcodeData = BarcodeData(path: imagePath, type: self.tempResults!.map({$0.barcodeFormat.description}), text: self.tempResults!.map({$0.barcodeText!}), locations: self.tempResults!.map({$0.localizationResult?.resultPoints}) as! [[CGPoint]],
-                                              date:Date(),time:String(timeInterval)
+                let barcodeData = BarcodeData(path: imagePath, type: self.tempResults!.map({$0.barcodeFormat.description}), text: self.tempResults!.map({$0.barcodeText!}), locations: self.tempResults!.map({$0.localizationResult?.resultPoints}) as! [[CGPoint]],date:Date(),time:String(timeInterval)
                 )
 
                 let curImg = uiImageFromSamplebuffer(sampleBuffer)!
@@ -657,79 +652,88 @@ extension CaptureViewController {
                     var mapResults:BarcodeData
                     let firstLocalBarcode:BarcodeData = localBarcode.last!
                     let secondLocalBarcode:BarcodeData = barcodeData
-                    var result = 1
-                    let paras = ParametersOfCoordsMapFunction()
-                    paras!.domainOfImg1 = CGPoint(x:preFrameImg!.size.height,y:preFrameImg!.size.width)
-                    paras!.domainOfImg2 = CGPoint(x:curImg.size.height,y:curImg.size.width)
-                    paras!.barcodeRecogResultOfImg1 = SetBarcodeRecogResultOfImg(localBarcode: firstLocalBarcode)
-                    paras!.barcodeRecogResultOfImg2 = SetBarcodeRecogResultOfImg(localBarcode: secondLocalBarcode)
-                    //                var text_1 = secondLocalBarcode
-                    //                var text_2 = firstLocalBarcode
-                    //                if(firstLocalBarcode.barcodeTexts.count < secondLocalBarcode.barcodeTexts.count)
-                    //                {
-                    //                    text_1 = firstLocalBarcode
-                    //                    text_2 = secondLocalBarcode
-                    //                }
-                    //                var isContained = true
-                    //                if(text_1.barcodeTexts.count > 0)
-                    //                {
-                    //                    for i in 0...(text_1.barcodeTexts.count - 1)
-                    //                    {
-                    //                        var k = 0
-                    //                        for j in 0...(text_2.barcodeTexts.count - 1)
-                    //                        {
-                    //                            k = k + 1
-                    //                            if(text_1.barcodeTexts[i] == text_2.barcodeTexts[j])
-                    //                            {
-                    //                                break
-                    //                            }
-                    //                        }
-                    //                        if(k == text_2.barcodeTexts.count)
-                    //                        {
-                    //                            isContained = false
-                    //                            break
-                    //                        }
-                    //                    }
-                    //                }
-                    
-                    let m = NSMutableArray()
-                    var isAllCodeMapped = false
-                    result = Int(paras!.coordinationMap(m, isAllCodeMapped: &isAllCodeMapped))
-                    mapResults = GetBarcodeDataByMutableArr(m: m,time:timeInterval)
-                    
-                    switch result {
-                    case -1:
-                        firstImgNeedSave = true
-                        secondImgNeedSave = false
-                        break
-                    case 0  :
+
+                    if(isRepeated(localBarcode:firstLocalBarcode) || isRepeated(localBarcode:secondLocalBarcode))
+                    {
                         firstImgNeedSave = true
                         secondImgNeedSave = true
-                        break
-                    case 1 :
-                        firstImgNeedSave = true
-                        if(isAllCodeMapped)
-                        {
-                            MapResultsToTar(tarLocalBarcode: firstLocalBarcode, mapFromLocalBarcode: secondLocalBarcode, mapResults: mapResults)
-                            secondImgNeedSave = false
-                        }
-                        else
-                        {
-                            secondImgNeedSave = true
-                        }
-                        break
-                    default :
-                        secondImgNeedSave = true
-                        if(isAllCodeMapped)
-                        {
-                            MapResultsToTar(tarLocalBarcode: secondLocalBarcode, mapFromLocalBarcode: firstLocalBarcode, mapResults: mapResults)
-                            firstImgNeedSave = false
-                        }
-                        else
-                        {
+                    }
+                    else
+                    {
+                        var result = 1
+                        let paras = ParametersOfCoordsMapFunction()
+                        paras!.domainOfImg1 = CGPoint(x:preFrameImg!.size.height,y:preFrameImg!.size.width)
+                        paras!.domainOfImg2 = CGPoint(x:curImg.size.height,y:curImg.size.width)
+                        paras!.barcodeRecogResultOfImg1 = SetBarcodeRecogResultOfImg(localBarcode: firstLocalBarcode)
+                        paras!.barcodeRecogResultOfImg2 = SetBarcodeRecogResultOfImg(localBarcode: secondLocalBarcode)
+                        //                var text_1 = secondLocalBarcode
+                        //                var text_2 = firstLocalBarcode
+                        //                if(firstLocalBarcode.barcodeTexts.count < secondLocalBarcode.barcodeTexts.count)
+                        //                {
+                        //                    text_1 = firstLocalBarcode
+                        //                    text_2 = secondLocalBarcode
+                        //                }
+                        //                var isContained = true
+                        //                if(text_1.barcodeTexts.count > 0)
+                        //                {
+                        //                    for i in 0...(text_1.barcodeTexts.count - 1)
+                        //                    {
+                        //                        var k = 0
+                        //                        for j in 0...(text_2.barcodeTexts.count - 1)
+                        //                        {
+                        //                            k = k + 1
+                        //                            if(text_1.barcodeTexts[i] == text_2.barcodeTexts[j])
+                        //                            {
+                        //                                break
+                        //                            }
+                        //                        }
+                        //                        if(k == text_2.barcodeTexts.count)
+                        //                        {
+                        //                            isContained = false
+                        //                            break
+                        //                        }
+                        //                    }
+                        //                }
+                        
+                        let m = NSMutableArray()
+                        var isAllCodeMapped = false
+                        result = Int(paras!.coordinationMap(m, isAllCodeMapped: &isAllCodeMapped))
+                        mapResults = GetBarcodeDataByMutableArr(m: m,time:timeInterval)
+                        
+                        switch result {
+                        case -1:
                             firstImgNeedSave = true
+                            secondImgNeedSave = false
+                            break
+                        case 0  :
+                            firstImgNeedSave = true
+                            secondImgNeedSave = true
+                            break
+                        case 1 :
+                            firstImgNeedSave = true
+                            if(isAllCodeMapped)
+                            {
+                                MapResultsToTar(tarLocalBarcode: firstLocalBarcode, mapFromLocalBarcode: secondLocalBarcode, mapResults: mapResults)
+                                secondImgNeedSave = false
+                            }
+                            else
+                            {
+                                secondImgNeedSave = true
+                            }
+                            break
+                        default :
+                            secondImgNeedSave = true
+                            if(isAllCodeMapped)
+                            {
+                                MapResultsToTar(tarLocalBarcode: secondLocalBarcode, mapFromLocalBarcode: firstLocalBarcode, mapResults: mapResults)
+                                firstImgNeedSave = false
+                            }
+                            else
+                            {
+                                firstImgNeedSave = true
+                            }
+                            break
                         }
-                        break
                     }
                 }
                 else
@@ -768,6 +772,23 @@ extension CaptureViewController {
         }
         
     }
+    
+    
+    func isRepeated(localBarcode:BarcodeData) -> Bool
+    {
+        var isFlag = false
+        for i in 0 ..< localBarcode.barcodeTexts.count {
+            for j in i ..< localBarcode.barcodeTexts.count {
+                if(localBarcode.barcodeTexts[i] == localBarcode.barcodeTexts[j])
+                {
+                    isFlag = true
+                    return isFlag
+                }
+            }
+        }
+        return isFlag
+    }
+    
     
     func GetBarcodeDataByMutableArr(m:NSMutableArray,time:Int) -> BarcodeData
     {
