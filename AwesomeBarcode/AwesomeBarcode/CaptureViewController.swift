@@ -533,7 +533,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         let y = CGFloat(10)
         
         popView =  YHPopMenu(frame: CGRect(x: x, y: y, width: w, height: h))
-        popView?.itemNameArray = ["Scanning","Capture","file"]
+        popView?.itemNameArray = ["Scanning","Capture","File"]
         popView?.iconNameArray = ["icon_scanning_selected","icon_camera_selected","icon_file_selected"]
         popView?.itemH     = itemH
         popView?.fontSize  = 12.0
