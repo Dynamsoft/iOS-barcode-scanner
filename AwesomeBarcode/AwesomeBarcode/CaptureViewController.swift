@@ -778,7 +778,7 @@ extension CaptureViewController {
     {
         var isFlag = false
         for i in 0 ..< localBarcode.barcodeTexts.count {
-            for j in i ..< localBarcode.barcodeTexts.count {
+            for j in (i + 1) ..< localBarcode.barcodeTexts.count {
                 if(localBarcode.barcodeTexts[i] == localBarcode.barcodeTexts[j])
                 {
                     isFlag = true
