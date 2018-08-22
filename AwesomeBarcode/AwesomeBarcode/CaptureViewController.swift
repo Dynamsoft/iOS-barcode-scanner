@@ -1022,6 +1022,7 @@ extension CaptureViewController {
             }
             
             UIView.animate(withDuration: 0.2) {
+                self.resultsTableView.frame.origin.y = FullScreenSize.height / 2
                 self.resultsTableView.frame.size.height = FullScreenSize.height - self.resultsTableView.frame.origin.y
             }
         }
