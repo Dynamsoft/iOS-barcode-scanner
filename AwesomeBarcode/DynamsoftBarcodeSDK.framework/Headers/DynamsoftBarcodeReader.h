@@ -5,7 +5,7 @@
  * @section Introduction
  * Dynamsoft's Barcode Reader SDK enables you to efficiently embed barcode reading functionality in your application using just a few lines of code. This can save you from months of added development time and extra costs. 
  * With the Barcode Reader SDK, you can decode barcodes from various image file formats (bmp, jpg, png, gif, tiff and pdf) as well as device-independent bitmap (DIB) which has just been obtained from cameras and scanners, etc.
- * The SDK has the multiple editions available include Windows, JavaScript, Moblie, Linux, Raspberry Pi and Mac. This document contains detailed API references for mobile edition (both iOS and Andriod).
+ * The SDK has the multiple editions available include Windows, JavaScript, Moblie, Linux, Raspberry Pi and Mac. This document contains detailed API references for iOS.
  *
  * @section mp1 Barcode Reading Features
  * - Reads barcodes within a specified area of a selected image.
@@ -15,7 +15,7 @@
  *
  * @section mp2 Supported Barcode Type
  * - 1D barcodes: Code39, Code93, Code128, Codabar, ITF, EAN13, EAN8, UPCA, UPCE, INDUSTRIAL 2 OF 5.
- * - 2D barcodes: QRCode, PDF417, DATAMATRIX.
+ * - 2D barcodes: QRCode, PDF417, DATAMATRIX, AZTEC.
  *
  * @section mp3 Barcode Reading Results
  * - Barcode angle
@@ -35,42 +35,21 @@
  * - Windows DIB and .NET bitmap
  * - Black/white, grayscale or color
  * 
- * @section mp5 Contents
- * @subsection sbs1 iOS APIs
+ * @section mp5 Contents - iOS
+ * @subsection sbs1 Enumerations
+ *		- [Barcode Type](@ref BarcodeType)
+ *		- [DBR Conflict Mode](@ref DBRConflictMode)
+ *		- [DBR Error Code](@ref DBRErrorCode)
+ *		- [Image Pixel Type](@ref ImagePixelType)
+ *		- [Result Text Type](@ref ResultTextType)
+ *		- [Terminate Status](@ref TerminateStatus)
  *
- *	- Enumerations
- *		-# BarcodeType
- *		-# DBRConflictMode
- *		-# DBRErrorCode
- *		-# ImagePixelType
- *		-# ResultTextType
- *		-# TerminateStage
- *
- *  - Class
- *		-# PublicSettings
- *		-# ExtendedResult
- *		-# LocalizationResult
- *		-# TextResult
- *		-# DynamsoftBarcodeReader
- *
- *
- * @subsection sbs2 Andriod APIs
- *	- 
- * 
- *	- 
- *		-# 
- *		-# 
- *		-# 
- *		-# 
- *		-# 
- *
- *	- 
- *		-# 
- *		-# 
- *		-# 
- *		-# 
- *		-# 
- *		-# 
+ * @subsection sbs2 Class
+ *		- [Public Settings](@ref PublicSettings)
+ *		- [Extended Result](@ref ExtendedResult)
+ *		- [Localization Result](@ref LocalizationResult)
+ *		- [Text Result](@ref TextResult)
+ *		- [Dynamsoft Barcode Reader](@ref DynamsoftBarcodeReader)
  *
  */
 
@@ -79,9 +58,7 @@
 
 static NSString* _Nonnull const DBRErrorDomain = @"com.dynamsoft.barcodereader.error";
 /**
- * @defgroup MobileDocumentation DBR 6.3 Mobile Edition -  API References
- * @{
- * @defgroup IOSAPI iOS API References
+ * @defgroup IOSAPI DBR 6.3.0 API Reference - iOS
  * @{
  */
 
@@ -93,6 +70,7 @@ static NSString* _Nonnull const DBRErrorDomain = @"com.dynamsoft.barcodereader.e
 
 /**
  * Describes the error codes. 
+ * @enum DBRErrorCode
  */
 typedef NS_ENUM(NSInteger, DBRErrorCode) {
     
@@ -208,7 +186,7 @@ typedef NS_ENUM(NSInteger, DBRErrorCode) {
 };
 
 /**
- * Describes the type of the barcode. All the formats can be combined.
+ * Describes the type of the barcode. All the formats can be combined, such as BF_CODE_39 | BF_CODE_128.
  */
 typedef NS_OPTIONS(NSInteger, BarcodeType) {
     BarcodeTypeCODE39     = 1 << 0,
@@ -250,7 +228,7 @@ typedef NS_OPTIONS(NSInteger, BarcodeType) {
     BarcodeTypeDATAMATRIX = 1 << 27,
 	/**< DataMatrix */
 
-    BarcodeTypeZTEC       = 1 << 28,
+    BarcodeTypeAZTEC       = 1 << 28,
 	/**< AZTEC */
 
     BarcodeTypeONED       = BarcodeTypeCODE39 | BarcodeTypeCODE128 |
@@ -262,7 +240,7 @@ typedef NS_OPTIONS(NSInteger, BarcodeType) {
 
     BarcodeTypeALL        = BarcodeTypeONED   | BarcodeTypePDF417  |
                             BarcodeTypeQRCODE | BarcodeTypeDATAMATRIX|
-                            BarcodeTypeZTEC,
+                            BarcodeTypeAZTEC,
 	/**< All supported formats */
 
 };
@@ -311,7 +289,7 @@ typedef NS_ENUM(NSInteger, ResultTextType) {
 
 };
 
-/** Describes the stage when the results are returned. */
+/** Describes the status when the results are returned. */
 typedef NS_ENUM(NSInteger, TerminateStatus) {
     TerminateStatusPrelocalized,
 	/**< Prelocalized */
@@ -323,7 +301,7 @@ typedef NS_ENUM(NSInteger, TerminateStatus) {
 	/**< Recognized */
 };
 
-/** Describes the options for setting parameters value. Detailed info can be found in PublicRuntimeSettings. */
+/** Describes the options for setting parameters value. Detailed info can be found in PublicSettings. */
 typedef NS_ENUM(NSInteger, DBRConflictMode) {
 	DBRECM_Ignore = 1,
 	/**< Ignore new settings and inherit from previous settings. */
@@ -355,7 +333,7 @@ typedef NS_ENUM(NSInteger, TextFilter) {
 };
 
 
-//** Values that represent region predetection modes */
+/** Values that represent region predetection modes */
 typedef NS_ENUM(NSInteger, RegionPredetection) {
     RegionPredetectionDisable = 1,
 	/**< Disable region pre-detection */
@@ -409,7 +387,7 @@ typedef NS_ENUM(NSInteger, ColourImageConvert) {
 
 /**@brief The name used for identifying the struct. */
 @property (nonatomic, nonnull) NSString * name;
-/**< It stores the name of the struct, which is mainly help users to distinguish different version rather than practical use in the library.BinarizationBlockSize
+/**< It stores the name of the struct, which is mainly help users to distinguish different version rather than practical use in the library.
  * @deprecated name
  */
 
@@ -533,9 +511,9 @@ typedef NS_ENUM(NSInteger, ColourImageConvert) {
 /**< Sets the maximum image dimension (in pixels) to localize barcode on the full image. If the image dimension is smaller than the given value, the library will localize barcode on the full image. Otherwise, "FullImageAsBarcodeZone" mode will not be enabled.
  * 
  * @par Value range:
- * 		[261244,0x7fffffff]
+ * 		[262144,0x7fffffff]
  * @par Default value:
- * 		261244
+ * 		262144
  * @sa localizationAlgorithmPriority
  * 
  */
@@ -694,7 +672,7 @@ typedef NS_ENUM(NSInteger, ColourImageConvert) {
 /**< The region name the barcode located in. */
 
 @property (nonatomic, nullable) NSString* documentName;
-/**< The region name the barcode located in. */
+/**< The document name. */
 
 @property (nonatomic, nullable) NSArray<ExtendedResult*>* extendedResults;
 /**< The extended result array */
@@ -918,7 +896,7 @@ typedef NS_ENUM(NSInteger, ColourImageConvert) {
  *
  * @sa DynamsoftBarcodeReader PublicSettings
  */
-- (void)initRuntimeSettingstWithString:(NSString* _Nonnull)content
+- (void)initRuntimeSettingsWithString:(NSString* _Nonnull)content
 						  conflictMode:(DBRConflictMode)conflictMode
 								 error:(NSError* _Nullable * _Nullable)error;
 
@@ -984,14 +962,14 @@ typedef NS_ENUM(NSInteger, ColourImageConvert) {
 /**
  * Ensure compatibility with earlier versions. It is functionally equivalent to appendTplStringToRuntimeSettings with conflict mode DBRECM_Overwrite as default.
  *
- * @deprecated appendParameterTemplateWithContent
+ * @deprecated appendParameterTemplate
  *
  * @param [in] content A JSON string that represents the content of the settings.
  * @param [in,out] error Input a pointer to an error object. If an error occurs, this pointer is set to an actual error object containing the error information. You may specify nil for this parameter if you do not want the error information.
  *
  * @sa appendTplStringToRuntimeSettings
  */
--(void)appendParameterTemplateWithContent:(NSString* _Nonnull)content
+-(void)appendParameterTemplate:(NSString* _Nonnull)content
 	                                error:(NSError* _Nullable * _Nullable)error;
 
 /**
@@ -1027,14 +1005,14 @@ typedef NS_ENUM(NSInteger, ColourImageConvert) {
 /**
  * Ensure compatibility with earlier versions. It is functionally equivalent to initRuntimeSettingsWithString with conflict mode DBRECM_Overwrite as default.
  *
- * @deprecated loadSettingsWithContent
+ * @deprecated loadSettings
  *
  * @param [in] content A JSON string that represents the content of the settings.
  * @param [in,out] error Input a pointer to an error object. If an error occurs, this pointer is set to an actual error object containing the error information. You may specify nil for this parameter if you do not want the error information.
  *
  * @sa initRuntimeSettingsWithString 
  */
--(void)loadSettingsWithContent:(NSString* _Nonnull)content
+-(void)loadSettings:(NSString* _Nonnull)content
 	                     error:(NSError* _Nullable * _Nullable)error;
 
 /**
@@ -1069,7 +1047,6 @@ typedef NS_ENUM(NSInteger, ColourImageConvert) {
 @end
 
 /**
- * @}
  * @}
  * @}
  */

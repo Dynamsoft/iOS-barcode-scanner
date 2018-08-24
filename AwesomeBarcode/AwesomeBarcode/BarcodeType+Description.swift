@@ -39,7 +39,7 @@ extension BarcodeType {
             return "PDF417"
         case BarcodeType.DATAMATRIX:
             return "DATAMATRIX"
-        case BarcodeType.ZTEC:
+        case BarcodeType.AZTEC:
             return "AZTEC"
         default:
             return "UNKNOWN"

@@ -397,13 +397,13 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
                     }
 
                     self.tempResults = Array.init(Set.init(results))
-                    barcodeBata = BarcodeData(path: self.imagePath, type: self.tempResults!.map({$0.barcodeFormat.description}), text: self.tempResults!.map({$0.barcodeText!}), locations: self.tempResults!.map({$0.localizationResult!.resultPoints}) as! [[CGPoint]], date:Date(),time:String(timeInterval),crdntNeedRotate:isFromImagePicker ? "false" : "true"
+                    barcodeBata = BarcodeData(path: self.imagePath, type: self.tempResults!.map({String($0.barcodeFormat.rawValue)}),typeDes: self.tempResults!.map({$0.barcodeFormat.description}),text: self.tempResults!.map({$0.barcodeText!}), locations: self.tempResults!.map({$0.localizationResult!.resultPoints}) as! [[CGPoint]], date:Date(),time:String(timeInterval),crdntNeedRotate:isFromImagePicker ? "false" : "true"
                     )
                 }
                 else
                 {
                     image = originImage
-                    barcodeBata = BarcodeData(path: self.imagePath, type: [""], text: ["no barcode found"], locations: [[CGPoint]](), date:Date(), time:String(timeInterval))
+                    barcodeBata = BarcodeData(path: self.imagePath, type: [""],typeDes:[""], text: ["no barcode found"], locations: [[CGPoint]](), date:Date(), time:String(timeInterval))
                 }
                 DispatchQueue.main.async {
                     let secondView = QuickLookViewController()
@@ -454,60 +454,108 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         }
     }
     
-    @IBAction func clickJiasaw(_ sender: UIButton) {
+    func printInfoOfParas(paras:ParametersOfStitchImagesFun)
+    {
+        //print img1
+        print("paras.bInfOfImg.width:\(paras.bInfOfImg.width)\n");
+        print("paras.bInfOfImg.height:\(paras.bInfOfImg.height)\n");
+        print("paras.bInfOfImg.stride:\(paras.bInfOfImg.stride)\n");
+        print("paras.bInfOfImg.format:\(paras.bInfOfImg.format)\n");
+        print("paras.domainOfImg.x:\(paras.domainOfImg.x) preParas.domainOfImg.y:\(paras.domainOfImg.y)\n");
+        print("paras.lengthThreshold:\(paras.lengthThreshold)\n");
         
-        //        if(self.jigsawStatus & 1 == 0)
-        //        {
-        //            self.startJigsaw.setTitle("endJigsaw", for: .normal)
-        //            if(localBarcode.count > 1)
-        //            {
-        //                for i in  1...(localBarcode.count - 1)
-        //                {
-        //                    let paras = ParametersOfCoordsMapFunction()!
-        //                    let preData = localBarcode[i - 1]
-        //                    let curData = localBarcode[i]
-        //                    SetParasInfo(data1: preData, data2: curData, paras: paras)
-        //                    let m = NSMutableArray()
-        //                    var byteSize:Int32 = 0
-        //                    var outputImage = UIImage()
-        //                    var w:Int32 = 0
-        //                    var h:Int32 = 0
-        //                    let result1 = paras.stitchImg(outputImage,byteSize:&byteSize,width:&w,height:&h,mapResult: m)
-        //                    var outputBuffer = Data()
-        //                    var width:Int32 = 0
-        //                    var height:Int32 = 0
-        //                    var byteSize2:Int32 = 0
-        //                    let result = paras.stitchImg(outputBuffer, byteSize: &byteSize2, w: &width, h: &height, mapResult: m)
-        //                    switch result {
-        //                    case 0:
-        //                        break
-        //                    case 1 :
-        //                        self.removeItemInArchiveResults(index: i - 1)
-        //                        break
-        //                    case 2 :
-        //                        self.removeItemInArchiveResults(index: i)
-        //                        break
-        //                    case 3:
-        //                        self.removeItemInArchiveResults(index: i - 1)
-        //                        self.removeItemInArchiveResults(index: i)
-        //                        let mapResults  = GetBarcodeDataByMutableArr(m: m)
-        //
-        ////                        let image = outputImage
-        //                        //                            self.archiveResults(UIImageJPEGRepresentation(image, 1.0)!, barcodeData: barcodeData)
-        //                        //
-        //                        break
-        //                    default:
-        //                        break
-        //                    }
-        //                    self.jigsawStatus = self.jigsawStatus + 1
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            self.startJigsaw.setTitle("startJigsaw", for: .normal)
-        //            self.jigsawStatus = self.jigsawStatus + 1
-        //        }
+        print("barcodeRecogResultOfImg:\n")
+        for i in  0...(paras.barcodeRecogResultOfImg.count - 1)
+        {
+            let result =  paras.barcodeRecogResultOfImg[i]
+            print("result.barcodeText:\(result.barcodeText)\n")
+            print("result.barcodeFormat:\(result.barcodeFormat)\n")
+            print("result.loc:",result.pts[0],result.pts[1],result.pts[2],result.pts[3],result.pts[4],result.pts[5],result.pts[6],result.pts[7])
+        }
+    }
+    
+    @IBAction func takeWholeView(_ sender: UIBarButtonItem) {
+        
+        if(self.jigsawStatus & 1 == 0)
+        {
+            if(localBarcode.count > 1)
+            {
+                for i in  1...(localBarcode.count - 1)
+                {
+                    let preParas = ParametersOfStitchImagesFun()
+                    let preData = localBarcode[i - 1]
+                    SetParasInfo(data: preData, paras: preParas)
+
+                    let curParas = ParametersOfStitchImagesFun()
+                    let curData = localBarcode[i]
+                    SetParasInfo(data: curData, paras: curParas)
+
+
+                    let inputParas = [preParas,curParas]
+                    let m = NSMutableArray()
+                    let stchImg = StitchImage()
+
+                    var img:UIImage? = UIImage()
+
+                    let preImg =  preParas.bInfOfImg.getUIImage()
+                    let curImg =  curParas.bInfOfImg.getUIImage()
+
+                    let preBff = preParas.bInfOfImg.imageBytes
+                    let curBff = curParas.bInfOfImg.imageBytes
+                    
+                    print("preParas:\n")
+                    self.printInfoOfParas(paras: preParas)
+                    print("curParas:\n")
+                    self.printInfoOfParas(paras: curParas)
+                    
+                    var resutl = stchImg!.stitchImg(inputParas, mapResult: m, resultImg: &img)
+
+                    var a = 0
+                    a = a + 1
+                    
+//                    let mapResults = GetBarcodeDataByMutableArr(m: m,time:0)
+                    
+                    
+//                    let m = NSMutableArray()
+//                    var byteSize:Int32 = 0
+//                    var outputImage = UIImage()
+//                    var w:Int32 = 0
+//                    var h:Int32 = 0
+//                    let result1 = paras.stitchImg(outputImage,byteSize:&byteSize,width:&w,height:&h,mapResult: m)
+//                    var outputBuffer = Data()
+//                    var width:Int32 = 0
+//                    var height:Int32 = 0
+//                    var byteSize2:Int32 = 0
+//                    let result = paras.stitchImg(outputBuffer, byteSize: &byteSize2, w: &width, h: &height, mapResult: m)
+//                    switch result {
+//                    case 0:
+//                        break
+//                    case 1 :
+//                        self.removeItemInArchiveResults(index: i - 1)
+//                        break
+//                    case 2 :
+//                        self.removeItemInArchiveResults(index: i)
+//                        break
+//                    case 3:
+//                        self.removeItemInArchiveResults(index: i - 1)
+//                        self.removeItemInArchiveResults(index: i)
+//                        let mapResults  = GetBarcodeDataByMutableArr(m: m)
+//
+//                        //                        let image = outputImage
+//                        //                            self.archiveResults(UIImageJPEGRepresentation(image, 1.0)!, barcodeData: barcodeData)
+//                        //
+//                        break
+//                    default:
+//                        break
+//                    }
+                    self.jigsawStatus = self.jigsawStatus + 1
+                }
+            }
+        }
+        else
+        {
+            self.jigsawStatus = self.jigsawStatus + 1
+        }
     }
     
     @IBAction func FlashBtnClick(_ sender: UIButton) {
@@ -641,7 +689,8 @@ extension CaptureViewController {
                         self.tempResults![i].barcodeText = ""
                     }
                 }
-                let barcodeData = BarcodeData(path: imagePath, type: self.tempResults!.map({$0.barcodeFormat.description}), text: self.tempResults!.map({$0.barcodeText!}), locations: self.tempResults!.map({$0.localizationResult?.resultPoints}) as! [[CGPoint]],date:Date(),time:String(timeInterval)
+
+                let barcodeData = BarcodeData(path: imagePath, type: self.tempResults!.map({String($0.barcodeFormat.rawValue)}),typeDes: self.tempResults!.map({$0.barcodeFormat.description}), text: self.tempResults!.map({$0.barcodeText!}), locations: self.tempResults!.map({$0.localizationResult?.resultPoints}) as! [[CGPoint]],date:Date(),time:String(timeInterval)
                 )
 
                 let curImg = uiImageFromSamplebuffer(sampleBuffer)!
@@ -664,8 +713,8 @@ extension CaptureViewController {
                         let paras = ParametersOfCoordsMapFunction()
                         paras!.domainOfImg1 = CGPoint(x:preFrameImg!.size.height,y:preFrameImg!.size.width)
                         paras!.domainOfImg2 = CGPoint(x:curImg.size.height,y:curImg.size.width)
-                        paras!.barcodeRecogResultOfImg1 = SetBarcodeRecogResultOfImg(localBarcode: firstLocalBarcode)
-                        paras!.barcodeRecogResultOfImg2 = SetBarcodeRecogResultOfImg(localBarcode: secondLocalBarcode)
+                        paras!.barcodeRecogResultOfImg1 = SetBarcodeRecogResultOfImg4CordMap(localBarcode: firstLocalBarcode)
+                        paras!.barcodeRecogResultOfImg2 = SetBarcodeRecogResultOfImg4CordMap(localBarcode: secondLocalBarcode)
                         //                var text_1 = secondLocalBarcode
                         //                var text_2 = firstLocalBarcode
                         //                if(firstLocalBarcode.barcodeTexts.count < secondLocalBarcode.barcodeTexts.count)
@@ -792,16 +841,18 @@ extension CaptureViewController {
     
     func GetBarcodeDataByMutableArr(m:NSMutableArray,time:Int) -> BarcodeData
     {
-        var tmapResults = m as! [BarcodeRecogResult]
+        var tmapResults = m as! [BarcodeRecogResultForCordsMap]
         let imagePath: URL = URL(string: "nil")!
         var barcodeTypes: [String] = [String]()
+        var barcodeTypeDes: [String] = [String]()
         var barcodeTexts: [String] = [String]()
         var barcodeLocations: [[CGPoint]] = [[CGPoint]]()
         if(tmapResults.count > 0)
         {
             for i in  0...(tmapResults.count - 1)
             {
-                barcodeTypes.append("")
+                barcodeTypeDes.append("")
+                barcodeTypes.append(String(tmapResults[i].barcodeFormat))
                 barcodeTexts.append(tmapResults[i].barcodeText)
                 var loc = [CGPoint]()
                 for j in 0...3
@@ -811,7 +862,7 @@ extension CaptureViewController {
                 barcodeLocations.append(loc)
             }
         }
-        let mapResults  = BarcodeData(path: imagePath, type: barcodeTypes, text: barcodeTexts, locations: barcodeLocations,date:Date(),time:String(time))
+        let mapResults  = BarcodeData(path: imagePath, type: barcodeTypes,typeDes: barcodeTypeDes, text: barcodeTexts, locations: barcodeLocations,date:Date(),time:String(time))
         return mapResults
     }
     
@@ -827,32 +878,45 @@ extension CaptureViewController {
         return self.resultArr.count
     }
     
-    func SetParasInfo(data1:BarcodeData,data2:BarcodeData,paras:ParametersOfCoordsMapFunction)
+    func SetParasInfo(data:BarcodeData,paras:ParametersOfStitchImagesFun)
     {
-        let preData = data1
-        let curData = data2
-        let preImg = UIImage(contentsOfFile: preData.imagePath.path)!
-        let curImg = UIImage(contentsOfFile: curData.imagePath.path)!
+        let img = UIImage(contentsOfFile: data.imagePath.path)!
+        paras.domainOfImg = CGPoint(x:img.size.height,y:img.size.width)
+        paras.barcodeRecogResultOfImg = SetBarcodeRecogResultOfImg4StitchImg(localBarcode: data)
+        paras.bInfOfImg = BuffInfOfImg(uiImage: img)
         
-        paras.bInfoImage1 = BuffInfOfImg(uiImage: preImg)
-        paras.bInfoImage2 = BuffInfOfImg(uiImage: curImg)
-        paras.domainOfImg1 = CGPoint(x:preImg.size.height,y:preImg.size.width)
-        paras.domainOfImg2 = CGPoint(x:curImg.size.height,y:curImg.size.width)
-        paras.barcodeRecogResultOfImg1 = SetBarcodeRecogResultOfImg(localBarcode: preData)
-        paras.barcodeRecogResultOfImg2 = SetBarcodeRecogResultOfImg(localBarcode: curData)
     }
-    
-    func SetBarcodeRecogResultOfImg(localBarcode:BarcodeData) -> [BarcodeRecogResult]
+
+    func SetBarcodeRecogResultOfImg4StitchImg(localBarcode:BarcodeData) -> [BarcodeRecogResult4StitchImg]
     {
-        var result = [BarcodeRecogResult]()
+        var result = [BarcodeRecogResult4StitchImg]()
         if(localBarcode.barcodeLocations.count > 0)
         {
             for i in  0...(localBarcode.barcodeLocations.count - 1)
             {
-                let recogResult = BarcodeRecogResult()
+                let recogResult = BarcodeRecogResult4StitchImg()
                 let loc = localBarcode.barcodeLocations[i]
                 recogResult.pts = [Int(loc[0].x),Int(loc[0].y),Int(loc[1].x),Int(loc[1].y),Int(loc[2].x),Int(loc[2].y),Int(loc[3].x),Int(loc[3].y)]
                 recogResult.barcodeText = localBarcode.barcodeTexts[i]
+                recogResult.barcodeFormat = Int32(localBarcode.barcodeTypes[i])!
+                result.append(recogResult)
+            }
+        }
+        return result
+    }
+    
+    func SetBarcodeRecogResultOfImg4CordMap(localBarcode:BarcodeData) -> [BarcodeRecogResultForCordsMap]
+    {
+        var result = [BarcodeRecogResultForCordsMap]()
+        if(localBarcode.barcodeLocations.count > 0)
+        {
+            for i in  0...(localBarcode.barcodeLocations.count - 1)
+            {
+                let recogResult = BarcodeRecogResultForCordsMap()
+                let loc = localBarcode.barcodeLocations[i]
+                recogResult.pts = [Int(loc[0].x),Int(loc[0].y),Int(loc[1].x),Int(loc[1].y),Int(loc[2].x),Int(loc[2].y),Int(loc[3].x),Int(loc[3].y)]
+                recogResult.barcodeText = localBarcode.barcodeTexts[i]
+                recogResult.barcodeFormat = Int32(localBarcode.barcodeTypes[i])!
                 result.append(recogResult)
             }
         }

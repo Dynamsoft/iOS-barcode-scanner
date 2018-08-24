@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E0152EB212FB29400B3D37E /* DynamsoftBarcodeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E0152EA212FB29400B3D37E /* DynamsoftBarcodeSDK.framework */; };
 		1E085731211451EC007E9A1E /* RuntimeSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E085730211451EC007E9A1E /* RuntimeSettingsModel.swift */; };
 		1E2114642117DC9B009C9942 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2114632117DC9B009C9942 /* Common.swift */; };
 		1E2114692117E1FA009C9942 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2114672117E1FA009C9942 /* HistoryTableViewCell.swift */; };
@@ -55,7 +56,6 @@
 		1E3BD299211D3C5A00E5C044 /* BRStringPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E3BD288211D3C5900E5C044 /* BRStringPickerView.m */; };
 		1E3BD29C211D3C5A00E5C044 /* BRBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E3BD291211D3C5900E5C044 /* BRBaseView.m */; };
 		1E45BC682108251600121BA8 /* RuntimeSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E45BC672108251600121BA8 /* RuntimeSettingsTableViewController.swift */; };
-		1E7B04AC2112A13E00DA0783 /* DynamsoftBarcodeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7B04AB2112A13E00DA0783 /* DynamsoftBarcodeSDK.framework */; };
 		1EB3F4C42101AB090054DE43 /* ImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB3F4C22101AB080054DE43 /* ImagePreviewCell.swift */; };
 		1EDEFAAE211832F900A9C783 /* histroyDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDEFAAC211832F900A9C783 /* histroyDetailTableViewCell.swift */; };
 		1EDEFAAF211832F900A9C783 /* histroyDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEFAAD211832F900A9C783 /* histroyDetailTableViewCell.xib */; };
@@ -89,6 +89,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1E0152EA212FB29400B3D37E /* DynamsoftBarcodeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DynamsoftBarcodeSDK.framework; sourceTree = "<group>"; };
 		1E085730211451EC007E9A1E /* RuntimeSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeSettingsModel.swift; sourceTree = "<group>"; };
 		1E2114632117DC9B009C9942 /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		1E2114672117E1FA009C9942 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -143,7 +144,6 @@
 		1E3BD291211D3C5900E5C044 /* BRBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRBaseView.m; sourceTree = "<group>"; };
 		1E3BD292211D3C5900E5C044 /* BRBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRBaseView.h; sourceTree = "<group>"; };
 		1E45BC672108251600121BA8 /* RuntimeSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeSettingsTableViewController.swift; sourceTree = "<group>"; };
-		1E7B04AB2112A13E00DA0783 /* DynamsoftBarcodeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DynamsoftBarcodeSDK.framework; sourceTree = "<group>"; };
 		1EB3F4C22101AB080054DE43 /* ImagePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePreviewCell.swift; sourceTree = "<group>"; };
 		1EDEFAAC211832F900A9C783 /* histroyDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = histroyDetailTableViewCell.swift; sourceTree = "<group>"; };
 		1EDEFAAD211832F900A9C783 /* histroyDetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = histroyDetailTableViewCell.xib; sourceTree = "<group>"; };
@@ -173,9 +173,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E7B04AC2112A13E00DA0783 /* DynamsoftBarcodeSDK.framework in Frameworks */,
 				68BA8BAC20E4BB0300A2737D /* libc++.1.tbd in Frameworks */,
 				AE629E973E65595AEE1F616D /* Pods_AwesomeBarcode.framework in Frameworks */,
+				1E0152EB212FB29400B3D37E /* DynamsoftBarcodeSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,7 +337,7 @@
 		68BA8BAA20E4BB0200A2737D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1E7B04AB2112A13E00DA0783 /* DynamsoftBarcodeSDK.framework */,
+				1E0152EA212FB29400B3D37E /* DynamsoftBarcodeSDK.framework */,
 				68BA8BAB20E4BB0300A2737D /* libc++.1.tbd */,
 				FF60B2972DBB63C5ABD6FC89 /* Pods_AwesomeBarcode.framework */,
 			);

@@ -190,6 +190,11 @@ Balanced mode</string>
                                     <segue destination="t5p-jm-KRh" kind="push" id="v9a-LB-dgh"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem title="Item" image="wholeView" id="OiH-cX-xEP">
+                                <connections>
+                                    <action selector="takeWholeView:" destination="CSq-uU-rmi" id="qga-gg-H0O"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
@@ -338,6 +343,7 @@ Balanced mode</string>
         <image name="icon_delete" width="22" height="23"/>
         <image name="icon_mode" width="17" height="20"/>
         <image name="icon_setting" width="20" height="20"/>
+        <image name="wholeView" width="22" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="PHH-ed-sYe"/>

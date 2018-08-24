@@ -11,6 +11,7 @@ import UIKit
 class BarcodeData: NSObject, NSCoding {
     let imagePath: URL
     var barcodeTypes: [String]
+    var barcodeTypesDes:[String]
     var barcodeTexts: [String]
     var barcodeLocations: [[CGPoint]]
     var decodeDate:Date
@@ -20,6 +21,7 @@ class BarcodeData: NSObject, NSCoding {
     struct PropertyKey {
         static let imagePath = "ImagePath"
         static let barcodeType = "BarcodeType"
+        static let barcodeTypeDes = "BarcodeTypeDes"
         static let barcodeText = "BarcodeText"
         static let barcodeLocations = "BarcodeLocations"
         static let decodeDate = "DecodeDate"
@@ -31,9 +33,10 @@ class BarcodeData: NSObject, NSCoding {
     static let ArchiveURL = documentDir.appendingPathComponent("barcode.data")
     static var barcodeReader:DynamsoftBarcodeReader = GetBarcodeReaderInstance()
 
-    init(path: URL, type: [String], text: [String], locations: [[CGPoint]],date:Date,time:String,crdntNeedRotate:String = "true") {
+    init(path: URL, type: [String],typeDes: [String], text: [String], locations: [[CGPoint]],date:Date,time:String,crdntNeedRotate:String = "true") {
         self.imagePath = path
         self.barcodeTypes = type
+        self.barcodeTypesDes = typeDes
         self.barcodeTexts = text
         self.barcodeLocations = locations
         self.decodeDate = date
@@ -44,6 +47,7 @@ class BarcodeData: NSObject, NSCoding {
     required convenience init?(coder aDecoder: NSCoder) {
         guard let _imagePath = aDecoder.decodeObject(forKey: PropertyKey.imagePath) as? URL else { return nil }
         guard let _barcodeTypes = aDecoder.decodeObject(forKey: PropertyKey.barcodeType) as? [String] else { return nil }
+        guard let _barcodeTypesDes = aDecoder.decodeObject(forKey: PropertyKey.barcodeTypeDes) as? [String] else { return nil }
         guard let _barcodeTexts = aDecoder.decodeObject(forKey: PropertyKey.barcodeText) as? [String] else { return nil }
         guard let _barcodeLocations = aDecoder.decodeObject(forKey: PropertyKey.barcodeLocations) as? [[CGPoint]] else { return nil }
         guard let _decodeDate = aDecoder.decodeObject(forKey: PropertyKey.decodeDate) as? Date else {return nil}
@@ -51,12 +55,13 @@ class BarcodeData: NSObject, NSCoding {
         
         guard let _crdntNeedRotate = aDecoder.decodeObject(forKey: PropertyKey.coordinateNeedRotate) as? String else {return nil}
         
-        self.init(path: _imagePath, type: _barcodeTypes, text: _barcodeTexts, locations: _barcodeLocations, date:_decodeDate, time:_time, crdntNeedRotate:_crdntNeedRotate)
+        self.init(path: _imagePath, type: _barcodeTypes,typeDes: _barcodeTypesDes, text: _barcodeTexts, locations: _barcodeLocations, date:_decodeDate, time:_time, crdntNeedRotate:_crdntNeedRotate)
     }
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(imagePath, forKey: PropertyKey.imagePath)
         aCoder.encode(barcodeTypes, forKey: PropertyKey.barcodeType)
+        aCoder.encode(barcodeTypesDes, forKey: PropertyKey.barcodeTypeDes)
         aCoder.encode(barcodeTexts, forKey: PropertyKey.barcodeText)
         aCoder.encode(barcodeLocations, forKey: PropertyKey.barcodeLocations)
         aCoder.encode(decodeDate,forKey: PropertyKey.decodeDate)

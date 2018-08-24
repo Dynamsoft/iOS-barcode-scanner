@@ -400,11 +400,11 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
                 self.barcodeFormat_aztec.isSelected = !self.barcodeFormat_aztec.isSelected
                 if(self.barcodeFormat_aztec.isSelected)
                 {
-                    self.runtimeSettings.barcodeTypeID = self.runtimeSettings.barcodeTypeID | BarcodeType.ZTEC.rawValue
+                    self.runtimeSettings.barcodeTypeID = self.runtimeSettings.barcodeTypeID | BarcodeType.AZTEC.rawValue
                 }
                 else
                 {
-                    let temp = ~BarcodeType.ZTEC.rawValue
+                    let temp = ~BarcodeType.AZTEC.rawValue
                     self.runtimeSettings.barcodeTypeID = self.runtimeSettings.barcodeTypeID & temp
                 }
                 break
@@ -486,7 +486,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
     func setupBarcodeFormatAZTEC(cell:UITableViewCell)
     {
         let ckBox = self.getCheckBox(cell: cell, rightMargin: -31)
-        ckBox.isSelected = (self.runtimeSettings!.barcodeTypeID | BarcodeType.ZTEC.rawValue) == self.runtimeSettings!.barcodeTypeID
+        ckBox.isSelected = (self.runtimeSettings!.barcodeTypeID | BarcodeType.AZTEC.rawValue) == self.runtimeSettings!.barcodeTypeID
         self.barcodeFormat_aztec = ckBox
     }
     

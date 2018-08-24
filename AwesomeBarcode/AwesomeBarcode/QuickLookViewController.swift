@@ -249,7 +249,7 @@ extension QuickLookViewController {
         let cell = (tableView.dequeueReusableCell(withIdentifier: "historyResultsCell", for: indexPath)) as! histroyDetailTableViewCell
         cell.cellNum.text = String(indexPath.row + 1)
         let text = (self.localBarcode?[index].barcodeTexts[indexPath.row])!
-        let format = (self.localBarcode?[index].barcodeTypes[indexPath.row])!
+        let format = (self.localBarcode?[index].barcodeTypesDes[indexPath.row])!
         cell.txtLabel.text = "Text: \(text)"
         cell.formatLabel.text = "Format: \(format)"
         return cell
