@@ -145,7 +145,7 @@ class RuntimeSettingsTableViewController: UITableViewController,UITextFieldDeleg
             let la = UILabel()
             la.text = "Barcode Format"
             la.font = UIFont(name: "", size: 15)
-            la.frame = CGRect(x: 10, y: 9, width: 150, height: 13)
+            la.frame = CGRect(x: 16, y: 9, width: 150, height: 13)
             la.backgroundColor = UIColor.clear
             la.textColor = UIColor(red: 123.999/255.0, green:123.999/255.0, blue:123.999/255.0, alpha:1)
             view.addSubview(la)

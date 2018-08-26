@@ -632,6 +632,9 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
 extension CaptureViewController {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        
+        
+        
         guard canDecodeBarcode else { return }
         if(!self.isGettingVideo){ return }
 
