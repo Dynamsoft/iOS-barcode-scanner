@@ -79,6 +79,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         super.viewDidLoad()
         resultsTableView.dataSource = self
         resultsTableView.delegate = self
+        resultsTableView.tableFooterView = UIView(frame: CGRect.zero)
         session = AVCaptureSession()
         sessionQueue = DispatchQueue(label: "com.dynamsoft.captureQueue")
         isGettingVideo = true
@@ -88,7 +89,8 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         self.resultCountsView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 29)
         self.ScannedCount.center = self.resultCountsView.center
         self.ScannedCount.textColor = UIColor.white
-        self.resultsTableView.frame = CGRect(x: 0, y: FullScreenSize.height - 70, width: FullScreenSize.width, height: 70)
+        self.resultsTableView.frame = CGRect(x: 0, y: FullScreenSize.height - 75, width: FullScreenSize.width, height: 75)
+        self.resultsTableView.register(UINib(nibName:"histroyDetailTableViewCell", bundle:nil),forCellReuseIdentifier:"historyResultsCell")
         self.title = "Scan Barcode"
         self.tableViewIsPop = false
         self.isFlashOn = false
@@ -457,21 +459,21 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     func printInfoOfParas(paras:ParametersOfStitchImagesFun)
     {
         //print img1
-        print("paras.bInfOfImg.width:\(paras.bInfOfImg.width)\n");
-        print("paras.bInfOfImg.height:\(paras.bInfOfImg.height)\n");
-        print("paras.bInfOfImg.stride:\(paras.bInfOfImg.stride)\n");
-        print("paras.bInfOfImg.format:\(paras.bInfOfImg.format)\n");
-        print("paras.domainOfImg.x:\(paras.domainOfImg.x) preParas.domainOfImg.y:\(paras.domainOfImg.y)\n");
-        print("paras.lengthThreshold:\(paras.lengthThreshold)\n");
-        
-        print("barcodeRecogResultOfImg:\n")
-        for i in  0...(paras.barcodeRecogResultOfImg.count - 1)
-        {
-            let result =  paras.barcodeRecogResultOfImg[i]
-            print("result.barcodeText:\(result.barcodeText)\n")
-            print("result.barcodeFormat:\(result.barcodeFormat)\n")
-            print("result.loc:",result.pts[0],result.pts[1],result.pts[2],result.pts[3],result.pts[4],result.pts[5],result.pts[6],result.pts[7])
-        }
+//        print("paras.bInfOfImg.width:\(paras.bInfOfImg.width)\n");
+//        print("paras.bInfOfImg.height:\(paras.bInfOfImg.height)\n");
+//        print("paras.bInfOfImg.stride:\(paras.bInfOfImg.stride)\n");
+//        print("paras.bInfOfImg.format:\(paras.bInfOfImg.format)\n");
+//        print("paras.domainOfImg.x:\(paras.domainOfImg.x) preParas.domainOfImg.y:\(paras.domainOfImg.y)\n");
+//        print("paras.lengthThreshold:\(paras.lengthThreshold)\n");
+//        
+//        print("barcodeRecogResultOfImg:\n")
+//        for i in  0...(paras.barcodeRecogResultOfImg.count - 1)
+//        {
+//            let result =  paras.barcodeRecogResultOfImg[i]
+//            print("result.barcodeText:\(result.barcodeText)\n")
+//            print("result.barcodeFormat:\(result.barcodeFormat)\n")
+//            print("result.loc:",result.pts[0],result.pts[1],result.pts[2],result.pts[3],result.pts[4],result.pts[5],result.pts[6],result.pts[7])
+//        }
     }
     
     @IBAction func takeWholeView(_ sender: UIBarButtonItem) {
@@ -497,8 +499,8 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
 
                     var img:UIImage? = UIImage()
 
-                    let preImg =  preParas.bInfOfImg.getUIImage()
-                    let curImg =  curParas.bInfOfImg.getUIImage()
+//                    let preImg =  preParas.bInfOfImg.getUIImage()
+//                    let curImg =  curParas.bInfOfImg.getUIImage()
 
                     let preBff = preParas.bInfOfImg.imageBytes
                     let curBff = curParas.bInfOfImg.imageBytes
@@ -884,7 +886,7 @@ extension CaptureViewController {
     func SetParasInfo(data:BarcodeData,paras:ParametersOfStitchImagesFun)
     {
         let img = UIImage(contentsOfFile: data.imagePath.path)!
-        paras.domainOfImg = CGPoint(x:img.size.height,y:img.size.width)
+        paras.domainOfImg = CGPoint(x:img.size.width,y:img.size.height)
         paras.barcodeRecogResultOfImg = SetBarcodeRecogResultOfImg4StitchImg(localBarcode: data)
         paras.bInfOfImg = BuffInfOfImg(uiImage: img)
         
@@ -1048,9 +1050,14 @@ extension CaptureViewController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "identifiedResult") else { return UITableViewCell(style: .subtitle, reuseIdentifier: nil) }
-        cell.textLabel?.text = tempResults?[indexPath.row].barcodeFormat.description
-        cell.detailTextLabel?.text = tempResults?[indexPath.row].barcodeText
+        
+        let cell = (tableView.dequeueReusableCell(withIdentifier: "historyResultsCell", for: indexPath)) as! histroyDetailTableViewCell
+        cell.cellNum.text = indexPath.row + 1 < 10 ? "0\(indexPath.row + 1)": String(indexPath.row + 1)
+        let text = tempResults?[indexPath.row].barcodeText
+        let format = tempResults?[indexPath.row].barcodeFormat.description
+        cell.txtLabel.text = "Text: \(text)"
+        cell.formatLabel.text = "Format: \(format)"
+        
         return cell
     }
     
@@ -1068,7 +1075,16 @@ extension CaptureViewController {
     
      func alertScanningIsStop()
     {
+        
+        
+        
+       
+        
+        
         let alert = UIAlertController(title: nil, message: "Scanning is stopped!", preferredStyle: .alert)
+        
+        
+        alert.view.transform = CGAffineTransform.init(translationX: 0, y: -200)
  
         self.present(alert, animated: true, completion: nil)
         self.perform(#selector(dismiss(alert:)), with: alert, afterDelay: 0.2)
@@ -1096,7 +1112,7 @@ extension CaptureViewController {
         else if(offsetY < -40 && self.tableViewIsPop)
         {
             UIView.animate(withDuration: 0.2) {
-                self.resultsTableView.frame.origin.y = FullScreenSize.height - 70
+                self.resultsTableView.frame.origin.y = FullScreenSize.height - 75
                 self.resultsTableView.frame.size.height = FullScreenSize.height - self.resultsTableView.frame.origin.y
             }
             self.tableViewIsPop = false

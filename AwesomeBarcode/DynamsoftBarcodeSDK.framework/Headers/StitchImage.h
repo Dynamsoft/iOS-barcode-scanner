@@ -49,8 +49,6 @@
 
 -(instancetype)initWithUIImage:(UIImage*) image;
 
--(UIImage *)GetUIImage;
-
 @end
 
 

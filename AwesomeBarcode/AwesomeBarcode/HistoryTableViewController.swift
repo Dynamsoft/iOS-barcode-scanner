@@ -16,7 +16,7 @@ class HistoryTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView!.register(UINib(nibName:"HistoryTableViewCell", bundle:nil),forCellReuseIdentifier:"historyCell")
-        
+        self.tableView!.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     override func viewWillAppear(_ animated: Bool) {

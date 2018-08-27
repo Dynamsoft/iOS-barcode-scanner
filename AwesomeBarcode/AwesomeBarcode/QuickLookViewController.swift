@@ -46,6 +46,7 @@ class QuickLookViewController: UIViewController,UITableViewDataSource, UITableVi
         self.resultTableView.dataSource = self
         self.resultTableView.delegate = self
         self.resultTableView.register(UINib(nibName:"histroyDetailTableViewCell", bundle:nil),forCellReuseIdentifier:"historyResultsCell")
+        self.resultTableView.tableFooterView = UIView(frame: CGRect.zero)
         self.view.addSubview(resultTableView)
     }
 
@@ -247,7 +248,7 @@ extension QuickLookViewController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = (tableView.dequeueReusableCell(withIdentifier: "historyResultsCell", for: indexPath)) as! histroyDetailTableViewCell
-        cell.cellNum.text = String(indexPath.row + 1)
+        cell.cellNum.text = indexPath.row + 1 < 10 ? "0\(indexPath.row + 1)": String(indexPath.row + 1)
         let text = (self.localBarcode?[index].barcodeTexts[indexPath.row])!
         let format = (self.localBarcode?[index].barcodeTypesDes[indexPath.row])!
         cell.txtLabel.text = "Text: \(text)"

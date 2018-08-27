@@ -30,6 +30,7 @@ class OneDBarcodeTypeTableViewController: UITableViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.topItem?.title = ""
         self.tableView!.register(UINib(nibName:"SettingTableViewCell", bundle:nil),forCellReuseIdentifier:"settingCell")
+        self.tableView!.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     override func viewWillAppear(_ animated: Bool) {

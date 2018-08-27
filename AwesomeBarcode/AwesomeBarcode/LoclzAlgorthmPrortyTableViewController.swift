@@ -28,6 +28,7 @@ class LoclzAlgorthmPrortyTableViewController: UITableViewController {
         self.navigationController?.navigationBar.topItem?.title = ""
         self.tableView!.setEditing(true, animated: false)
         self.tableView!.allowsMultipleSelectionDuringEditing = true
+        self.tableView!.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     override func viewWillAppear(_ animated: Bool) {
