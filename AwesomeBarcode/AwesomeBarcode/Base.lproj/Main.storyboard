@@ -30,44 +30,40 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.77254901960784317" green="0.77647058823529413" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="KMu-Oq-CUv">
-                                <rect key="frame" x="20" y="196" width="175" height="175"/>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="KMu-Oq-CUv">
+                                <rect key="frame" x="30" y="223" width="140" height="140"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <inset key="titleEdgeInsets" minX="0.0" minY="97" maxX="0.0" maxY="0.0"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="80" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="General Scan" backgroundImage="GeneralScan">
                                     <color key="titleColor" red="0.16078431372549021" green="0.16862745098039217" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="CSq-uU-rmi" kind="push" id="PHH-ed-sYe"/>
+                                    <segue destination="CSq-uU-rmi" kind="push" identifier="pushGeneralScan" id="PHH-ed-sYe"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" id="lMC-6E-LJw">
-                                <rect key="frame" x="181" y="301" width="175" height="175"/>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" id="lMC-6E-LJw">
+                                <rect key="frame" x="205" y="223" width="140" height="140"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="12"/>
-                                <inset key="titleEdgeInsets" minX="0.0" minY="97" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" backgroundImage="MultibarcodesBestcoverage">
-                                    <string key="title">Multi barcodes 
- Best coverage</string>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="80" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="Best coverage" backgroundImage="MultibarcodesBestcoverage">
                                     <color key="titleColor" red="0.16078431369999999" green="0.16862745100000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="CSq-uU-rmi" kind="push" id="Zck-xI-gf9"/>
+                                    <segue destination="CSq-uU-rmi" kind="push" identifier="pushMulBrcdsBstCover" id="Zck-xI-gf9"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" id="qUl-RX-Nce">
-                                <rect key="frame" x="20" y="407" width="175" height="175"/>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" id="qUl-RX-Nce">
+                                <rect key="frame" x="30" y="403" width="140" height="140"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="12"/>
-                                <inset key="titleEdgeInsets" minX="0.0" minY="97" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" backgroundImage="Balancedmode">
-                                    <string key="title">Multi barcodes
-Balanced mode</string>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="80" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="overlap" backgroundImage="Balancedmode">
                                     <color key="titleColor" red="0.16078431369999999" green="0.16862745100000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="CSq-uU-rmi" kind="push" id="Puw-j5-tc7"/>
+                                    <segue destination="CSq-uU-rmi" kind="push" identifier="pushOverlap" id="Puw-j5-tc7"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barcode Scanner X" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IOK-UU-SIR">
@@ -85,7 +81,19 @@ Balanced mode</string>
                                     <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="ylf-Gb-RAD" kind="push" identifier="showHistory" id="36Q-Io-sKh"/>
+                                    <segue destination="ylf-Gb-RAD" kind="push" identifier="pushHistory" id="36Q-Io-sKh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" id="fId-uC-1vS">
+                                <rect key="frame" x="205" y="403" width="140" height="140"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="12"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="80" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="panaroma" backgroundImage="Balancedmode">
+                                    <color key="titleColor" red="0.16078431369999999" green="0.16862745100000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="CSq-uU-rmi" kind="push" identifier="pushPanaroma" id="LNL-ph-fVn"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -93,10 +101,11 @@ Balanced mode</string>
                     </view>
                     <navigationItem key="navigationItem" title="Barcode Scanner X" id="eDA-Nu-XyK"/>
                     <connections>
+                        <outlet property="BestConverageBtn" destination="lMC-6E-LJw" id="htD-gU-1Q3"/>
                         <outlet property="GeneralScanBtn" destination="KMu-Oq-CUv" id="IS6-uZ-VFI"/>
                         <outlet property="HistoryBtn" destination="8Eo-jZ-w7Q" id="tsN-Qs-4zo"/>
-                        <outlet property="MulBacdBalancecModBtn" destination="qUl-RX-Nce" id="lei-Cs-1hb"/>
-                        <outlet property="MulBacdBestConverageBtn" destination="lMC-6E-LJw" id="dQv-13-Vc7"/>
+                        <outlet property="OverlapBtn" destination="qUl-RX-Nce" id="Ei6-Fe-NMd"/>
+                        <outlet property="PanaromaBtn" destination="fId-uC-1vS" id="Ybh-ak-gO2"/>
                         <outlet property="splitLine" destination="IEA-kb-ypR" id="MeK-au-yjf"/>
                         <outlet property="titleBarcodeScannerX" destination="IOK-UU-SIR" id="HU5-Xk-zAt"/>
                     </connections>
@@ -147,33 +156,6 @@ Balanced mode</string>
                                 <rect key="frame" x="0.0" y="597.5" width="375" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="identifiedResult" textLabel="wRD-OG-P5P" detailTextLabel="rho-ld-QBG" style="IBUITableViewCellStyleSubtitle" id="Qex-7W-yLN">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="75"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qex-7W-yLN" id="cYG-6B-qHr">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="74.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wRD-OG-P5P">
-                                                    <rect key="frame" x="15" y="19.5" width="28.5" height="17"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rho-ld-QBG">
-                                                    <rect key="frame" x="15" y="39" width="44" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" red="1" green="0.95457593973152699" blue="0.851111505946056" alpha="0.50861515410958902" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </tableViewCell>
-                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -188,11 +170,6 @@ Balanced mode</string>
                             <barButtonItem title="Item" image="icon_setting" id="BId-Ci-MsM">
                                 <connections>
                                     <segue destination="t5p-jm-KRh" kind="push" id="v9a-LB-dgh"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Item" image="wholeView" id="OiH-cX-xEP">
-                                <connections>
-                                    <action selector="takeWholeView:" destination="CSq-uU-rmi" id="qga-gg-H0O"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -343,10 +320,9 @@ Balanced mode</string>
         <image name="icon_delete" width="22" height="23"/>
         <image name="icon_mode" width="17" height="20"/>
         <image name="icon_setting" width="20" height="20"/>
-        <image name="wholeView" width="22" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PHH-ed-sYe"/>
+        <segue reference="Puw-j5-tc7"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

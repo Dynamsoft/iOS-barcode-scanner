@@ -11,7 +11,8 @@ import UIKit
 enum SettingScene{
     case GeneralScan
     case MulBrcdsBestCoverage
-    case MulBrcdsBalanceMode
+    case Overlapping
+    case Panaroma
 }
 
 
@@ -209,7 +210,45 @@ class RuntimeSettingsModel: NSObject, NSCoding {
         return defaultSetting
     }
     
-    static func GetMulBrcdsBalanceModeSettings() -> PublicSettings
+    static func GetOverlappingSettings() -> PublicSettings
+    {
+        var defaultSetting = PublicSettings()
+        do
+        {
+            if(RuntimeSettingsModel.runtimeSettings != nil)
+            {
+                defaultSetting = RuntimeSettingsModel.runtimeSettings
+            }
+            else
+            {
+                defaultSetting = try BarcodeData.barcodeReader.getRuntimeSettings()
+            }
+            defaultSetting.name = "Custom_134010_127"
+            defaultSetting.antiDamageLevel = 5
+            defaultSetting.barcodeTypeID = BarcodeType.ALL.rawValue
+            defaultSetting.barcodeInvert = BarcodeInvert.darkOnLight
+            defaultSetting.binarizationBlockSize = 0
+            defaultSetting.colourImageConvert = ColourImageConvert.auto
+            defaultSetting.deblurLevel = 5
+            defaultSetting.enableFillBinaryVacancy = 1
+            defaultSetting.expectedBarcodeCount = 0
+            defaultSetting.grayEqualizationSensitivity = 0
+            defaultSetting.localizationAlgorithmPriority = "ConnectedBlock,Lines,Statistics, FullImageAsBarcodeZone"
+            defaultSetting.maxBarcodeCount = 2147483647
+            defaultSetting.maxDimOfFullImageAsBarcodeZone = 262144
+            defaultSetting.regionPredetection = RegionPredetection.disable
+            defaultSetting.scaleDownThreshold = 1000
+            defaultSetting.textFilter = TextFilter.enable
+            defaultSetting.textureDetectionSensitivity = 5
+            defaultSetting.timeout = 10000
+        }
+        catch{
+            print(error);
+        }
+        return defaultSetting
+    }
+    
+    static func GetPanaromaSettings() -> PublicSettings
     {
         var defaultSetting = PublicSettings()
         do

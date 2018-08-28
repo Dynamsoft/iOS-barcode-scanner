@@ -456,28 +456,28 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         }
     }
     
+    //debug:
     func printInfoOfParas(paras:ParametersOfStitchImagesFun)
     {
-        //print img1
-//        print("paras.bInfOfImg.width:\(paras.bInfOfImg.width)\n");
-//        print("paras.bInfOfImg.height:\(paras.bInfOfImg.height)\n");
-//        print("paras.bInfOfImg.stride:\(paras.bInfOfImg.stride)\n");
-//        print("paras.bInfOfImg.format:\(paras.bInfOfImg.format)\n");
-//        print("paras.domainOfImg.x:\(paras.domainOfImg.x) preParas.domainOfImg.y:\(paras.domainOfImg.y)\n");
-//        print("paras.lengthThreshold:\(paras.lengthThreshold)\n");
-//        
-//        print("barcodeRecogResultOfImg:\n")
-//        for i in  0...(paras.barcodeRecogResultOfImg.count - 1)
-//        {
-//            let result =  paras.barcodeRecogResultOfImg[i]
-//            print("result.barcodeText:\(result.barcodeText)\n")
-//            print("result.barcodeFormat:\(result.barcodeFormat)\n")
-//            print("result.loc:",result.pts[0],result.pts[1],result.pts[2],result.pts[3],result.pts[4],result.pts[5],result.pts[6],result.pts[7])
-//        }
+//        print img1
+        print("paras.bInfOfImg.width:\(paras.bInfOfImg.width)\n");
+        print("paras.bInfOfImg.height:\(paras.bInfOfImg.height)\n");
+        print("paras.bInfOfImg.stride:\(paras.bInfOfImg.stride)\n");
+        print("paras.bInfOfImg.format:\(paras.bInfOfImg.format)\n");
+        print("paras.domainOfImg.x:\(paras.domainOfImg.x) preParas.domainOfImg.y:\(paras.domainOfImg.y)\n");
+        print("paras.lengthThreshold:\(paras.lengthThreshold)\n");
+        
+        print("barcodeRecogResultOfImg:\n")
+        for i in  0...(paras.barcodeRecogResultOfImg.count - 1)
+        {
+            let result =  paras.barcodeRecogResultOfImg[i]
+            print("result.barcodeText:\(result.barcodeText)\n")
+            print("result.barcodeFormat:\(result.barcodeFormat)\n")
+            print("result.loc:",result.pts[0],result.pts[1],result.pts[2],result.pts[3],result.pts[4],result.pts[5],result.pts[6],result.pts[7])
+        }
     }
     
     @IBAction func takeWholeView(_ sender: UIBarButtonItem) {
-        
         if(self.jigsawStatus & 1 == 0)
         {
             if(localBarcode.count > 1)
@@ -487,11 +487,10 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
                     let preParas = ParametersOfStitchImagesFun()
                     let preData = localBarcode[i - 1]
                     SetParasInfo(data: preData, paras: preParas)
-
+                    
                     let curParas = ParametersOfStitchImagesFun()
                     let curData = localBarcode[i]
                     SetParasInfo(data: curData, paras: curParas)
-
 
                     let inputParas = [preParas,curParas]
                     let m = NSMutableArray()
@@ -499,21 +498,10 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
 
                     var img:UIImage? = UIImage()
 
-//                    let preImg =  preParas.bInfOfImg.getUIImage()
-//                    let curImg =  curParas.bInfOfImg.getUIImage()
-
-                    let preBff = preParas.bInfOfImg.imageBytes
-                    let curBff = curParas.bInfOfImg.imageBytes
-                    
-                    print("preParas:\n")
-                    self.printInfoOfParas(paras: preParas)
-                    print("curParas:\n")
-                    self.printInfoOfParas(paras: curParas)
+//                    self.printInfoOfParas(paras: preParas)
+//                    self.printInfoOfParas(paras: curParas)
                     
                     var resutl = stchImg!.stitchImg(inputParas, mapResult: m, resultImg: &img)
-
-                    var a = 0
-                    a = a + 1
                     
 //                    let mapResults = GetBarcodeDataByMutableArr(m: m,time:0)
                     
@@ -635,11 +623,8 @@ extension CaptureViewController {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
-        
-        
         guard canDecodeBarcode else { return }
         if(!self.isGettingVideo){ return }
-
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         CVPixelBufferLockBaseAddress(imageBuffer, .readOnly)
         let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)
@@ -658,22 +643,6 @@ extension CaptureViewController {
             guard let tempResults =  try? BarcodeData.barcodeReader.decodeBuffer(buffer, withWidth: width, height: height, stride: bpr, format: .ARGB_8888, templateName:"") else { return }
             let results = filterLowConfidenceFrame(results: tempResults)
             let timeInterval = Int(self.startRecognitionDate!.timeIntervalSinceNow * -1000)
-            //        if(timeInterval > 1)
-            //        {
-            //            var ciImage:CIImage?
-            //            if #available(iOS 9.0, *) {
-            //                ciImage = CIImage(cvImageBuffer: imageBuffer)
-            //            } else {
-            //                // Fallback on earlier versions
-            //            };
-            //            if(ciImage == nil)
-            //            {
-            //                return;
-            //            }
-            //            let cgImage = ciContext.createCGImage(ciImage!, from: ciImage!.extent);
-            //            let uiImage = UIImage(cgImage: cgImage!);
-            //            print(timeInterval)
-            //        }
             if results.count > 0 {
                 self.tempResults = Array.init(Set.init(results))
                 let quadrilaterals = results.map { self.pointsFromResult($0.localizationResult!.resultPoints!) }
@@ -813,7 +782,8 @@ extension CaptureViewController {
                     self.resultsTableView.reloadData()
                 }
             }
-        }catch{
+        }
+        catch{
             print(error)
         }
         
@@ -824,16 +794,14 @@ extension CaptureViewController {
                 self.maskView.setNeedsDisplay()
             }
         }
-        
     }
-    
-    
+
     func isRepeated(localBarcode:BarcodeData) -> Bool
     {
         var isFlag = false
         for i in 0 ..< localBarcode.barcodeTexts.count {
             for j in (i + 1) ..< localBarcode.barcodeTexts.count {
-                if(localBarcode.barcodeTexts[i] == localBarcode.barcodeTexts[j])
+                if(localBarcode.barcodeTexts[i] == localBarcode.barcodeTexts[j] || Int(localBarcode.barcodeTypes[i]) == Int(localBarcode.barcodeTypes[j]))
                 {
                     isFlag = true
                     return isFlag
@@ -842,8 +810,7 @@ extension CaptureViewController {
         }
         return isFlag
     }
-    
-    
+
     func GetBarcodeDataByMutableArr(m:NSMutableArray,time:Int) -> BarcodeData
     {
         var tmapResults = m as! [BarcodeRecogResultForCordsMap]
@@ -889,7 +856,6 @@ extension CaptureViewController {
         paras.domainOfImg = CGPoint(x:img.size.width,y:img.size.height)
         paras.barcodeRecogResultOfImg = SetBarcodeRecogResultOfImg4StitchImg(localBarcode: data)
         paras.bInfOfImg = BuffInfOfImg(uiImage: img)
-        
     }
 
     func SetBarcodeRecogResultOfImg4StitchImg(localBarcode:BarcodeData) -> [BarcodeRecogResult4StitchImg]
