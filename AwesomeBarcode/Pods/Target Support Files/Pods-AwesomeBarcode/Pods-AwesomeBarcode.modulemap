@@ -1,6 +1,0 @@
-framework module Pods_AwesomeBarcode {
-  umbrella header "Pods-AwesomeBarcode-umbrella.h"
-
-  export *
-  module * { export * }
-}
