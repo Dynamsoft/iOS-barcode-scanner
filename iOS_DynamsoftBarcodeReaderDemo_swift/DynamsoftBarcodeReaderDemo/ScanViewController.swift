@@ -27,6 +27,7 @@ class ScanViewController: UIViewController {
         //register notification for UIApplicationDidBecomeActiveNotification
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil);
         
+        
         //init DbrManager with Dynamsoft Barcode Reader mobile license
         dbrManager = DbrManager(license:"t0068MgAAACxiTMNhK39G1UvCL179uDHeVDQFprcUphE4HKnMtD5nWVUUA / TCMrf / MdAYzY5dRoIRK / Vzh5nDQHmwOL0zjr8 =");
         dbrManager?.setRecognitionCallback(sender: self, callBack: #selector(onReadImageBufferComplete));
