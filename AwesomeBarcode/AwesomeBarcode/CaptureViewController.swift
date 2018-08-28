@@ -819,8 +819,10 @@ extension CaptureViewController {
         var barcodeTypeDes: [String] = [String]()
         var barcodeTexts: [String] = [String]()
         var barcodeLocations: [[CGPoint]] = [[CGPoint]]()
+        var a = 0
         if(tmapResults.count > 0)
         {
+            
             for i in  0...(tmapResults.count - 1)
             {
                 barcodeTypeDes.append("")
