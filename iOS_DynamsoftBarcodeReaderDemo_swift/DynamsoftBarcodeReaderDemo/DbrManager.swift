@@ -28,13 +28,27 @@ class  DbrManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     var itrFocusFinish:Int!;
     var firstFocusFinish:Bool!;
     
-    init(license:NSString)
+    init(serverURL:String,licenseKey:String) {
+        super.init()
+        var error:NSError? = NSError();
+        barcodeReader = DynamsoftBarcodeReader(licenseFromServer: serverURL, licenseKey: licenseKey, error: &error)
+        self.parametersInit()
+    }
+    
+    init(license:String)
+    {
+        super.init()
+        barcodeReader = DynamsoftBarcodeReader(license: license);
+        self.parametersInit()
+    }
+    
+    func parametersInit()
     {
         m_videoCaptureSession = nil;
-        barcodeReader = DynamsoftBarcodeReader(license: license as String);
         isPauseFramesComing = false;
         isCurrentFrameDecodeFinished = true;
-        barcodeFormat = BarcodeType.ALL.rawValue ;
+        barcodeFormat = Int(BarcodeType.ONED.rawValue)   | Int(BarcodeType.PDF417.rawValue)  |
+            Int(BarcodeType.QRCODE.rawValue) | Int(BarcodeType.DATAMATRIX.rawValue)
         startRecognitionDate = nil;
         ciContext = CIContext();
         m_recognitionReceiver = nil;
@@ -172,6 +186,8 @@ class  DbrManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             
             guard let results = try? barcodeReader.decodeBuffer(buffer, withWidth: width, height: height, stride: bpr, format: .ARGB_8888, templateName: "") else { return }
             
+            let curImg = self.uiImageFromSamplebuffer(imageBuffer)!
+            
             DispatchQueue.main.async{
                 self.m_recognitionReceiver?.performSelector(inBackground: self.m_recognitionCallback!, with: results as NSArray);
             }
@@ -179,6 +195,18 @@ class  DbrManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         catch{
             print(error);
         }
+    }
+    
+    func uiImageFromSamplebuffer(_ imageBuffer: CVImageBuffer) -> UIImage? {
+        if #available(iOS 9.0, *) {
+            let ciImage = CIImage(cvImageBuffer: imageBuffer)
+            let cgImage = ciContext?.createCGImage(ciImage, from: ciImage.extent)
+            return UIImage(cgImage: cgImage!, scale: 1.0, orientation: .right)
+        } else {
+            // Fallback on earlier versions
+            return nil
+        }
+        
     }
     
     func setRecognitionCallback(sender:ScanViewController, callBack:Selector)

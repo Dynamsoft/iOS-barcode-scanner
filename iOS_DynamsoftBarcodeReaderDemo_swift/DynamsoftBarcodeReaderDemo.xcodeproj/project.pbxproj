@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1E76B5E4211047B2000CA829 /* DynamsoftBarcodeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E76B5E3211047B2000CA829 /* DynamsoftBarcodeSDK.framework */; };
+		1E09FD5B215B9D27007027E6 /* DynamsoftBarcodeReader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E09FD5A215B9D27007027E6 /* DynamsoftBarcodeReader.framework */; };
 		1E944ED820F1C6A800B54B27 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E944ED720F1C6A800B54B27 /* ScanViewController.swift */; };
 		1E944EDA20F1CE4000B54B27 /* DbrManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E944ED920F1CE3F00B54B27 /* DbrManager.swift */; };
 		1E944EDC20F1ED5C00B54B27 /* BarcodeTypesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E944EDB20F1ED5C00B54B27 /* BarcodeTypesTableViewController.swift */; };
@@ -19,7 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1E76B5E3211047B2000CA829 /* DynamsoftBarcodeSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DynamsoftBarcodeSDK.framework; sourceTree = "<group>"; };
+		1E09FD5A215B9D27007027E6 /* DynamsoftBarcodeReader.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DynamsoftBarcodeReader.framework; sourceTree = "<group>"; };
 		1E944ED720F1C6A800B54B27 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		1E944ED920F1CE3F00B54B27 /* DbrManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DbrManager.swift; sourceTree = "<group>"; };
 		1E944EDB20F1ED5C00B54B27 /* BarcodeTypesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeTypesTableViewController.swift; sourceTree = "<group>"; };
@@ -38,7 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E76B5E4211047B2000CA829 /* DynamsoftBarcodeSDK.framework in Frameworks */,
+				1E09FD5B215B9D27007027E6 /* DynamsoftBarcodeReader.framework in Frameworks */,
 				1EC2F2F420F1B96D00B3CD8E /* libc++.1.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,7 +82,7 @@
 		1EC2F2F020F1B94300B3CD8E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1E76B5E3211047B2000CA829 /* DynamsoftBarcodeSDK.framework */,
+				1E09FD5A215B9D27007027E6 /* DynamsoftBarcodeReader.framework */,
 				1EC2F2F320F1B96D00B3CD8E /* libc++.1.tbd */,
 			);
 			name = Frameworks;

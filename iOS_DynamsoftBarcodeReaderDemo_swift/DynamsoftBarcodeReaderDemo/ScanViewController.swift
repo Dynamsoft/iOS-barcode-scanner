@@ -28,7 +28,8 @@ class ScanViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil);
         
         //init DbrManager with Dynamsoft Barcode Reader mobile license
-        dbrManager = DbrManager(license:"t0068MgAAACxiTMNhK39G1UvCL179uDHeVDQFprcUphE4HKnMtD5nWVUUA / TCMrf / MdAYzY5dRoIRK / Vzh5nDQHmwOL0zjr8 =");
+        dbrManager = DbrManager(license:"t0068MgAAAHy7VzvNDvKgoxhEZeZs6OC3JqJq1yjZidJaR1XIrjNJH4qmqEXK93zN7KpJ2U7hWZAgVnYK39Lfq/ez7eg3N1g=");
+        
         dbrManager?.setRecognitionCallback(sender: self, callBack: #selector(onReadImageBufferComplete));
         dbrManager?.beginVideoSession();
         self.configInterface();
@@ -244,7 +245,7 @@ class ScanViewController: UIViewController {
                     } else {
                         device?.torchMode = AVCaptureDevice.TorchMode.off;
                         device?.flashMode = AVCaptureDevice.FlashMode.off;
-                        flashButton.setImage(UIImage(named: "flash_on"), for: UIControlState.normal);
+                        flashButton.setImage(UIImage(named: "flash_off"), for: UIControlState.normal);
                         flashButton.setTitle(" Flash off", for: UIControlState.normal);
                     }
                     device?.unlockForConfiguration();
@@ -314,7 +315,7 @@ class ScanViewController: UIViewController {
     
     @IBAction func onAboutInfoClick(_ sender: Any) {
         dbrManager?.isPauseFramesComing = true;
-        let ac = UIAlertController(title: "About", message: "\nDynamsoft Barcode Reader Mobile App Demo(Dynamsoft Barcode Reader SDK v6.3.0)\n\n© 2018 Dynamsoft. All rights reserved. \n\nIntegrate Barcode Reader Functionality into Your own Mobile App? \n\nClick 'Overview' button for further info.\n\n",preferredStyle: .alert)
+        let ac = UIAlertController(title: "About", message: "\nDynamsoft Barcode Reader Mobile App Demo(Dynamsoft Barcode Reader SDK v6.4.0)\n\n© 2018 Dynamsoft. All rights reserved. \n\nIntegrate Barcode Reader Functionality into Your own Mobile App? \n\nClick 'Overview' button for further info.\n\n",preferredStyle: .alert)
         self.customizeAC(ac:ac);
         let linkAction = UIAlertAction(title: "Overview", style: .default, handler: {
             action in
@@ -334,7 +335,7 @@ class ScanViewController: UIViewController {
         
         let yesButton = UIAlertAction(title: "OK", style: .default, handler: {
             action in
-            self.dbrManager?.isPauseFramesComing = true;
+            self.dbrManager?.isPauseFramesComing = false;
         })
         ac.addAction(yesButton);
         self.present(ac, animated: true, completion: nil)
