@@ -10,14 +10,20 @@ import UIKit
 
 class BarcodeTypesTableViewController: UITableViewController {
     
-    var mainView: ScanViewController!
+    var mainView: ViewController!
     @IBOutlet var barcodeTypesTableView: UITableView!
     @IBOutlet weak var linearCell: UITableViewCell!
     @IBOutlet weak var qrcodeCell: UITableViewCell!
     @IBOutlet weak var pdf417Cell: UITableViewCell!
     @IBOutlet weak var datamatrixCell: UITableViewCell!
-    
     @IBOutlet weak var aztecCell: UITableViewCell!
+    @IBOutlet weak var databarCell: UITableViewCell!
+    @IBOutlet weak var patchcodeCell: UITableViewCell!
+    @IBOutlet weak var maxicodeCell: UITableViewCell!
+    @IBOutlet weak var microqrCell: UITableViewCell!
+    @IBOutlet weak var micropdf417Cell: UITableViewCell!
+    @IBOutlet weak var gs1compositeCell: UITableViewCell!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,33 +49,70 @@ class BarcodeTypesTableViewController: UITableViewController {
         pdf417Cell.selectedBackgroundView = bgColorView;
         datamatrixCell.selectedBackgroundView = bgColorView;
         aztecCell.selectedBackgroundView = bgColorView;
+        databarCell.selectedBackgroundView = bgColorView;
+        patchcodeCell.selectedBackgroundView = bgColorView;
+        maxicodeCell.selectedBackgroundView = bgColorView;
+        microqrCell.selectedBackgroundView = bgColorView;
+        micropdf417Cell.selectedBackgroundView = bgColorView;
+        gs1compositeCell.selectedBackgroundView = bgColorView;
+        
     }
     
     func selectCells(){
-        let types = (mainView == nil || mainView.dbrManager == nil) ? BarcodeType.ALL.rawValue: mainView.dbrManager?.barcodeFormat;
-        if((types! | BarcodeType.ONED.rawValue) == types)
+        let types = (mainView == nil || mainView.dbrManager == nil) ? EnumBarcodeFormat.ALL.rawValue: mainView.dbrManager?.barcodeFormat;
+        if((types! | EnumBarcodeFormat.ONED.rawValue) == types)
         {
             let indexPath = IndexPath(row: 0, section: 0);
             barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
         }
-        if((types! | BarcodeType.QRCODE.rawValue) == types)
+        if((types! | EnumBarcodeFormat.QRCODE.rawValue) == types)
         {
             let indexPath = IndexPath(row: 1, section: 0);
             barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
         }
-        if((types! | BarcodeType.PDF417.rawValue) == types)
+        if((types! | EnumBarcodeFormat.PDF417.rawValue) == types)
         {
             let indexPath = IndexPath(row: 2, section: 0);
             barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
         }
-        if((types! | BarcodeType.DATAMATRIX.rawValue) == types)
+        if((types! | EnumBarcodeFormat.DATAMATRIX.rawValue) == types)
         {
             let indexPath = IndexPath(row: 3, section: 0);
             barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
         }
-        if((types! | BarcodeType.AZTEC.rawValue) == types)
+        if((types! | EnumBarcodeFormat.AZTEC.rawValue) == types)
         {
             let indexPath = IndexPath(row: 4, section: 0);
+            barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
+        }
+        if((types! | EnumBarcodeFormat.GS1DATABAR.rawValue) == types)
+        {
+            let indexPath = IndexPath(row: 5, section: 0);
+            barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
+        }
+        if((types! | EnumBarcodeFormat.PATCHCODE.rawValue) == types)
+        {
+            let indexPath = IndexPath(row: 6, section: 0);
+            barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
+        }
+        if((types! | EnumBarcodeFormat.MAXICODE.rawValue) == types)
+        {
+            let indexPath = IndexPath(row: 7, section: 0);
+            barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
+        }
+        if((types! | EnumBarcodeFormat.MICROQR.rawValue) == types)
+        {
+            let indexPath = IndexPath(row: 8, section: 0);
+            barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
+        }
+        if((types! | EnumBarcodeFormat.MICROPDF417.rawValue) == types)
+        {
+            let indexPath = IndexPath(row: 9, section: 0);
+            barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
+        }
+        if((types! | EnumBarcodeFormat.GS1COMPOSITE.rawValue) == types)
+        {
+            let indexPath = IndexPath(row: 10, section: 0);
             barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
         }
     }
@@ -77,7 +120,7 @@ class BarcodeTypesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         //where indexPath.row is the selected cell
         let hasCellSelected = linearCell.isSelected || qrcodeCell.isSelected || pdf417Cell.isSelected || datamatrixCell.isSelected ||
-            aztecCell.isSelected;
+            aztecCell.isSelected || databarCell.isSelected || patchcodeCell.isSelected || microqrCell.isSelected || micropdf417Cell.isSelected || gs1compositeCell.isSelected;
         if(hasCellSelected == false)
         {
             barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
@@ -92,27 +135,53 @@ class BarcodeTypesTableViewController: UITableViewController {
         var types = 0;
         if(linearCell.isSelected)
         {
-            types = types | BarcodeType.ONED.rawValue;
+            types = types | EnumBarcodeFormat.ONED.rawValue;
         }
         if(qrcodeCell.isSelected)
         {
-            types = types | BarcodeType.QRCODE.rawValue;
+            types = types | EnumBarcodeFormat.QRCODE.rawValue;
         }
         if(pdf417Cell.isSelected)
         {
-            types = types | BarcodeType.PDF417.rawValue;
+            types = types | EnumBarcodeFormat.PDF417.rawValue;
         }
         if(datamatrixCell.isSelected)
         {
-            types = types | BarcodeType.DATAMATRIX.rawValue;
+            types = types | EnumBarcodeFormat.DATAMATRIX.rawValue;
         }
         if(aztecCell.isSelected)
         {
-            types = types | BarcodeType.AZTEC.rawValue;
+            types = types | EnumBarcodeFormat.AZTEC.rawValue;
         }
-        if(mainView != nil && mainView!.dbrManager != nil)
+        if(databarCell.isSelected)
         {
-            mainView.dbrManager?.setBarcodeFormat(format: types);
+            types = types | EnumBarcodeFormat.GS1DATABAR.rawValue;
+        }
+        if(patchcodeCell.isSelected)
+        {
+            types = types | EnumBarcodeFormat.PATCHCODE.rawValue;
+        }
+        if(maxicodeCell.isSelected)
+        {
+            types = types | EnumBarcodeFormat.MAXICODE.rawValue;
+        }
+        if(microqrCell.isSelected)
+        {
+            types = types | EnumBarcodeFormat.MICROQR.rawValue;
+        }
+        if(micropdf417Cell.isSelected)
+        {
+            types = types | EnumBarcodeFormat.MICROPDF417.rawValue;
+        }
+        if(gs1compositeCell.isSelected)
+        {
+            types = types | EnumBarcodeFormat.GS1COMPOSITE.rawValue;
+        }
+    
+        let allDataBarTypeInvert = ~EnumBarcodeFormat.ALL.rawValue
+        if(mainView != nil && mainView!.dbrManager != nil){
+            mainView.dbrManager?.setBarcodeFormat(format: (mainView.dbrManager!.barcodeFormat! & allDataBarTypeInvert))
+            mainView.dbrManager?.setBarcodeFormat(format: (mainView.dbrManager!.barcodeFormat! | types))
         }
         super.viewWillDisappear(animated);
     }
