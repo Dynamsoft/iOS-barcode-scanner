@@ -8,10 +8,11 @@
 
 import UIKit
 import AVFoundation
-import DynamsoftBarcodeReaderFramework
+
 class  DbrManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,DBRServerLicenseVerificationDelegate {
     
     var barcodeFormat:Int?;
+    var barcodeFormat2:Int?;
     var startRecognitionDate:NSDate?;
     var startVidioStreamDate:NSDate?;
     var isPauseFramesComing:Bool?;
@@ -27,7 +28,6 @@ class  DbrManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,DBRSer
     var m_verificationReceiver:ViewController?;
     
     var ciContext:CIContext?;
-    var frameId:Int?;
     var inputDevice:AVCaptureDevice?;
     var itrFocusFinish:Int!;
     var firstFocusFinish:Bool!;
@@ -49,9 +49,10 @@ class  DbrManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,DBRSer
         //Best Speed settings
         //barcodeReader.initRuntimeSettings(with: "{\"ImageParameter\":{\"Name\":\"BestSpeed\",\"DeblurLevel\":3,\"ExpectedBarcodesCount\":512,\"LocalizationModes\":[{\"Mode\":\"LM_SCAN_DIRECTLY\"}],\"TextFilterModes\":[{\"MinImageDimension\":262144,\"Mode\":\"TFM_GENERAL_CONTOUR\"}]}}", conflictMode: EnumConflictMode.overwrite, error: nil)
         //balance settings
-        barcodeReader.initRuntimeSettings(with: "{\"ImageParameter\":{\"Name\":\"Balance\",\"DeblurLevel\":5,\"ExpectedBarcodesCount\":512,\"LocalizationModes\":[{\"Mode\":\"LM_CONNECTED_BLOCKS\"},{\"Mode\":\"LM_STATISTICS\"}]}}", conflictMode: EnumConflictMode.overwrite, error:nil)
+        barcodeReader.initRuntimeSettings(with: "{\"ImageParameter\":{\"Name\":\"Balance\",\"DeblurLevel\":5,\"ExpectedBarcodesCount\":512,\"LocalizationModes\":[{\"Mode\":\"LM_CONNECTED_BLOCKS\"},{\"Mode\":\"LM_SCAN_DIRECTLY\"}]}}", conflictMode: EnumConflictMode.overwrite, error:nil)
         settings = try! barcodeReader.getRuntimeSettings()
         settings!.barcodeFormatIds = Int(EnumBarcodeFormat.ONED.rawValue) | Int(EnumBarcodeFormat.PDF417.rawValue) | Int(EnumBarcodeFormat.QRCODE.rawValue) | Int(EnumBarcodeFormat.DATAMATRIX.rawValue)
+        settings!.barcodeFormatIds_2 = 0 //EnumBarcodeFormat2NULL
         barcodeReader.update(settings!, error: nil)
         self.parametersInit()
     }
@@ -84,23 +85,25 @@ class  DbrManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,DBRSer
         isPauseFramesComing = false;
         isCurrentFrameDecodeFinished = true;
         barcodeFormat = Int(EnumBarcodeFormat.ONED.rawValue) | Int(EnumBarcodeFormat.PDF417.rawValue) | Int(EnumBarcodeFormat.QRCODE.rawValue) | Int(EnumBarcodeFormat.DATAMATRIX.rawValue);
+        barcodeFormat2 = 0
         startRecognitionDate = nil;
         ciContext = CIContext();
         m_recognitionReceiver = nil;
         startVidioStreamDate  = NSDate();
         adjustingFocus = true;
-        frameId = 0;
         itrFocusFinish = 0;
         firstFocusFinish = false;
     }
     
-    func setBarcodeFormat(format:Int)
+    func setBarcodeFormat(format:Int, format2:Int)
     {
         do
         {
             barcodeFormat = format;
+            barcodeFormat2 = format2
             let settings = try barcodeReader.getRuntimeSettings();
             settings.barcodeFormatIds = format;
+            settings.barcodeFormatIds_2 = format2
             barcodeReader.update(settings, error: nil);
         }
         catch{
@@ -225,7 +228,6 @@ class  DbrManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,DBRSer
             CVPixelBufferUnlockBaseAddress(imageBuffer, .readOnly)
             startRecognitionDate = NSDate();
             let buffer = Data(bytes: baseAddress!, count: bufferSize)
-            
             guard let results = try? barcodeReader.decodeBuffer(buffer, withWidth: width, height: height, stride: bpr, format: .ARGB_8888, templateName: "") else { return }
             DispatchQueue.main.async{
                 self.m_recognitionReceiver?.perform(self.m_recognitionCallback!, with: results as NSArray);

@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 //you can init DynamsoftBarcodeReader with a license or licenseKey
-let kLicense = "t0068NQAAAAK9iGYNS8rEDxW4h9rEW+5rawg67L7YyXBI1mTUfMAzYxQLHzo/VD6QQw9sE+Qcw9J20CQVTF7eIdfuyFxVC8I="
+let kLicense = "Put your license here"
 let kLicenseKey = "Put your license key here"
 
 class ViewController: UIViewController {
@@ -144,7 +144,11 @@ class ViewController: UIViewController {
         }else{
             for item in readResult
             {
-                msgText = msgText + String(format:"\nType: %@\nValue: %@\n", (item as! (iTextResult)).barcodeFormatString!, (item as! (iTextResult)).barcodeText ?? "noResuslt")
+                if (item as! (iTextResult)).barcodeFormat_2.rawValue != 0 {
+                    msgText = msgText + String(format:"\nType: %@\nValue: %@\n", (item as! (iTextResult)).barcodeFormatString_2!, (item as! (iTextResult)).barcodeText ?? "noResuslt")
+                }else{
+                    msgText = msgText + String(format:"\nType: %@\nValue: %@\n", (item as! (iTextResult)).barcodeFormatString!, (item as! (iTextResult)).barcodeText ?? "noResuslt")
+                }
             }
             
             let ac = UIAlertController(title: "Result", message: msgText+String(format:"\nInterval: %.03f seconds",timeInterval), preferredStyle: .alert)
