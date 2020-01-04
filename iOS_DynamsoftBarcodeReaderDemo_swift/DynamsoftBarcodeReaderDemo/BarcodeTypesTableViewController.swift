@@ -23,6 +23,7 @@ class BarcodeTypesTableViewController: UITableViewController {
     @IBOutlet weak var microqrCell: UITableViewCell!
     @IBOutlet weak var micropdf417Cell: UITableViewCell!
     @IBOutlet weak var gs1compositeCell: UITableViewCell!
+    @IBOutlet weak var PostalCodeCell: UITableViewCell!
     
     
     override func viewDidLoad() {
@@ -55,11 +56,12 @@ class BarcodeTypesTableViewController: UITableViewController {
         microqrCell.selectedBackgroundView = bgColorView;
         micropdf417Cell.selectedBackgroundView = bgColorView;
         gs1compositeCell.selectedBackgroundView = bgColorView;
-        
+        PostalCodeCell.selectedBackgroundView = bgColorView
     }
     
     func selectCells(){
         let types = (mainView == nil || mainView.dbrManager == nil) ? EnumBarcodeFormat.ALL.rawValue: mainView.dbrManager?.barcodeFormat;
+        let types_2 = (mainView == nil || mainView.dbrManager == nil) ? 0 : mainView.dbrManager?.barcodeFormat2;
         if((types! | EnumBarcodeFormat.ONED.rawValue) == types)
         {
             let indexPath = IndexPath(row: 0, section: 0);
@@ -115,12 +117,17 @@ class BarcodeTypesTableViewController: UITableViewController {
             let indexPath = IndexPath(row: 10, section: 0);
             barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
         }
+        if((types_2! | EnumBarcodeFormat2.POSTALCODE.rawValue) == types_2)
+        {
+            let indexPath = IndexPath(row: 11, section: 0);
+            barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
+        }
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         //where indexPath.row is the selected cell
         let hasCellSelected = linearCell.isSelected || qrcodeCell.isSelected || pdf417Cell.isSelected || datamatrixCell.isSelected ||
-            aztecCell.isSelected || databarCell.isSelected || patchcodeCell.isSelected || microqrCell.isSelected || micropdf417Cell.isSelected || gs1compositeCell.isSelected;
+            aztecCell.isSelected || databarCell.isSelected || patchcodeCell.isSelected || microqrCell.isSelected || micropdf417Cell.isSelected || gs1compositeCell.isSelected || PostalCodeCell.isSelected;
         if(hasCellSelected == false)
         {
             barcodeTypesTableView.selectRow(at: indexPath, animated: false, scrollPosition: UITableViewScrollPosition.bottom);
@@ -133,6 +140,7 @@ class BarcodeTypesTableViewController: UITableViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         var types = 0;
+        var types_2 = 0
         if(linearCell.isSelected)
         {
             types = types | EnumBarcodeFormat.ONED.rawValue;
@@ -177,11 +185,16 @@ class BarcodeTypesTableViewController: UITableViewController {
         {
             types = types | EnumBarcodeFormat.GS1COMPOSITE.rawValue;
         }
+        if(PostalCodeCell.isSelected)
+        {
+            types_2 = types_2 | EnumBarcodeFormat2.POSTALCODE.rawValue;
+        }
     
         let allDataBarTypeInvert = ~EnumBarcodeFormat.ALL.rawValue
+        let allPostalCodeInvert = ~(EnumBarcodeFormat2.NONSTANDARDBARCODE.rawValue | EnumBarcodeFormat2.POSTALCODE.rawValue)
         if(mainView != nil && mainView!.dbrManager != nil){
-            mainView.dbrManager?.setBarcodeFormat(format: (mainView.dbrManager!.barcodeFormat! & allDataBarTypeInvert))
-            mainView.dbrManager?.setBarcodeFormat(format: (mainView.dbrManager!.barcodeFormat! | types))
+            mainView.dbrManager?.setBarcodeFormat(format: (mainView.dbrManager!.barcodeFormat! & allDataBarTypeInvert), format2: (mainView.dbrManager!.barcodeFormat2! & allPostalCodeInvert))
+            mainView.dbrManager?.setBarcodeFormat(format: (mainView.dbrManager!.barcodeFormat! | types), format2: (mainView.dbrManager!.barcodeFormat2! | types_2))
         }
         super.viewWillDisappear(animated);
     }
