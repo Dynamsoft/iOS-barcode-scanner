@@ -190,10 +190,10 @@ class BarcodeTypesTableViewController: UITableViewController {
             types_2 = types_2 | EnumBarcodeFormat2.POSTALCODE.rawValue;
         }
     
-        let allDataBarTypeInvert = ~EnumBarcodeFormat.ALL.rawValue
-        let allPostalCodeInvert = ~(EnumBarcodeFormat2.NONSTANDARDBARCODE.rawValue | EnumBarcodeFormat2.POSTALCODE.rawValue)
+        let allBarcodeFormatInvert = ~EnumBarcodeFormat.ALL.rawValue
+        let allBarcodeFormat2Invert = ~(EnumBarcodeFormat2.NONSTANDARDBARCODE.rawValue | EnumBarcodeFormat2.POSTALCODE.rawValue | EnumBarcodeFormat2.DOTCODE.rawValue)
         if(mainView != nil && mainView!.dbrManager != nil){
-            mainView.dbrManager?.setBarcodeFormat(format: (mainView.dbrManager!.barcodeFormat! & allDataBarTypeInvert), format2: (mainView.dbrManager!.barcodeFormat2! & allPostalCodeInvert))
+            mainView.dbrManager?.setBarcodeFormat(format: (mainView.dbrManager!.barcodeFormat! & allBarcodeFormatInvert), format2: (mainView.dbrManager!.barcodeFormat2! & allBarcodeFormat2Invert))
             mainView.dbrManager?.setBarcodeFormat(format: (mainView.dbrManager!.barcodeFormat! | types), format2: (mainView.dbrManager!.barcodeFormat2! | types_2))
         }
         super.viewWillDisappear(animated);
