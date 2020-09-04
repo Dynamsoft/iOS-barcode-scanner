@@ -1,9 +1,7 @@
 //
 //  AppDelegate.swift
-//  DynamsoftBarcodeReaderDemo
 //
-//  Created by Dynamsoft on 08/07/2018.
-//  Copyright © 2018 Dynamsoft. All rights reserved.
+//  Copyright © 2020 Dynamsoft. All rights reserved.
 //
 
 import UIKit

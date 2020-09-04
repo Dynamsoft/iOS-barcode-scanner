@@ -1,9 +1,7 @@
 //
-//  ScanViewController.swift
-//  DynamsoftBarcodeReaderDemo
+//  ViewController.swift
 //
-//  Created by Dynamsoft on 08/07/2018.
-//  Copyright © 2018 Dynamsoft. All rights reserved.
+//  Copyright © 2020 Dynamsoft. All rights reserved.
 //
 
 import UIKit
@@ -290,28 +288,23 @@ class ViewController: UIViewController {
     func turnFlashOn(on: Bool){
         do
         {
-            let captureDeviceClass = NSClassFromString("AVCaptureDevice");
-            if (captureDeviceClass != nil) {
-                let device = AVCaptureDevice.default(for: AVMediaType.video);
-                if (device != nil && device!.hasTorch && device!.hasFlash){
-                    try device!.lockForConfiguration();
-                    if (on == true) {
-                        device!.torchMode = AVCaptureDevice.TorchMode.on;
-                        device!.flashMode = AVCaptureDevice.FlashMode.on;
-                        flashButton.setImage(UIImage(named: "flash_on"), for: UIControlState.normal);
-                        flashButton.setTitle(" Flash on", for: UIControlState.normal);
-                    } else {
-                        device?.torchMode = AVCaptureDevice.TorchMode.off;
-                        device?.flashMode = AVCaptureDevice.FlashMode.off;
-                        flashButton.setImage(UIImage(named: "flash_off"), for: UIControlState.normal);
-                        flashButton.setTitle(" Flash off", for: UIControlState.normal);
-                    }
-                    device?.unlockForConfiguration();
+            let device = AVCaptureDevice.default(for: AVMediaType.video);
+            if (device != nil && device!.hasTorch){
+                try device!.lockForConfiguration();
+                if (on == true) {
+                    device!.torchMode = AVCaptureDevice.TorchMode.on
+                    flashButton.setImage(UIImage(named: "flash_on"), for: UIControlState.normal)
+                    flashButton.setTitle(" Flash on", for: UIControlState.normal)
+                } else {
+                    device?.torchMode = AVCaptureDevice.TorchMode.off
+                    flashButton.setImage(UIImage(named: "flash_off"), for: UIControlState.normal)
+                    flashButton.setTitle(" Flash off", for: UIControlState.normal)
                 }
+                device?.unlockForConfiguration()
             }
         }
         catch{
-            print(error);
+            print(error)
         }
     }
     
@@ -355,7 +348,7 @@ class ViewController: UIViewController {
     
     @IBAction func onAboutInfoClick(_ sender: Any) {
         dbrManager?.isPauseFramesComing = true;
-        let ac = UIAlertController(title: "About", message: "\nDynamsoft Barcode Reader Mobile App Demo(Dynamsoft Barcode Reader SDK)\n\n© 2019 Dynamsoft. All rights reserved. \n\nIntegrate Barcode Reader Functionality into Your own Mobile App? \n\nClick 'Overview' button for further info.\n\n",preferredStyle: .alert)
+        let ac = UIAlertController(title: "About", message: "\nDynamsoft Barcode Reader Mobile App Demo(Dynamsoft Barcode Reader SDK)\n\n© 2020 Dynamsoft. All rights reserved. \n\nIntegrate Barcode Reader Functionality into Your own Mobile App? \n\nClick 'Overview' button for further info.\n\n",preferredStyle: .alert)
         self.customizeAC(ac:ac);
         let linkAction = UIAlertAction(title: "Overview", style: .default, handler: {
             action in

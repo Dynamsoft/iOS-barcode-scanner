@@ -8,11 +8,10 @@
 pod 'DynamsoftBarcodeReader'
 ```
 
-2.The `your project name [Debug]` target overrides the `FRAMEWORK_SEARCH_PATHS` build setting defined in `Pods/Target Support Files/Pods-testOc/Pods-xxx.debug.xcconfig`. This can lead to problems with the CocoaPods installation, The following command is modified to the corresponding content please.
-
-```
-FRAMEWORK_SEARCH_PATHS = "${SRCROOT}/Pods/DynamsoftBarcodeReader"
-HEADER_SEARCH_PATHS = "${SRCROOT}/Pods/DynamsoftBarcodeReader/DynamsoftBarcodeReader.framework/Headers"
+2.Make sure `Your Project Target -> Build Settings -> Search Paths -> Frameworks Search Paths` and `Linking -> Other Linker Flags`, this can lead to problems with the CocoaPods installation, The following command is modified to the corresponding content please.
+```bash
+Frameworks Search Paths = "${PODS_ROOT}/DynamsoftBarcodeReader"
+Other Linker Flags = -framework "DynamsoftBarcodeReader"
 ```
 
 

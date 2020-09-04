@@ -1,9 +1,7 @@
 //
 //  NavigationViewController.swift
-//  DynamsoftBarcodeReaderDemo
 //
-//  Created by Dynamsoft on 2019/3/26.
-//  Copyright © 2019 Dynamsoft. All rights reserved.
+//  Copyright © 2020 Dynamsoft. All rights reserved.
 //
 
 import UIKit
